@@ -1,10 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import ReportCard from '@/components/ReportCard';
 import AskAIChat from '@/components/AskAIChat';
 import ShareButton from '@/components/ShareButton';
+import InteractiveJawMap from '@/components/InteractiveJawMap';
 import DentalModel3D from '@/components/DentalModel3D';
 import type { DentalAnalysis } from '@/lib/schemas';
 import styles from './record.module.css';
@@ -24,9 +25,10 @@ interface DentalRecord {
 export default function RecordPage() {
   const { id } = useParams<{ id: string }>();
   const [record, setRecord] = useState<DentalRecord | null>(null);
-
+  const [imageUrl, setImageUrl] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [beforeAfter, setBeforeAfter] = useState<'before' | 'after'>('before');
+  const [viewMode, setViewMode] = useState<'2d' | '3d'>('2d');
   const router = useRouter();
   const supabase = createClient();
 
@@ -36,6 +38,14 @@ export default function RecordPage() {
       if (!user) { router.push('/login'); return; }
       const { data } = await supabase.from('records').select('*').eq('id', id).single();
       setRecord(data);
+      
+      if (data?.file_path) {
+        const { data: signedData } = await supabase.storage.from('dental-records').createSignedUrl(data.file_path, 3600);
+        if (signedData?.signedUrl) {
+          setImageUrl(signedData.signedUrl);
+        }
+      }
+      
       setLoading(false);
     }
     load();
@@ -53,7 +63,7 @@ export default function RecordPage() {
   if (!record) return <div className={styles.page}><p style={{ padding: '48px', textAlign: 'center' }}>Record not found.</p></div>;
 
   const findings = record.ai_findings as DentalAnalysis;
-  const date = record.visit_date
+  const displayDate = record?.visit_date
     ? new Date(record.visit_date as string).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : new Date(record.created_at as string).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
@@ -75,7 +85,7 @@ export default function RecordPage() {
               {record.dentist_name && ` · ${record.dentist_name}`}
               {record.clinic_name && ` · ${record.clinic_name}`}
             </div>
-            <h1 style={{ marginTop: '8px' }}>{date}</h1>
+            <h1 style={{ marginTop: '8px' }}>{displayDate}</h1>
           </div>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {findings?.overall_urgency && (
@@ -103,10 +113,31 @@ export default function RecordPage() {
           </div>
         )}
 
-        {/* 3D Jaw Panel */}
+        {/* Interactive Jaw Map / 3D Model Panel */}
         {findings && (
           <div className={styles.jawPanel} style={{ padding: 0, border: 'none', background: 'transparent' }}>
-            <DentalModel3D findings={findings.findings} beforeAfter={beforeAfter} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px', gap: '8px' }}>
+              <div style={{ background: 'var(--surface)', padding: '4px', borderRadius: 'var(--radius-full)', display: 'inline-flex' }}>
+                <button 
+                  onClick={() => setViewMode('2d')}
+                  style={{ padding: '6px 16px', borderRadius: 'var(--radius-full)', background: viewMode === '2d' ? 'var(--primary)' : 'transparent', color: viewMode === '2d' ? '#000' : 'var(--text-secondary)', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}
+                >
+                  Clinical View (2.5D)
+                </button>
+                <button 
+                  onClick={() => setViewMode('3d')}
+                  style={{ padding: '6px 16px', borderRadius: 'var(--radius-full)', background: viewMode === '3d' ? 'var(--primary)' : 'transparent', color: viewMode === '3d' ? '#000' : 'var(--text-secondary)', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}
+                >
+                  Analytical View (3D)
+                </button>
+              </div>
+            </div>
+            
+            {viewMode === '2d' ? (
+              <InteractiveJawMap findings={findings.findings} beforeAfter={beforeAfter} />
+            ) : (
+              <DentalModel3D findings={findings.findings} beforeAfter={beforeAfter} />
+            )}
           </div>
         )}
 

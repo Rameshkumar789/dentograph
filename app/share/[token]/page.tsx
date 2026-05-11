@@ -1,7 +1,7 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import ReportCard from '@/components/ReportCard';
 import Link from 'next/link';
-import DentalModel3D from '@/components/DentalModel3D';
+import InteractiveJawMap from '@/components/InteractiveJawMap';
 import type { DentalAnalysis } from '@/lib/schemas';
 import styles from './share.module.css';
 
@@ -57,7 +57,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
         {/* Tooth map */}
         {findings && (
           <div className={styles.toothMap} style={{ padding: 0, border: 'none', background: 'transparent' }}>
-            <DentalModel3D findings={findings.findings} beforeAfter="before" />
+            <InteractiveJawMap findings={findings.findings} beforeAfter="before" />
           </div>
         )}
 
