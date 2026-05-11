@@ -5,8 +5,8 @@ import styles from './dentist-upload.module.css';
 
 export default function DentistUploadPage() {
   const { uploadToken } = useParams<{ uploadToken: string }>();
-  const [file, setFile] = useState<File | null>(null);
-  const [recordType, setRecordType] = useState<'xray' | 'prescription'>('xray');
+  const [files, setFiles] = useState<File[]>([]);
+  const [recordType, setRecordType] = useState<'comprehensive' | 'xray' | 'prescription'>('comprehensive');
   const [dentistName, setDentistName] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [visitDate, setVisitDate] = useState('');
@@ -16,13 +16,16 @@ export default function DentistUploadPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!file) return;
+    if (files.length === 0) return;
     setUploading(true);
     setError('');
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('fileCount', files.length.toString());
+      files.forEach((f, i) => {
+        formData.append(`file${i}`, f);
+      });
       formData.append('record_type', recordType);
       formData.append('dentist_name', dentistName);
       formData.append('clinic_name', clinicName);
@@ -70,7 +73,10 @@ export default function DentistUploadPage() {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           {/* Type selection */}
-          <div className={styles.typeRow}>
+          <div className={styles.typeRow} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '24px' }}>
+            <button type="button" className={`${styles.typeBtn} ${recordType === 'comprehensive' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('comprehensive')}>
+              🗂️ Comprehensive
+            </button>
             <button type="button" className={`${styles.typeBtn} ${recordType === 'xray' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('xray')}>
               🩻 X-Ray
             </button>
@@ -81,13 +87,23 @@ export default function DentistUploadPage() {
 
           {/* File upload */}
           <div className={styles.dropZone} onClick={() => document.getElementById('dentistFile')?.click()}>
-            <input id="dentistFile" type="file" accept="image/*,.pdf" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && setFile(e.target.files[0])} />
-            {file ? (
-              <div>✅ {file.name}</div>
+            <input id="dentistFile" type="file" accept="image/*,.pdf" multiple style={{ display: 'none' }} onChange={e => {
+              if (e.target.files?.length) {
+                setFiles(Array.from(e.target.files));
+              }
+            }} />
+            {files.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {files.map((f, i) => (
+                  <div key={i}>✅ {f.name}</div>
+                ))}
+              </div>
             ) : (
               <div className={styles.dropContent}>
-                <div style={{ fontSize: '2rem' }}>{recordType === 'xray' ? '🩻' : '📋'}</div>
-                <div>Click to upload {recordType === 'xray' ? 'X-ray' : 'prescription'}</div>
+                <div style={{ fontSize: '2rem' }}>
+                  {recordType === 'comprehensive' ? '🗂️' : recordType === 'xray' ? '🩻' : '📋'}
+                </div>
+                <div>Click to upload {recordType === 'comprehensive' ? 'multiple files' : recordType === 'xray' ? 'X-ray' : 'prescription'}</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>JPG, PNG, PDF</div>
               </div>
             )}
@@ -108,8 +124,8 @@ export default function DentistUploadPage() {
 
           {error && <div style={{ color: 'var(--red)', fontSize: '0.875rem', padding: '12px', background: 'var(--red-dim)', borderRadius: 'var(--radius-md)' }}>{error}</div>}
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={!file || uploading}>
-            {uploading ? '🔬 Analyzing & uploading...' : '📤 Upload & Analyze'}
+          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0 || uploading}>
+            {uploading ? '🔬 Analyzing & uploading...' : `📤 Upload ${files.length > 1 ? `${files.length} Files` : '& Analyze'}`}
           </button>
 
           <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
