@@ -125,10 +125,10 @@ export default function DentalModel3D({
   }, [findings]);
 
   return (
-    <div style={{ width: '100%', height: '400px', position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: '#0a0a0a' }}>
+    <div style={{ width: '100%', height: '400px', position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--bg-surface)' }}>
       
       {/* Overlay UI for hovered tooth details */}
-      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '12px', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(8px)', border: '1px solid var(--border)', minWidth: '200px' }}>
+      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, background: 'rgba(255,255,255,0.8)', padding: '12px', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(8px)', border: '1px solid var(--border)', minWidth: '200px' }}>
         <h3 style={{ fontSize: '0.9rem', marginBottom: '4px', fontFamily: 'var(--font-display)' }}>3D Jaw Explorer</h3>
         {hoveredTooth ? (
           <div>
@@ -152,7 +152,7 @@ export default function DentalModel3D({
       </div>
 
       <Canvas camera={{ position: [0, 2, -5], fov: 45 }}>
-        <color attach="background" args={['#0a0a0a']} />
+        <color attach="background" args={['#F8FAFC']} />
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
         <directionalLight position={[0, 5, -10]} intensity={1} color="#ffffff" />

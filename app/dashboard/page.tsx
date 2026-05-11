@@ -51,10 +51,12 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.page}>
-      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-logo">🦷 Dento<span>Graph</span></div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <Link href="/pricing" className="btn btn-ghost btn-sm" style={{ color: 'var(--primary)', border: '1px solid var(--primary)' }}>
+            ✨ Upgrade to Pro
+          </Link>
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             👤 {name}
           </span>

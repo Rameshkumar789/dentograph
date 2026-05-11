@@ -1,33 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ─── Design Tokens ─────────────────────────────────── */
+/* ─── Design Tokens (Healthcare Light Mode) ───────────── */
 :root {
-  --bg-base:        #080b12;
-  --bg-surface:     #0f1420;
-  --bg-card:        #131926;
-  --bg-card-hover:  #1a2235;
-  --border:         rgba(255,255,255,0.06);
-  --border-active:  rgba(0,212,170,0.4);
+  --bg-base:        #F8FAFC;
+  --bg-surface:     #FFFFFF;
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #F1F5F9;
+  --border:         #E2E8F0;
+  --border-active:  #3B82F6;
 
-  --accent:         #00d4aa;
-  --accent-dim:     rgba(0,212,170,0.12);
-  --accent-glow:    0 0 30px rgba(0,212,170,0.3);
+  --accent:         #2563EB;
+  --accent-dim:     rgba(37, 99, 235, 0.1);
+  --accent-glow:    0 4px 14px rgba(37, 99, 235, 0.15);
 
-  --red:            #ff4d6d;
-  --red-dim:        rgba(255,77,109,0.15);
-  --orange:         #ff9f45;
-  --orange-dim:     rgba(255,159,69,0.15);
-  --yellow:         #ffd166;
-  --yellow-dim:     rgba(255,209,102,0.15);
-  --green:          #06d6a0;
-  --green-dim:      rgba(6,214,160,0.15);
-  --blue:           #4cc9f0;
-  --blue-dim:       rgba(76,201,240,0.15);
-  --grey:           #6b7280;
+  --red:            #EF4444;
+  --red-dim:        rgba(239, 68, 68, 0.1);
+  --orange:         #F59E0B;
+  --orange-dim:     rgba(245, 158, 11, 0.1);
+  --yellow:         #EAB308;
+  --yellow-dim:     rgba(234, 179, 8, 0.1);
+  --green:          #10B981;
+  --green-dim:      rgba(16, 185, 129, 0.1);
+  --blue:           #0EA5E9;
+  --blue-dim:       rgba(14, 165, 233, 0.1);
+  --grey:           #64748B;
 
-  --text-primary:   #f0f4ff;
-  --text-secondary: #8892a4;
-  --text-muted:     #4a5568;
+  --text-primary:   #0F172A;
+  --text-secondary: #475569;
+  --text-muted:     #94A3B8;
 
   --font-body:      'Inter', sans-serif;
   --font-display:   'Space Grotesk', sans-serif;
@@ -37,8 +37,8 @@
   --radius-lg:      16px;
   --radius-xl:      24px;
 
-  --shadow-card:    0 4px 24px rgba(0,0,0,0.4);
-  --shadow-glow:    0 0 40px rgba(0,212,170,0.15);
+  --shadow-card:    0 2px 12px rgba(0,0,0,0.04);
+  --shadow-glow:    0 0 40px rgba(37, 99, 235, 0.1);
 }
 
 /* ─── Reset ─────────────────────────────────────────── */
@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; }
   box-shadow: var(--shadow-card), var(--accent-glow);
 }
 .card-glass {
-  background: rgba(15,20,32,0.7);
+  background: rgba(255,255,255,0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
@@ -114,10 +114,10 @@ a:hover { text-decoration: underline; }
 }
 .btn-primary {
   background: var(--accent);
-  color: #000;
+  color: #fff;
 }
 .btn-primary:hover {
-  background: #00f0c4;
+  background: #1D4ED8;
   box-shadow: var(--accent-glow);
   transform: translateY(-1px);
   text-decoration: none;
@@ -137,7 +137,7 @@ a:hover { text-decoration: underline; }
   color: var(--accent);
 }
 .btn-ghost:hover { background: rgba(0,212,170,0.2); text-decoration: none; }
-.btn-danger { background: var(--red-dim); color: var(--red); }
+.btn-danger { background: var(--red-dim); color: var(--red); border: none; }
 .btn-lg  { padding: 16px 32px; font-size: 1rem; border-radius: var(--radius-lg); }
 .btn-sm  { padding: 8px 16px; font-size: 0.8rem; border-radius: var(--radius-sm); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
@@ -234,7 +234,7 @@ a:hover { text-decoration: underline; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(8,11,18,0.85);
+  background: rgba(248,250,252,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);

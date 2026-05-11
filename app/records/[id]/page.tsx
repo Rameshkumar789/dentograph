@@ -25,7 +25,6 @@ interface DentalRecord {
 export default function RecordPage() {
   const { id } = useParams<{ id: string }>();
   const [record, setRecord] = useState<DentalRecord | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [beforeAfter, setBeforeAfter] = useState<'before' | 'after'>('before');
   const [viewMode, setViewMode] = useState<'2d' | '3d'>('2d');
@@ -39,12 +38,7 @@ export default function RecordPage() {
       const { data } = await supabase.from('records').select('*').eq('id', id).single();
       setRecord(data);
       
-      if (data?.file_path) {
-        const { data: signedData } = await supabase.storage.from('dental-records').createSignedUrl(data.file_path, 3600);
-        if (signedData?.signedUrl) {
-          setImageUrl(signedData.signedUrl);
-        }
-      }
+      // Image URLs will be handled in the dedicated source view
       
       setLoading(false);
     }
@@ -96,6 +90,13 @@ export default function RecordPage() {
             {findings?.overall_score && (
               <span className="badge badge-accent">Score: {findings.overall_score}</span>
             )}
+            <button 
+              onClick={() => router.push(`/records/${id}/source`)} 
+              className="btn btn-secondary btn-sm"
+              style={{ marginLeft: '12px' }}
+            >
+              🗂️ View Patient Records
+            </button>
           </div>
         </div>
 

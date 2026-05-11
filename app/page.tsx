@@ -20,21 +20,20 @@ export default function LandingPage() {
       <section className={styles.hero}>
         <div className={styles.heroBadge}>
           <span className="glow-dot" />
-          <span>Patient-Owned Dental Records</span>
+          <span>The Future of Patient Empowerment</span>
         </div>
         <h1>
-          Finally understand<br />
-          <span className="gradient-text">your dental health</span>
+          Meet your clinical<br />
+          <span className="gradient-text">3D Dental Twin</span>
         </h1>
         <p className={styles.heroSubtitle}>
-          Upload your X-rays and prescriptions. Our AI explains everything in plain English,
-          maps findings to an interactive 3D model, and lets you share securely for a second opinion.
+          Stop guessing what your dentist is saying. Upload your X-rays and instantly generate a photorealistic, interactive 3D model of your mouth with AI-powered, plain-English diagnostics. 
         </p>
         <div className={styles.heroCta}>
-          <Link href="/signup" className="btn btn-primary btn-lg">Start for free — $0</Link>
-          <Link href="/login" className="btn btn-secondary btn-lg">I have an account</Link>
+          <Link href="/signup" className="btn btn-primary btn-lg">Generate Your 3D Model — $0</Link>
+          <Link href="/login" className="btn btn-secondary btn-lg">Sign In</Link>
         </div>
-        <p className={styles.heroNote}>$2/month for unlimited records & sharing • Cancel anytime</p>
+        <p className={styles.heroNote}>$5/month for lifetime tracking & unlimited 2nd opinion links</p>
       </section>
 
       {/* Feature Cards */}
@@ -73,7 +72,7 @@ export default function LandingPage() {
             <div className={`card ${styles.planPro}`}>
               <div className={styles.planBadge}>Most popular</div>
               <div className={styles.planName}>Pro</div>
-              <div className={styles.planPrice}>$2 <span>/month</span></div>
+              <div className={styles.planPrice}>$5 <span>/month</span></div>
               <ul className={styles.planFeatures}>
                 <li>✅ Unlimited dental records</li>
                 <li>✅ AI plain English analysis</li>
@@ -89,17 +88,17 @@ export default function LandingPage() {
       </section>
 
       <footer className={styles.footer}>
-        <p>© 2025 DentoGraph · Built for patients, by patients</p>
+        <p>© 2026 DentoGraph · Built for patients, by patients</p>
       </footer>
     </main>
   );
 }
 
 const FEATURES = [
-  { icon: '🦷', title: '3D Jaw Visualizer', desc: 'See exactly which teeth have issues highlighted in color on an interactive 3D model you can rotate.' },
-  { icon: '📄', title: 'Plain English Reports', desc: 'No medical jargon. Get a simple report card grading your dental health with clear next steps.' },
-  { icon: '🔗', title: 'Second Opinion Links', desc: 'Share your full dental record with any doctor in one click. No login required for them.' },
-  { icon: '💬', title: 'Ask Your Records', desc: 'Chat with your X-ray. Ask "is this serious?" or "how much does this cost?" and get honest answers.' },
-  { icon: '📋', title: 'Prescription Mapping', desc: 'Upload your dentist\'s prescription. We map every recommendation to the 3D model and explain it.' },
-  { icon: '📱', title: 'Dentist QR Portal', desc: 'Show your dentist a QR code. They upload your records directly — no signup needed from them.' },
+  { icon: '🦷', title: 'Interactive 3D Jaw Visualizer', desc: 'Experience a state-of-the-art interactive 3D rendering of your jaw. Instantly see clinical findings mapped to exact tooth coordinates, making complex diagnoses beautifully simple to understand.' },
+  { icon: '📄', title: 'Clinical Intelligence Translation', desc: 'We translate dense medical jargon into a crystal-clear, empathetic report card. Instantly know your health score, urgent risks, and exactly what your treatment entails.' },
+  { icon: '🔗', title: 'Instant 2nd Opinion Sharing', desc: 'Generate secure, HIPAA-compliant links to your interactive 3D records. Send them to any specialist globally for a second opinion with zero friction.' },
+  { icon: '💬', title: 'Context-Aware AI Chat', desc: 'Have a question about a specific tooth? Chat directly with your medical record. Ask about costs, pain management, or procedures and get instant, honest guidance.' },
+  { icon: '🗂️', title: 'Multi-Modal Data Fusion', desc: 'Upload X-rays, 3D scans, and written prescriptions simultaneously. Our Gemini AI cross-references all your documents to build a flawless, unified health profile.' },
+  { icon: '📱', title: 'Frictionless Clinic Portal', desc: 'Never carry physical films again. Show your dentist your personalized QR code, and they can drop high-res imagery directly into your private 3D timeline.' },
 ];

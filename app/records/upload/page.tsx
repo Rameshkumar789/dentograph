@@ -6,9 +6,9 @@ import XrayScannerAnimation from '@/components/XrayScannerAnimation';
 import styles from './upload.module.css';
 
 export default function UploadPage() {
-  const [tab, setTab] = useState<'xray' | 'prescription'>('xray');
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [tab, setTab] = useState<'xray' | 'prescription' | 'comprehensive'>('comprehensive');
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [dentistName, setDentistName] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [visitDate, setVisitDate] = useState('');
@@ -19,19 +19,19 @@ export default function UploadPage() {
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
-    const dropped = e.dataTransfer.files[0];
-    if (dropped) handleFile(dropped);
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    if (droppedFiles.length > 0) handleFiles(droppedFiles);
   }, []);
 
-  function handleFile(f: File) {
-    setFile(f);
-    const url = URL.createObjectURL(f);
-    setPreview(url);
+  function handleFiles(newFiles: File[]) {
+    setFiles(prev => [...prev, ...newFiles]);
+    const urls = newFiles.map(f => URL.createObjectURL(f));
+    setPreviews(prev => [...prev, ...urls]);
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!file) { setError('Please select a file'); return; }
+    if (files.length === 0) { setError('Please select at least one file'); return; }
     setAnalyzing(true);
     setError('');
 
@@ -40,7 +40,8 @@ export default function UploadPage() {
       if (!user) { router.push('/login'); return; }
 
       const formData = new FormData();
-      formData.append('file', file);
+      files.forEach((f, i) => formData.append(`file${i}`, f));
+      formData.append('fileCount', files.length.toString());
       formData.append('record_type', tab);
       formData.append('dentist_name', dentistName);
       formData.append('clinic_name', clinicName);
@@ -59,7 +60,7 @@ export default function UploadPage() {
   }
 
   if (analyzing) {
-    return <XrayScannerAnimation imageUrl={preview} recordType={tab} />;
+    return <XrayScannerAnimation imageUrl={previews[0]} recordType={tab} />;
   }
 
   return (
@@ -75,18 +76,21 @@ export default function UploadPage() {
 
         {/* Tabs */}
         <div className={styles.tabs}>
+          <button className={`${styles.tab} ${tab === 'comprehensive' ? styles.tabActive : ''}`} onClick={() => setTab('comprehensive')}>
+            🗂️ Comprehensive Record
+          </button>
           <button className={`${styles.tab} ${tab === 'xray' ? styles.tabActive : ''}`} onClick={() => setTab('xray')}>
-            🩻 X-Ray
+            🩻 X-Ray Only
           </button>
           <button className={`${styles.tab} ${tab === 'prescription' ? styles.tabActive : ''}`} onClick={() => setTab('prescription')}>
-            📋 Prescription
+            📋 Prescription Only
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           {/* Drop zone */}
           <div
-            className={`${styles.dropZone} ${file ? styles.dropZoneActive : ''}`}
+            className={`${styles.dropZone} ${files.length > 0 ? styles.dropZoneActive : ''}`}
             onDrop={handleDrop}
             onDragOver={e => e.preventDefault()}
             onClick={() => document.getElementById('fileInput')?.click()}
@@ -95,21 +99,33 @@ export default function UploadPage() {
               id="fileInput"
               type="file"
               accept="image/*,.pdf"
+              multiple
               style={{ display: 'none' }}
-              onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])}
+              onChange={e => {
+                if (e.target.files && e.target.files.length > 0) {
+                  handleFiles(Array.from(e.target.files));
+                }
+              }}
             />
-            {preview ? (
-              <div className={styles.preview}>
-                <img src={preview} alt="Preview" />
-                <span className={styles.previewName}>{file?.name}</span>
+            {files.length > 0 ? (
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                {previews.map((src, i) => (
+                  <div key={i} className={styles.preview} style={{ width: '120px', height: '120px' }}>
+                    <img src={src} alt={`Preview ${i}`} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
+                    <span className={styles.previewName} style={{ fontSize: '0.7rem' }}>{files[i].name}</span>
+                  </div>
+                ))}
+                <div style={{ width: '100%', textAlign: 'center', marginTop: '16px', fontSize: '0.85rem', color: 'var(--primary)' }}>
+                  Click or drag more files to add
+                </div>
               </div>
             ) : (
               <div className={styles.dropContent}>
-                <div className={styles.dropIcon}>{tab === 'xray' ? '🩻' : '📋'}</div>
+                <div className={styles.dropIcon}>🗂️</div>
                 <div className={styles.dropTitle}>
-                  Drop your {tab === 'xray' ? 'X-ray image' : 'prescription'} here
+                  Drop your X-rays, 3D Scans, and prescriptions here
                 </div>
-                <div className={styles.dropSub}>or click to browse · JPG, PNG, PDF accepted</div>
+                <div className={styles.dropSub}>Upload multiple files at once · JPG, PNG, PDF</div>
               </div>
             )}
           </div>
@@ -132,8 +148,8 @@ export default function UploadPage() {
 
           {error && <div style={{ color: 'var(--red)', fontSize: '0.875rem', padding: '12px', background: 'var(--red-dim)', borderRadius: 'var(--radius-md)' }}>{error}</div>}
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={!file}>
-            🔬 Analyze with AI
+          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0}>
+            🔬 Analyze {files.length > 0 ? `${files.length} Files` : ''} with AI
           </button>
           <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             Analysis takes 5-15 seconds · Your data stays private
