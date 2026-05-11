@@ -1,0 +1,93 @@
+import Link from 'next/link';
+import styles from './Timeline.module.css';
+
+interface TimelineRecord {
+  id: string;
+  record_type: string;
+  dentist_name?: string;
+  clinic_name?: string;
+  visit_date?: string;
+  created_at: string;
+  ai_findings?: Record<string, unknown>;
+}
+
+const URGENCY_CONFIG = {
+  Routine: { color: 'var(--green)', label: 'Routine', badge: 'badge-green' },
+  Soon:    { color: 'var(--yellow)', label: 'See Soon', badge: 'badge-yellow' },
+  Urgent:  { color: 'var(--red)', label: 'Urgent!', badge: 'badge-red' },
+};
+
+const SCORE_COLORS: Record<string, string> = {
+  'A': 'var(--green)', 'B+': 'var(--green)', 'B': 'var(--yellow)',
+  'C+': 'var(--orange)', 'C': 'var(--orange)', 'D': 'var(--red)',
+};
+
+export default function Timeline({ records }: { records: TimelineRecord[] }) {
+  return (
+    <div className={styles.timeline}>
+      {records.map((record, idx) => {
+        const findings = record.ai_findings as Record<string, unknown> | undefined;
+        const urgency = (findings?.overall_urgency as string) || 'Routine';
+        const score = findings?.overall_score as string | undefined;
+        const findingsList = findings?.findings as Array<Record<string, unknown>> | undefined;
+        const patientSummary = findings?.patient_summary as string | undefined;
+        const date = record.visit_date
+          ? new Date(record.visit_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : new Date(record.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        return (
+          <div key={record.id} className={styles.item}>
+            {/* Timeline line */}
+            <div className={styles.lineCol}>
+              <div className={styles.dot} style={{ background: URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.color || 'var(--green)' }} />
+              {idx < records.length - 1 && <div className={styles.line} />}
+            </div>
+
+            {/* Card */}
+            <Link href={`/records/${record.id}`} className={styles.card}>
+              <div className={styles.cardTop}>
+                <div>
+                  <div className={styles.date}>{date}</div>
+                  <div className={styles.source}>
+                    {record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
+                    {record.dentist_name && ` · ${record.dentist_name}`}
+                    {record.clinic_name && ` · ${record.clinic_name}`}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  {score && (
+                    <div className={styles.score} style={{ color: SCORE_COLORS[score] }}>
+                      {score}
+                    </div>
+                  )}
+                  <span className={`badge ${URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.badge || 'badge-green'}`}>
+                    {URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.label || 'Routine'}
+                  </span>
+                </div>
+              </div>
+
+              {patientSummary && (
+                <p className={styles.summary}>{patientSummary}</p>
+              )}
+
+              {findingsList && findingsList.length > 0 && (
+                <div className={styles.tags}>
+                  {findingsList.slice(0, 3).map((f, i) => (
+                    <span key={i} className={`badge ${f.condition === 'Healthy' ? 'badge-green' : f.severity === 'High' ? 'badge-red' : 'badge-yellow'}`}>
+                      {f.condition === 'Healthy' ? '✅' : '⚠️'} {f.condition as string}
+                    </span>
+                  ))}
+                  {findingsList.length > 3 && (
+                    <span className="badge badge-grey">+{findingsList.length - 3} more</span>
+                  )}
+                </div>
+              )}
+
+              <div className={styles.viewLink}>View full record →</div>
+            </Link>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

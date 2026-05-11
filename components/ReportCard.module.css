@@ -1,0 +1,24 @@
+.card { display: flex; flex-direction: column; gap: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; }
+.header { display: flex; gap: 20px; align-items: flex-start; justify-content: space-between; }
+.title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+.scoreCircle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+.scoreLetter { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1; }
+.scoreLabel { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.urgencyBar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: var(--radius-md); font-size: 0.9rem; }
+.urgencyRoutine { background: var(--green-dim); color: var(--green); }
+.urgencySoon    { background: var(--yellow-dim); color: var(--yellow); }
+.urgencyUrgent  { background: var(--red-dim); color: var(--red); }
+.findingsList { display: flex; flex-direction: column; gap: 12px; }
+.findingRow { display: flex; gap: 14px; padding: 14px; border-radius: var(--radius-md); background: var(--bg-surface); border: 1px solid var(--border); align-items: flex-start; transition: border-color 0.2s; }
+.findingRow:hover { border-color: var(--border-active); }
+.findingHigh { border-color: rgba(255,77,109,0.3) !important; background: rgba(255,77,109,0.04); }
+.findingMed  { border-color: rgba(255,209,102,0.3) !important; background: rgba(255,209,102,0.04); }
+.findingIcon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.findingBody { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.findingTitle { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.findingDesc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+.timeframe { font-size: 0.78rem; color: var(--text-muted); }
+.findingAction { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+.followup { background: var(--accent-dim); border: 1px solid var(--border-active); border-radius: var(--radius-md); padding: 14px 18px; font-size: 0.9rem; color: var(--text-secondary); }
+.followup strong { color: var(--text-primary); }
+.poweredBy { text-align: center; font-size: 0.8rem; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border); }

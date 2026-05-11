@@ -1,0 +1,25 @@
+.page { min-height: 100vh; }
+.recordHeader { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+.recordType { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Before/After Toggle */
+.beforeAfterToggle { display: flex; gap: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 4px; width: fit-content; margin-bottom: 24px; }
+.toggleBtn { padding: 10px 20px; border-radius: var(--radius-sm); background: transparent; color: var(--text-secondary); border: none; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
+.toggleBtnActive { background: var(--accent); color: #000; }
+
+/* Jaw panel */
+.jawPanel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 32px; }
+.jawTitle { font-family: var(--font-display); font-weight: 700; margin-bottom: 20px; font-size: 1rem; }
+.toothGrid { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.toothChip { border: 1.5px solid; border-radius: var(--radius-md); padding: 10px 14px; min-width: 90px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.toothChip:hover { transform: translateY(-2px); }
+.toothNum { font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; }
+.toothCond { font-size: 0.7rem; margin-top: 2px; }
+.jawNote { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; }
+.legendItem { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
+
+/* Two-col layout */
+.twoCol { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.leftCol { flex: 1.4; display: flex; flex-direction: column; gap: 24px; min-width: 280px; }
+.rightCol { flex: 1; min-width: 280px; position: sticky; top: 80px; }

@@ -1,65 +1,105 @@
-import Image from "next/image";
+import Link from 'next/link';
+import styles from './page.module.css';
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className={styles.main}>
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="navbar-logo">
+          <span>🦷</span>
+          Dento<span>Graph</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Link href="/login" className="btn btn-secondary btn-sm">Log in</Link>
+          <Link href="/signup" className="btn btn-primary btn-sm">Get started free</Link>
         </div>
-      </main>
-    </div>
+      </nav>
+
+      {/* Hero */}
+      <section className={styles.hero}>
+        <div className={styles.heroBadge}>
+          <span className="glow-dot" />
+          <span>Patient-Owned Dental Records</span>
+        </div>
+        <h1>
+          Finally understand<br />
+          <span className="gradient-text">your dental health</span>
+        </h1>
+        <p className={styles.heroSubtitle}>
+          Upload your X-rays and prescriptions. Our AI explains everything in plain English,
+          maps findings to an interactive 3D model, and lets you share securely for a second opinion.
+        </p>
+        <div className={styles.heroCta}>
+          <Link href="/signup" className="btn btn-primary btn-lg">Start for free — $0</Link>
+          <Link href="/login" className="btn btn-secondary btn-lg">I have an account</Link>
+        </div>
+        <p className={styles.heroNote}>$2/month for unlimited records & sharing • Cancel anytime</p>
+      </section>
+
+      {/* Feature Cards */}
+      <section className={styles.features}>
+        <div className="container">
+          <div className={styles.featureGrid}>
+            {FEATURES.map((f) => (
+              <div className={`card ${styles.featureCard}`} key={f.title}>
+                <div className={styles.featureIcon}>{f.icon}</div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className={styles.pricing}>
+        <div className="container">
+          <h2 style={{ textAlign: 'center', marginBottom: '48px' }}>Simple, honest pricing</h2>
+          <div className={styles.pricingGrid}>
+            <div className="card">
+              <div className={styles.planName}>Free</div>
+              <div className={styles.planPrice}>$0</div>
+              <ul className={styles.planFeatures}>
+                <li>✅ 1 dental record</li>
+                <li>✅ AI plain English analysis</li>
+                <li>✅ Interactive 3D jaw view</li>
+                <li>❌ Shareable second opinion links</li>
+                <li>❌ Unlimited records</li>
+                <li>❌ AI chat on records</li>
+              </ul>
+              <Link href="/signup" className="btn btn-secondary" style={{ width: '100%' }}>Get started</Link>
+            </div>
+            <div className={`card ${styles.planPro}`}>
+              <div className={styles.planBadge}>Most popular</div>
+              <div className={styles.planName}>Pro</div>
+              <div className={styles.planPrice}>$2 <span>/month</span></div>
+              <ul className={styles.planFeatures}>
+                <li>✅ Unlimited dental records</li>
+                <li>✅ AI plain English analysis</li>
+                <li>✅ Interactive 3D jaw view</li>
+                <li>✅ Second opinion share links</li>
+                <li>✅ AI chat on every record</li>
+                <li>✅ Dentist QR upload portal</li>
+              </ul>
+              <Link href="/signup" className="btn btn-primary" style={{ width: '100%' }}>Upgrade to Pro →</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className={styles.footer}>
+        <p>© 2025 DentoGraph · Built for patients, by patients</p>
+      </footer>
+    </main>
   );
 }
+
+const FEATURES = [
+  { icon: '🦷', title: '3D Jaw Visualizer', desc: 'See exactly which teeth have issues highlighted in color on an interactive 3D model you can rotate.' },
+  { icon: '📄', title: 'Plain English Reports', desc: 'No medical jargon. Get a simple report card grading your dental health with clear next steps.' },
+  { icon: '🔗', title: 'Second Opinion Links', desc: 'Share your full dental record with any doctor in one click. No login required for them.' },
+  { icon: '💬', title: 'Ask Your Records', desc: 'Chat with your X-ray. Ask "is this serious?" or "how much does this cost?" and get honest answers.' },
+  { icon: '📋', title: 'Prescription Mapping', desc: 'Upload your dentist\'s prescription. We map every recommendation to the 3D model and explain it.' },
+  { icon: '📱', title: 'Dentist QR Portal', desc: 'Show your dentist a QR code. They upload your records directly — no signup needed from them.' },
+];
