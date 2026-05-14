@@ -53,7 +53,7 @@ const LOWER_COORDS: Record<number, { top: string, left: string }> = {
   38: { top: '82%', left: '81%' },
 };
 
-export default function InteractiveJawMap({ findings }: { findings: any[] }) {
+export default function InteractiveJawMap({ findings, beforeAfter }: { findings: any[], beforeAfter?: string }) {
   const [arch, setArch] = useState<'upper' | 'lower'>('upper');
   const [hoveredTooth, setHoveredTooth] = useState<number | null>(null);
 

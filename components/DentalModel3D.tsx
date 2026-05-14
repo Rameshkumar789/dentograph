@@ -30,9 +30,10 @@ function Tooth({
   const [hovered, setHovered] = useState(false);
 
   // Gentle pulsing animation for teeth with issues
-  useFrame(({ clock }) => {
+  useFrame((state) => {
     if (isIssue && meshRef.current) {
-      meshRef.current.position.y = position[1] + Math.sin(clock.elapsedTime * 3) * 0.05;
+      const time = state.performance.now() / 1000;
+      meshRef.current.position.y = position[1] + Math.sin(time * 3) * 0.05;
     }
   });
 
