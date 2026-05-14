@@ -239,7 +239,6 @@ export default function DentistDashboard() {
             color={showAccountMenu ? '#0f172a' : "#94a3b8"} 
             cursor="pointer" 
             onClick={() => setShowAccountMenu(!showAccountMenu)} 
-            title="Account Settings" 
           />
         </div>
       </aside>

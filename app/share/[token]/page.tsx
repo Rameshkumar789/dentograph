@@ -67,7 +67,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
         {/* Tooth map */}
         {findings && (
           <div className={styles.toothMap} style={{ padding: 0, border: 'none', background: 'transparent' }}>
-            <InteractiveJawMap findings={findings.findings} beforeAfter="before" />
+            <InteractiveJawMap findings={findings.findings} />
           </div>
         )}
 

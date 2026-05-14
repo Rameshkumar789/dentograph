@@ -1,9 +1,9 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import type { DentalAnalysis } from '@/lib/schemas';
-import ComingSoonModal from './ComingSoonModal';
+import ComingSoonModal from '../ComingSoonModal';
 import { usePlan } from '@/hooks/usePlan';
-import styles from './AskAIChat.module.css';
+import styles from '../AskAIChat.module.css';
 
 interface Message { role: 'user' | 'assistant'; content: string; id: string; }
 

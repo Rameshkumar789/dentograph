@@ -152,6 +152,10 @@ export default function RecordPage() {
                     ))}
                  </div>
               </div>
+              
+              <div style={{ marginTop: '40px', paddingTop: '32px', borderTop: '1px solid #f1f5f9' }}>
+                 <AskAIChat findings={findings} />
+              </div>
             </div>
           </div>
         </aside>
