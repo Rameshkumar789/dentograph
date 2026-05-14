@@ -254,6 +254,15 @@ a:hover { text-decoration: underline; }
   gap: 10px;
 }
 .navbar-logo span { color: var(--accent); }
+.navbar-links { display: flex; gap: 24px; align-items: center; }
+.nav-link { 
+  font-size: 0.9rem; 
+  font-weight: 500; 
+  color: var(--text-secondary); 
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--accent); text-decoration: none; }
 
 /* ─── Loading Skeleton ───────────────────────────────── */
 .skeleton {

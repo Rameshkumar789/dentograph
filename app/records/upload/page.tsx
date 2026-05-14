@@ -3,6 +3,8 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import XrayScannerAnimation from '@/components/XrayScannerAnimation';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { usePlan } from '@/hooks/usePlan';
 import styles from './upload.module.css';
 
 export default function UploadPage() {
@@ -14,8 +16,10 @@ export default function UploadPage() {
   const [visitDate, setVisitDate] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+  const { plan } = usePlan();
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -38,6 +42,18 @@ export default function UploadPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/login'); return; }
+
+      // ENTERPRISE ENTITLEMENT ENGINE: Enforce Tier Limits
+      const { count } = await supabase
+        .from('records')
+        .select('*', { count: 'exact', head: true })
+        .eq('patient_id', user.id);
+
+      if (count !== null && count >= plan.recordLimit) {
+        setIsModalOpen(true);
+        setAnalyzing(false);
+        return;
+      }
 
       const formData = new FormData();
       files.forEach((f, i) => formData.append(`file${i}`, f));
@@ -142,7 +158,7 @@ export default function UploadPage() {
             </div>
             <div className="form-group">
               <label className="label" htmlFor="date">Visit date</label>
-              <input id="date" type="date" className="input" value={visitDate} onChange={e => setVisitDate(e.target.value)} />
+              <input id="date" type="date" className="input" value={visitDate} onChange={e => setVisitDate(e.target.value)} required />
             </div>
           </div>
 
@@ -156,6 +172,12 @@ export default function UploadPage() {
           </p>
         </form>
       </div>
+
+      <ComingSoonModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        featureName="Unlimited Records (DentoGraph Pro)" 
+      />
     </div>
   );
 }

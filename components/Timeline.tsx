@@ -65,7 +65,7 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
                 {record.dentist_name && <div className={styles.doctor}>{record.dentist_name}</div>}
                 {record.clinic_name && <div className={styles.clinic}>{record.clinic_name}</div>}
                 <div className={styles.type}>
-                  {record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
+                  {record.record_type === 'comprehensive' ? '🗂️ Comprehensive Record' : record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
                 </div>
               </div>
 

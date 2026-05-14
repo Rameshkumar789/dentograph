@@ -1,12 +1,88 @@
-.container { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.title { font-weight: 700; font-size: 0.95rem; }
-.sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-.toggle { width: 48px; height: 26px; border-radius: 999px; background: var(--bg-surface); border: 1px solid var(--border); cursor: pointer; position: relative; transition: background 0.2s; flex-shrink: 0; }
-.toggleOn { background: var(--accent); border-color: var(--accent); }
-.toggleThumb { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform 0.2s; display: block; }
-.toggleOn .toggleThumb { transform: translateX(22px); }
-.linkRow { display: flex; gap: 8px; align-items: center; }
-.linkBox { flex: 1; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 0.78rem; color: var(--text-muted); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.copyBtn { flex-shrink: 0; }
-.note { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.minimalContainer {
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.flexHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shareLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.miniToggle {
+  width: 36px;
+  height: 20px;
+  background: #cbd5e1;
+  border-radius: 20px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggleOn {
+  background: #3b82f6;
+}
+
+.miniThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggleOn .miniThumb {
+  transform: translateX(16px);
+}
+
+.linkStrip {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  overflow: hidden;
+}
+
+.urlText {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: monospace;
+}
+
+.copyBtn {
+  padding: 8px 12px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.miniNote {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
+}

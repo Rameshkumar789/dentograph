@@ -22,24 +22,50 @@ export async function POST(req: Request) {
     const uploadedPaths: string[] = [];
     const contentParts: any[] = [];
 
+    const baseInstructions = `
+CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
+
+1. DUAL EXPLANATIONS: For EVERY finding, provide TWO explanations:
+   - "explanation": Written in plain English for a patient with ZERO medical knowledge. Friendly, empathetic, no jargon.
+   - "clinical_explanation": Written using proper dental terminology for a dentist or specialist.
+
+2. CDT CODES: For every finding that involves a procedure or treatment, identify the correct CDT procedure codes.
+   - Include the code (e.g. "D2391"), the official ADA name, a plain English translation, and an estimated cost range in USD.
+   - If a finding has no associated procedure, use an empty array.
+   - Also provide a deduplicated list of ALL detected CDT codes in "detected_cdt_codes".
+
+3. SEVERITY SCORING: For every finding, provide a "severity_score" from 1 to 10:
+   - 1-2 = Minor/cosmetic issue
+   - 3-4 = Mild concern, monitor
+   - 5-6 = Moderate, needs attention soon
+   - 7-8 = Serious, needs treatment
+   - 9-10 = Critical/emergency
+   Also provide "overall_severity_score" (1-10) for the entire record.
+
+4. SUMMARIES: Provide BOTH a "patient_summary" (plain English) AND a "clinical_summary" (dental terminology).
+   Also provide BOTH "recommended_followup" (for patient) AND "clinical_followup" (for specialist).
+
+5. COST ESTIMATE: Provide "estimated_total_cost" as a USD range for all recommended treatments combined.
+
+6. EXPLAINABLE AI: For EVERY finding, you MUST provide:
+   - "why_it_matters": 1-2 sentences explaining WHY this matters. Focus on consequences of inaction and cost implications.
+     Example: "If left untreated, this cavity will reach the nerve within 6-12 months, turning a $200 filling into a $1,500 root canal."
+   - "confidence": Your confidence in this finding — "High" (clearly visible), "Medium" (likely but needs clinical confirmation), or "Low" (possible but uncertain).
+
+7. Use FDI tooth numbering system (11-48). Be friendly, reassuring, and honest.`;
+
     const prompt = recordType === 'comprehensive'
-      ? `You are an expert dental assistant helping patients understand their comprehensive dental record.
-         Analyze all provided images/documents carefully (these may include X-rays, 3D scans, and text prescriptions).
-         Cross-reference the findings across all documents. Extract all dental findings, recommended treatments,
-         and conditions mentioned. Map each finding to a specific tooth number where possible using FDI numbering.
-         Explain everything in plain English that a patient with no medical background can understand.
-         Be friendly, reassuring, and honest.`
+      ? `You are an expert dental assistant analyzing a comprehensive dental record.
+         Analyze all provided images/documents carefully (X-rays, 3D scans, and prescriptions).
+         Cross-reference findings across all documents.
+         ${baseInstructions}`
       : recordType === 'prescription'
-      ? `You are an expert dental assistant helping patients understand their dental prescriptions.
-         Analyze this prescription document carefully. Extract all dental findings, recommended treatments,
-         and conditions mentioned. Map each finding to a specific tooth number where possible using FDI numbering.
-         Explain everything in plain English that a patient with no medical background can understand.
-         Be friendly, reassuring, and honest. For any tooth number you cannot determine, use null.`
-      : `You are an expert dental radiologist helping patients understand their X-rays.
-         Analyze this dental X-ray carefully. Identify all visible teeth conditions including cavities,
-         bone loss, existing restorations (crowns, fillings, implants), and missing teeth.
-         Use FDI tooth numbering system (11-48). Explain everything in plain English suitable
-         for a patient with zero medical knowledge. Be friendly, reassuring, and honest.`;
+      ? `You are an expert dental assistant analyzing a dental prescription.
+         Extract all dental findings, recommended treatments, and conditions mentioned.
+         ${baseInstructions}`
+      : `You are an expert dental radiologist analyzing dental X-rays.
+         Identify all visible teeth conditions including cavities, bone loss, existing restorations, and missing teeth.
+         ${baseInstructions}`;
 
     contentParts.push({ type: 'text', text: prompt });
 
@@ -82,7 +108,7 @@ export async function POST(req: Request) {
         file_path: combinedPaths,
         dentist_name: dentistName || null,
         clinic_name: clinicName || null,
-        visit_date: visitDate || null,
+        visit_date: visitDate,
         ai_findings: object,
       })
       .select()

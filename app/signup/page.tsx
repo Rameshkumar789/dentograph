@@ -18,11 +18,29 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email, password,
-      options: { data: { full_name: name } }
+      options: { data: { full_name: name, role: 'patient' } }
     });
-    if (error) { setError(error.message); setLoading(false); return; }
+    
+    if (error) { 
+      setError(error.message); 
+      setLoading(false); 
+      return; 
+    }
+
+    // Client-side Profile Creation (Fallback for when DB triggers are not yet deployed)
+    if (data.user) {
+      await supabase.from('profiles').insert({
+        id: data.user.id,
+        full_name: name,
+        role: 'patient',
+      });
+      await supabase.from('patients').insert({
+        id: data.user.id,
+      });
+    }
+
     router.push('/dashboard');
   }
 

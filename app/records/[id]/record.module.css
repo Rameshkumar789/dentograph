@@ -1,25 +1,217 @@
-.page { min-height: 100vh; }
-.recordHeader { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
-.recordType { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-/* Before/After Toggle */
-.beforeAfterToggle { display: flex; gap: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 4px; width: fit-content; margin-bottom: 24px; }
-.toggleBtn { padding: 10px 20px; border-radius: var(--radius-sm); background: transparent; color: var(--text-secondary); border: none; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
-.toggleBtnActive { background: var(--accent); color: #000; }
+.page { 
+  min-height: 100vh; 
+  background: #f8fafc; 
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #0f172a;
+}
 
-/* Jaw panel */
-.jawPanel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 32px; }
-.jawTitle { font-family: var(--font-display); font-weight: 700; margin-bottom: 20px; font-size: 1rem; }
-.toothGrid { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
-.toothChip { border: 1.5px solid; border-radius: var(--radius-md); padding: 10px 14px; min-width: 90px; text-align: center; cursor: pointer; transition: all 0.2s; }
-.toothChip:hover { transform: translateY(-2px); }
-.toothNum { font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; }
-.toothCond { font-size: 0.7rem; margin-top: 2px; }
-.jawNote { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; }
-.legend { display: flex; gap: 16px; flex-wrap: wrap; }
-.legendItem { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
+/* 1. MINIMAL HEADER */
+.metaBar {
+  background: #fff;
+  height: 64px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
 
-/* Two-col layout */
-.twoCol { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
-.leftCol { flex: 1.4; display: flex; flex-direction: column; gap: 24px; min-width: 280px; }
-.rightCol { flex: 1; min-width: 280px; position: sticky; top: 80px; }
+.workspace {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* 2. THE CLINICAL GALLERY (HERO VISUAL SUITE) */
+.visualLab {
+  background: #ffffff;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03), inset 0 0 0 1px #e2e8f0;
+  height: 540px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.labHeader {
+  padding: 24px 40px;
+  background: #fcfdfe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  z-index: 10;
+}
+
+/* Identity Strip in the Header */
+.passportStrip {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.patientIdentity {
+  display: flex;
+  flex-direction: column;
+}
+
+.patientName {
+  color: #0f172a;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.integrityBadge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 4px;
+}
+
+.passportGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.passportLabel {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.passportValue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.labContent {
+  flex: 1;
+  position: relative;
+  background: #fdfdfd; /* Pure Studio White */
+}
+
+.consultationOverlay {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 320px;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* 3. LOWER DECK (TWO-COLUMN FOCUS) */
+.lowerDeck {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Diagnostic Feed */
+.findingsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.findingsTitle {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.insightCard {
+  background: #fff;
+  padding: 32px 40px;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.insightCard:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.severityTag {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.clinicalNote {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: 16px;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.patientNote {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+  margin-top: 12px;
+}
+
+/* Sidebar Interaction */
+.sidebar {
+  position: sticky;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.proGating {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 40px;
+  border-radius: 32px;
+  text-align: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.proGating h4 {
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.proGating p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+  .lowerDeck { grid-template-columns: 1fr; }
+  .passportStrip { flex-wrap: wrap; gap: 24px; }
+}
+

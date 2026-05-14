@@ -46,7 +46,7 @@
 }
 
 /* Features */
-.features { padding: 80px 0; }
+.features { padding: 60px 0; }
 .featureGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -56,7 +56,7 @@
 .featureIcon { font-size: 2rem; }
 
 /* Pricing */
-.pricing { padding: 80px 0; }
+.pricing { padding: 60px 0; }
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -87,6 +87,61 @@
 .planPrice span { font-size: 1rem; color: var(--text-secondary); }
 .planFeatures { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
 .planFeatures li { font-size: 0.9rem; color: var(--text-secondary); }
+
+/* Before vs After */
+.beforeAfter { padding: 60px 0; }
+.compareGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .compareGrid { grid-template-columns: 1fr; }
+}
+.compareCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.compareLabel {
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.compareContent { padding: 24px; }
+.compareItem {
+  padding: 10px 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+}
+.compareItem:last-child { border-bottom: none; }
+
+/* Contact */
+.contact { padding: 60px 0; }
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 768px) {
+  .contactCard { flex-direction: row; align-items: center; }
+  .contactInfo { flex: 1; padding-right: 40px; border-right: 1px solid var(--border); }
+  .contactFormContainer { flex: 1; padding-left: 20px; }
+}
+.contactInfo h2 { font-size: 2rem; margin-bottom: 16px; color: var(--text-primary); }
+.contactInfo p { color: var(--text-secondary); line-height: 1.6; }
+.contactForm { display: flex; flex-direction: column; gap: 16px; }
 
 /* Footer */
 .footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); }

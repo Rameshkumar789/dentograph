@@ -43,7 +43,8 @@ function Tooth({
         onPointerOver={(e) => { e.stopPropagation(); setHovered(true); onHover(toothNumber); }}
         onPointerOut={(e) => { e.stopPropagation(); setHovered(false); onHover(null); }}
       >
-        <boxGeometry args={[0.3, 0.4, 0.3]} />
+        {/* More anatomical tooth shape instead of a box */}
+        <capsuleGeometry args={[0.15, 0.2, 8, 16]} />
         <meshStandardMaterial 
           color={hovered ? '#ffffff' : color} 
           roughness={0.2}
@@ -68,10 +69,8 @@ function Tooth({
 
 export default function DentalModel3D({ 
   findings, 
-  beforeAfter 
 }: { 
   findings: any[], 
-  beforeAfter: 'before' | 'after' 
 }) {
   const [hoveredTooth, setHoveredTooth] = useState<number | null>(null);
 
@@ -135,12 +134,10 @@ export default function DentalModel3D({
             <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>Tooth #{hoveredTooth}</div>
             {findingsMap[hoveredTooth] ? (
               <>
-                <div style={{ color: beforeAfter === 'after' ? COLOR_MAP.Treated : (findingsMap[hoveredTooth].severity === 'High' ? COLOR_MAP.High : findingsMap[hoveredTooth].severity === 'Medium' ? COLOR_MAP.Medium : COLOR_MAP.Low), fontSize: '0.85rem', fontWeight: 600, marginTop: '4px' }}>
-                  {beforeAfter === 'after' ? 'Treated ✨' : findingsMap[hoveredTooth].condition}
+                <div style={{ color: findingsMap[hoveredTooth].severity === 'High' ? COLOR_MAP.High : findingsMap[hoveredTooth].severity === 'Medium' ? COLOR_MAP.Medium : COLOR_MAP.Low, fontSize: '0.85rem', fontWeight: 600, marginTop: '4px' }}>
+                  {findingsMap[hoveredTooth].condition}
                 </div>
-                {beforeAfter === 'before' && (
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>{findingsMap[hoveredTooth].explanation}</div>
-                )}
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>{findingsMap[hoveredTooth].explanation}</div>
               </>
             ) : (
               <div style={{ color: COLOR_MAP.Healthy, fontSize: '0.85rem', marginTop: '4px' }}>Healthy</div>
@@ -152,10 +149,11 @@ export default function DentalModel3D({
       </div>
 
       <Canvas camera={{ position: [0, 2, -5], fov: 45 }}>
-        <color attach="background" args={['#F8FAFC']} />
-        <ambientLight intensity={0.5} />
+        <color attach="background" args={['#FDFDFD']} />
+        <ambientLight intensity={0.7} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
-        <directionalLight position={[0, 5, -10]} intensity={1} color="#ffffff" />
+        <directionalLight position={[-5, 5, -5]} intensity={0.3} color="#ffffff" />
+        <directionalLight position={[0, 5, -10]} intensity={0.5} color="#ffffff" />
 
         <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
           <group rotation={[0, Math.PI, 0]}>
@@ -165,12 +163,8 @@ export default function DentalModel3D({
               let isIssue = false;
 
               if (f && f.condition !== 'Healthy') {
-                if (beforeAfter === 'after') {
-                  color = COLOR_MAP.Treated;
-                } else {
-                  isIssue = true;
-                  color = f.severity === 'High' ? COLOR_MAP.High : f.severity === 'Medium' ? COLOR_MAP.Medium : COLOR_MAP.Low;
-                }
+                isIssue = true;
+                color = f.severity === 'High' ? COLOR_MAP.High : f.severity === 'Medium' ? COLOR_MAP.Medium : COLOR_MAP.Low;
               }
 
               return (
