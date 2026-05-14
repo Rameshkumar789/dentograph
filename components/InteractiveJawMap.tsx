@@ -53,7 +53,15 @@ const LOWER_COORDS: Record<number, { top: string, left: string }> = {
   38: { top: '82%', left: '81%' },
 };
 
-export default function InteractiveJawMap({ findings, beforeAfter }: { findings: any[], beforeAfter?: string }) {
+export default function InteractiveJawMap({ 
+  findings, 
+  onSelectTooth,
+  selectedTooth 
+}: { 
+  findings: any[], 
+  onSelectTooth?: (num: number) => void,
+  selectedTooth?: number | null
+}) {
   const [arch, setArch] = useState<'upper' | 'lower'>('upper');
   const [hoveredTooth, setHoveredTooth] = useState<number | null>(null);
 
@@ -69,44 +77,22 @@ export default function InteractiveJawMap({ findings, beforeAfter }: { findings:
   const teethList = Object.keys(coords).map(Number);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: '32px', overflow: 'hidden', background: '#FDFDFD', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: 'transparent', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       
       {/* Arch Toggle */}
-      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10, display: 'flex', gap: '4px', background: '#f1f5f9', padding: '4px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 10, display: 'flex', gap: '4px', background: '#fff', padding: '4px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
         <button 
           onClick={() => setArch('upper')}
-          style={{ padding: '8px 16px', borderRadius: '8px', background: arch === 'upper' ? '#fff' : 'transparent', color: '#0f172a', border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '0.75rem', boxShadow: arch === 'upper' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}
+          style={{ padding: '8px 16px', borderRadius: '8px', background: arch === 'upper' ? '#f1f5f9' : 'transparent', color: '#0f172a', border: 'none', cursor: 'pointer', fontWeight: 800, fontSize: '0.7rem', transition: 'all 0.2s' }}
         >
-          Upper Jaw
+          UPPER
         </button>
         <button 
           onClick={() => setArch('lower')}
-          style={{ padding: '8px 16px', borderRadius: '8px', background: arch === 'lower' ? '#fff' : 'transparent', color: '#0f172a', border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '0.75rem', boxShadow: arch === 'lower' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', transition: 'all 0.2s' }}
+          style={{ padding: '8px 16px', borderRadius: '8px', background: arch === 'lower' ? '#f1f5f9' : 'transparent', color: '#0f172a', border: 'none', cursor: 'pointer', fontWeight: 800, fontSize: '0.7rem', transition: 'all 0.2s' }}
         >
-          Lower Jaw
+          LOWER
         </button>
-      </div>
-
-      {/* HUD UI - Frosted Light Glass */}
-      <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 10, background: 'rgba(255,255,255,0.8)', padding: '24px', borderRadius: '20px', backdropFilter: 'blur(16px)', border: '1px solid #e2e8f0', minWidth: '240px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)' }}>
-        <h3 style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 800, marginBottom: '12px', color: '#94a3b8' }}>Tooth Details</h3>
-        {hoveredTooth ? (
-          <div style={{ animation: 'fadeIn 0.2s ease-out' }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>Tooth #{hoveredTooth}</div>
-            {findingsMap[hoveredTooth] ? (
-              <>
-                <div style={{ color: (findingsMap[hoveredTooth].severity === 'High' ? '#ef4444' : findingsMap[hoveredTooth].severity === 'Medium' ? '#f59e0b' : '#3b82f6'), fontSize: '0.9rem', fontWeight: 700, marginTop: '4px' }}>
-                  {findingsMap[hoveredTooth].condition}
-                </div>
-                <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '12px', lineHeight: 1.5 }}>{findingsMap[hoveredTooth].explanation}</div>
-              </>
-            ) : (
-              <div style={{ color: '#10b981', fontSize: '0.9rem', marginTop: '4px', fontWeight: 700 }}>✓ Healthy / No Findings</div>
-            )}
-          </div>
-        ) : (
-          <div style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.5 }}>Hover over a tooth marker to view detailed AI diagnostics.</div>
-        )}
       </div>
 
       {/* Photorealistic Render Container */}
@@ -133,6 +119,7 @@ export default function InteractiveJawMap({ findings, beforeAfter }: { findings:
               key={toothId}
               onMouseEnter={() => setHoveredTooth(toothId)}
               onMouseLeave={() => setHoveredTooth(null)}
+              onClick={() => onSelectTooth?.(toothId)}
               style={{
                 position: 'absolute',
                 top: coords[toothId].top,
@@ -141,12 +128,12 @@ export default function InteractiveJawMap({ findings, beforeAfter }: { findings:
                 height: '10%',
                 transform: 'translate(-50%, -50%)',
                 borderRadius: '50%',
-                backgroundColor: color,
-                boxShadow: isIssue ? `0 0 20px ${color}, inset 0 0 10px ${color}` : 'none',
+                backgroundColor: selectedTooth === toothId ? '#fff' : color,
+                boxShadow: (isIssue || selectedTooth === toothId) ? `0 0 20px ${selectedTooth === toothId ? '#3b82f6' : color}` : 'none',
+                border: selectedTooth === toothId ? '2px solid #3b82f6' : 'none',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                mixBlendMode: isIssue ? 'overlay' : 'normal',
-                opacity: hoveredTooth === toothId ? 1 : (isIssue ? 0.8 : 0),
+                opacity: (hoveredTooth === toothId || selectedTooth === toothId) ? 1 : (isIssue ? 0.8 : 0),
                 zIndex: 5
               }}
             >

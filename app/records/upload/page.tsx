@@ -63,6 +63,7 @@ export default function UploadPage() {
       formData.append('clinic_name', clinicName);
       formData.append('visit_date', visitDate);
       formData.append('patient_id', user.id);
+      formData.append('source', 'patient');
 
       const res = await fetch('/api/analyze', { method: 'POST', body: formData });
       const data = await res.json();

@@ -65,7 +65,7 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
                 {record.dentist_name && <div className={styles.doctor}>{record.dentist_name}</div>}
                 {record.clinic_name && <div className={styles.clinic}>{record.clinic_name}</div>}
                 <div className={styles.type}>
-                  {record.record_type === 'comprehensive' ? '📄 Advanced Clinical Report' : record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
+                  {record.record_type === 'comprehensive' ? '🗂️ Comprehensive Record' : record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
                 </div>
               </div>
 
@@ -79,11 +79,11 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
               <Link href={`/records/${record.id}`} className={styles.card}>
                 <div className={styles.cardTop}>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <span className={`badge ${record.record_type === 'comprehensive' ? 'badge-accent' : (URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.badge || 'badge-green')}`}>
-                      {record.record_type === 'comprehensive' ? 'Analysis Ready' : (URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.label || 'Routine')}
+                    <span className={`badge ${URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.badge || 'badge-green'}`}>
+                      {URGENCY_CONFIG[urgency as keyof typeof URGENCY_CONFIG]?.label || 'Routine'}
                     </span>
                   </div>
-                  {score && record.record_type !== 'comprehensive' && (
+                  {score && (
                     <div className={styles.score} style={{ color: SCORE_COLORS[score] }}>
                       {score}
                     </div>
@@ -94,7 +94,7 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
                   <p className={styles.summary}>{patientSummary}</p>
                 )}
 
-                {findingsList && findingsList.length > 0 && record.record_type !== 'comprehensive' && (
+                {findingsList && findingsList.length > 0 && (
                   <div className={styles.tags}>
                     {findingsList.slice(0, 3).map((f, i) => (
                       <span key={i} className={`badge ${f.condition === 'Healthy' ? 'badge-green' : f.severity === 'High' ? 'badge-red' : 'badge-yellow'}`}>

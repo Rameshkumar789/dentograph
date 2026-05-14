@@ -35,6 +35,8 @@ export default function DashboardPage() {
       const { data } = await supabase
         .from('records')
         .select('*')
+        .eq('patient_id', user.id)
+        .eq('source', 'patient')
         .order('created_at', { ascending: false });
       setRecords(data || []);
       setLoading(false);

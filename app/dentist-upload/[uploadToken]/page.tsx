@@ -57,21 +57,35 @@ export default function DentistUploadPage() {
 
   return (
     <div className={styles.page}>
-      <nav className="navbar">
-        <div className="navbar-logo">Dento<span>Graph</span></div>
-        <span className="badge badge-accent">Dentist Upload Portal</span>
+      <nav className="navbar" style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
+        <div className="navbar-logo">Dento<span style={{ fontWeight: 800 }}>Graph</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="glow-dot" style={{ background: 'var(--green)', width: '8px', height: '8px' }} />
+          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>OIG-Compliant Fulfillment Portal</span>
+        </div>
       </nav>
 
-      <div className="container" style={{ maxWidth: '600px', paddingTop: '48px' }}>
-        <div className={styles.header}>
-          <div style={{ fontSize: '2.5rem' }}>📤</div>
-          <div>
-            <h1>Upload Patient Record</h1>
-            <p>Upload the patient&apos;s X-ray or prescription directly to their DentoGraph account. No account needed.</p>
+      <div className="container" style={{ maxWidth: '600px', paddingTop: '48px', paddingBottom: '80px' }}>
+        
+        {/* Compliance Header */}
+        <div style={{ background: 'rgba(37, 99, 235, 0.05)', border: '1px solid var(--primary)', borderRadius: '16px', padding: '24px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            <div style={{ fontSize: '1.5rem' }}>🛡️</div>
+            <div>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '4px' }}>Cures Act Compliance Shield</h2>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                Use this portal to fulfill a patient&apos;s Electronic Health Information (EHI) request. DentoGraph automatically logs this transaction to protect your clinic from Information Blocking penalties.
+              </p>
+            </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.header} style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em' }}>Fulfill Record Request</h1>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>Package clinical data for secure patient-owned portability.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className={styles.form} style={{ background: '#fff', padding: '40px', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05)', border: '1px solid var(--border)' }}>
           {/* Type selection */}
           <div className={styles.typeRow} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '24px' }}>
             <button type="button" className={`${styles.typeBtn} ${recordType === 'comprehensive' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('comprehensive')}>

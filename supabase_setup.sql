@@ -60,6 +60,8 @@ create table if not exists ehi_requests (
   patient_name text,
   dentist_name text,
   clinic_name text not null,
+  target_clinic_id uuid references clinics(id), -- Specific ID if known
+  target_clinic_name_raw text, -- Original name from request
   clinic_email text,
   clinic_phone text,
   last_visit_date date,
@@ -131,15 +133,30 @@ create policy "System writes audit" on audit_logs for insert with check (true);
 -- This ensures that a profile is created atomically when a user signs up.
 create or replace function public.handle_new_user()
 returns trigger as $$
+declare
+  new_clinic_id uuid;
 begin
-  insert into public.profiles (id, full_name, role)
+  -- 1. If the user is a provider, create their clinic first
+  if (new.raw_user_meta_data->>'role') = 'provider' then
+    insert into public.clinics (name, is_verified)
+    values (
+      coalesce(new.raw_user_meta_data->>'clinic_name', 'My Dental Practice'),
+      true -- HARDCODED FOR MVP BETA ACCESS
+    )
+    returning id into new_clinic_id;
+  end if;
+
+  -- 2. Create the unified profile
+  insert into public.profiles (id, full_name, role, clinic_id, license_number)
   values (
     new.id, 
     new.raw_user_meta_data->>'full_name', 
-    coalesce(new.raw_user_meta_data->>'role', 'patient')
+    coalesce(new.raw_user_meta_data->>'role', 'patient'),
+    new_clinic_id,
+    new.raw_user_meta_data->>'license_number'
   );
   
-  -- If it's a patient, also create the patient clinical record
+  -- 3. If it's a patient, also create the patient clinical record
   if coalesce(new.raw_user_meta_data->>'role', 'patient') = 'patient' then
     insert into public.patients (id) values (new.id);
   end if;

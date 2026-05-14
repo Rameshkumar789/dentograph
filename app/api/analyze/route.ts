@@ -12,10 +12,22 @@ export async function POST(req: Request) {
     const dentistName = formData.get('dentist_name') as string;
     const clinicName = formData.get('clinic_name') as string;
     const visitDate = formData.get('visit_date') as string;
-    const patientId = formData.get('patient_id') as string;
+    let patientId = formData.get('patient_id') as string;
+    const providerId = formData.get('provider_id') as string;
+    const clinicId = formData.get('clinic_id') as string;
+    const source = (formData.get('source') as string) || 'patient';
+
+    // For dentist-initiated scans, we use the provider's ID (the doctor) as the 
+    // secure 'patient_id' to satisfy RLS policies (auth.uid() = patient_id).
+    // The UI will override this with the actual patient_name from the AI manifest.
+    if (!patientId && providerId) {
+      patientId = providerId;
+    }
+
+    const patientName = formData.get('patient_name') as string || 'New Patient';
 
     if (!patientId || fileCount === 0) {
-      return Response.json({ error: 'Missing files or patient ID' }, { status: 400 });
+      return Response.json({ error: 'Missing files or patient identifier' }, { status: 400 });
     }
 
     const supabase = await createServerSupabaseClient();
@@ -98,7 +110,7 @@ CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
       }],
     });
 
-    // Save record to DB with comma-separated paths
+    // Save record to DB with identity bundled in findings
     const combinedPaths = uploadedPaths.join(',');
     const { data: record, error: dbError } = await supabase
       .from('records')
@@ -109,7 +121,10 @@ CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
         dentist_name: dentistName || null,
         clinic_name: clinicName || null,
         visit_date: visitDate,
-        ai_findings: object,
+        ai_findings: { ...object, patient_name: patientName },
+        provider_id: providerId || null,
+        clinic_id: clinicId || null,
+        source: source
       })
       .select()
       .single();
