@@ -82,7 +82,7 @@ export default function UploadPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">🦷 Dento<span>Graph</span></div>
+        <div className="navbar-logo">Dento<span>Graph</span></div>
         <button onClick={() => router.back()} className="btn btn-secondary btn-sm">← Back</button>
       </nav>
 

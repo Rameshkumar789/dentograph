@@ -99,7 +99,7 @@ export default function DentistDashboard() {
       {/* Navbar */}
       <nav className="navbar" style={{ background: '#fff', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', padding: '16px 24px' }}>
         <div className="navbar-logo" style={{ color: 'var(--primary)' }}>
-          🦷 DentoGraph <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginLeft: '8px' }}>For Providers</span>
+          DentoGraph <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginLeft: '8px' }}>For Providers</span>
         </div>
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>

@@ -9,7 +9,7 @@ export default function PricingPage() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-default)', color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}>
       <nav className="navbar">
         <div className="navbar-logo" onClick={() => router.push('/')} style={{ cursor: 'pointer' }}>
-          🦷 Dento<span>Graph</span>
+          Dento<span>Graph</span>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button onClick={() => router.push('/dashboard')} className="btn btn-secondary btn-sm">

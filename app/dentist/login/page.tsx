@@ -42,7 +42,7 @@ export default function DentistLoginPage() {
   return (
     <div className={styles.authPage} style={{ background: '#f0f4f8' }}>
       <div className={styles.authCard} style={{ borderTop: '4px solid var(--primary)' }}>
-        <div className={styles.authLogo} style={{ color: 'var(--primary)' }}>🦷 DentoGraph <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>For Providers</span></div>
+        <div className={styles.authLogo} style={{ color: 'var(--primary)' }}>DentoGraph <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>For Providers</span></div>
         <h1 className={styles.authTitle}>Provider Login</h1>
         <p className={styles.authSubtitle}>Access clinical tools and EHI requests</p>
 

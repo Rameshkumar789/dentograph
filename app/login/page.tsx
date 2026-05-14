@@ -25,7 +25,7 @@ export default function LoginPage() {
   return (
     <div className={styles.authPage}>
       <div className={styles.authCard}>
-        <div className={styles.authLogo}>🦷 DentoGraph</div>
+        <div className={styles.authLogo}>DentoGraph</div>
         <h1 className={styles.authTitle}>Welcome back</h1>
         <p className={styles.authSubtitle}>Sign in to your dental records</p>
 

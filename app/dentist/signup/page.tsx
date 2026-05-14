@@ -76,7 +76,7 @@ export default function DentistSignupPage() {
   return (
     <div className={styles.authPage} style={{ background: '#f0f4f8' }}>
       <div className={styles.authCard} style={{ maxWidth: '450px', borderTop: '4px solid var(--primary)' }}>
-        <div className={styles.authLogo} style={{ color: 'var(--primary)' }}>🦷 DentoGraph <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>For Providers</span></div>
+        <div className={styles.authLogo} style={{ color: 'var(--primary)' }}>DentoGraph <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>For Providers</span></div>
         <h1 className={styles.authTitle}>Get Provider Access</h1>
         <p className={styles.authSubtitle}>Shield your clinic from Cures Act penalties and increase case acceptance.</p>
 

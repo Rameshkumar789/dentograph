@@ -49,7 +49,7 @@ export default function DentistUploadPage() {
           <div style={{ fontSize: '4rem' }}>✅</div>
           <h2>Record uploaded successfully!</h2>
           <p>The patient&apos;s record has been analyzed and added to their DentoGraph account. The AI analysis is complete and they can view it immediately.</p>
-          <div className={styles.poweredBy}>Powered by 🦷 DentoGraph — Patient-owned dental records</div>
+          <div className={styles.poweredBy}>Powered by DentoGraph — Patient-owned dental records</div>
         </div>
       </div>
     );
@@ -58,7 +58,7 @@ export default function DentistUploadPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">🦷 Dento<span>Graph</span></div>
+        <div className="navbar-logo">Dento<span>Graph</span></div>
         <span className="badge badge-accent">Dentist Upload Portal</span>
       </nav>
 

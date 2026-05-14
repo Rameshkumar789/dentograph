@@ -29,7 +29,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
   if (!record) {
     return (
       <div className={styles.page}>
-        <nav className="navbar"><div className="navbar-logo">🦷 Dento<span>Graph</span></div></nav>
+        <nav className="navbar"><div className="navbar-logo">Dento<span>Graph</span></div></nav>
         <div className={styles.invalid}>
           <div style={{ fontSize: '3rem' }}>🔒</div>
           <h2>This link is invalid or has been disabled</h2>
@@ -48,7 +48,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">🦷 Dento<span>Graph</span></div>
+        <div className="navbar-logo">Dento<span>Graph</span></div>
         <Link href="/signup" className="btn btn-primary btn-sm">Create your free account</Link>
       </nav>
 

@@ -37,7 +37,7 @@ export default function ContactForm() {
   if (!userType) {
     return (
       <div style={{ textAlign: 'center' }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '24px' }}>How can we help you disrupt dentistry?</h3>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '24px' }}>How can we assist you today?</h3>
         <div style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
           <button 
             onClick={() => setUserType('provider')} 

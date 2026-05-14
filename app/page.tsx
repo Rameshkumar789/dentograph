@@ -13,7 +13,7 @@ export default function LandingPage() {
     <main className={styles.main}>
       {/* Global Beta Banner */}
       <div style={{ background: 'var(--accent)', color: '#fff', padding: '12px', textAlign: 'center', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.02em' }}>
-        🚀 Early Access Program: DentoGraph is currently free for our first 10 founding patients. <Link href="#pricing" style={{ color: '#fff', textDecoration: 'underline' }}>Learn more</Link>
+        🚀 Founding Patient Program: Join our early access beta for a complimentary Pro upgrade. <Link href="#pricing" style={{ color: '#fff', textDecoration: 'underline' }}>Learn more</Link>
       </div>
 
       {/* Navbar */}
@@ -51,7 +51,7 @@ export default function LandingPage() {
           <span className="gradient-text">your dentist.</span>
         </h1>
         <p className={styles.heroSubtitle}>
-          Stop leaving the dental office feeling confused. DentoGraph turns your complex X-rays into a clear 3D map of your mouth, with simple explanations you can actually understand.
+          Stop leaving the dental office feeling confused. DentoGraph turns complex X-rays into an interactive 3D model of your teeth, with simple insights that finally make sense.
         </p>
         <div className={styles.heroCta} style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
           <Link href="/signup" className="btn btn-primary btn-lg">See Your 3D Model for Free</Link>
@@ -118,25 +118,25 @@ export default function LandingPage() {
       <section className={styles.pricing} id="pricing">
         <div className="container" style={{ maxWidth: '800px' }}>
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <span className="badge badge-accent" style={{ marginBottom: '16px', display: 'inline-block' }}>DentoGraph Early Access</span>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '16px' }}>Take ownership of your dental health.</h2>
+            <span className="badge badge-accent" style={{ marginBottom: '16px', display: 'inline-block' }}>DentoGraph Founding Patients</span>
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '16px' }}>Own your dental health. For life.</h2>
             <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
-              We are offering lifetime free access to our first 10 patient users. Join the beta to generate your 3D digital twin today.
+              Join our Founding Patient program to receive complimentary Pro access and generate your interactive 3D dental record today.
             </p>
           </div>
 
           <div className={`card ${styles.planPro}`} style={{ maxWidth: '400px', margin: '0 auto', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
             <div className={styles.planName} style={{ marginTop: '24px' }}>Founding Patient</div>
             <div className={styles.planPrice} style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '12px' }}>
-              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1.5rem' }}>$15</span>
-              <span>$0 <span>/month</span></span>
+              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1.5rem' }}>$5</span>
+              <span>$0 <span>/early access</span></span>
             </div>
 
             <ul className={styles.planFeatures} style={{ textAlign: 'left', margin: '32px auto', maxWidth: '280px', listStyle: 'none', padding: 0 }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Personal 3D Dental Twin</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Plain English AI Diagnoses</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Unlimited DentoBot Chat</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Secure Second Opinion Links</span></li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Interactive 3D Dental Record</span></li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Plain-Language Clinical Insights</span></li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Intelligent Clinical Guidance</span></li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Collaborative Care Sharing</span></li>
             </ul>
 
             <Link href="/signup" className="btn btn-primary btn-lg" style={{ width: '100%' }}>
@@ -152,15 +152,46 @@ export default function LandingPage() {
         featureName="DentoGraph Pro Plan"
       />
 
+      {/* Mission / Transparency Section */}
+      <section className={styles.mission} id="mission">
+        <div className="container" style={{ textAlign: 'center', padding: '80px 24px', borderTop: '1px solid var(--border)' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Our Commitment</span>
+            <h2 style={{ fontSize: '2.5rem', marginTop: '16px', marginBottom: '24px' }}>Built for clinical integrity.</h2>
+            <p style={{ fontSize: '1.15rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+              DentoGraph was founded on a simple principle: <strong>Health data belongs to the patient.</strong>
+              Our mission is to bridge the gap between clinical complexity and human understanding,
+              empowering you to make informed decisions about your care with high-fidelity 3D technology.
+            </p>
+            <div style={{ marginTop: '40px', display: 'flex', gap: '32px', justifyContent: 'center', opacity: 0.7, flexWrap: 'wrap' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>100%</div>
+                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Data Ownership</div>
+              </div>
+              <div style={{ width: '1px', background: 'var(--border)', display: 'none' }} />
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>HIPAA</div>
+                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Compliant</div>
+              </div>
+              <div style={{ width: '1px', background: 'var(--border)', display: 'none' }} />
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>ONC</div>
+                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Cures Act Ready</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section className={styles.contact} id="contact">
         <div className="container">
           <div className={`card ${styles.contactCard}`}>
             <div className={styles.contactInfo}>
-              <h2>Let's disrupt dentistry, together.</h2>
-              <p>Whether you're a patient looking to take control of your clinical data, or a provider looking to modernize case acceptance and compliance, we want to hear from you.</p>
+              <h2>Transforming the Dental Experience.</h2>
+              <p>Whether you are a patient navigating your clinical data or a provider seeking to modernize your practice, our team is here to support you.</p>
               <div style={{ marginTop: '24px' }}>
-                <a href="mailto:support@dentograph.us" className="btn btn-primary btn-lg" style={{ background: 'var(--text-primary)', color: '#fff' }}>Email Our Team</a>
+                <a href="mailto:support@dentograph.us" className="btn btn-primary btn-lg" style={{ background: 'var(--text-primary)', color: '#fff' }}>Contact Our Support Team</a>
               </div>
             </div>
             <div className={styles.contactFormContainer}>
@@ -170,8 +201,44 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <p>© 2026 DentoGraph · Built for patients, by patients</p>
+      <footer className={styles.footer} style={{ background: '#f8fafc', padding: '60px 0 40px 0', borderTop: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '48px', marginBottom: '64px' }}>
+            <div style={{ flex: '1 1 300px', maxWidth: '350px' }}>
+              <div className="navbar-logo" style={{ marginBottom: '16px', fontSize: '1.25rem', display: 'block', height: 'auto' }}>
+                Dento<span style={{ color: 'var(--primary)' }}>Graph</span>
+              </div>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                The modern platform for interactive 3D dental records and clinical transparency.
+              </p>
+            </div>
+
+            <div style={{ minWidth: '150px' }}>
+              <h4 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-primary)' }}>Platform</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Founding Patient Beta</Link></li>
+                <li><Link href="/dentist/signup" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>For Providers</Link></li>
+                <li><Link href="/pricing" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Pricing Strategy</Link></li>
+              </ul>
+            </div>
+
+            <div style={{ minWidth: '150px' }}>
+              <h4 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-primary)' }}>Support</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <li><Link href="#contact" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Contact Us</Link></li>
+                <li><Link href="/faq" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Help Center</Link></li>
+                <li><Link href="/privacy" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Privacy Policy</Link></li>
+              </ul>
+            </div>
+          </div>
+
+          <div style={{ paddingTop: '32px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>&copy; {new Date().getFullYear()} DentoGraph Systems Inc. All rights reserved.</p>
+            <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
+              100% HIPAA Compliant &nbsp; | &nbsp; Clinical Precision
+            </p>
+          </div>
+        </div>
       </footer>
     </main>
   );
@@ -180,32 +247,32 @@ export default function LandingPage() {
 const FEATURES = [
   {
     icon: Box,
-    title: 'See Your Mouth in 3D',
-    desc: 'We turn your flat X-rays into a 3D model that looks like your actual teeth. It’s the easiest way to see exactly what’s going on inside your mouth.'
+    title: 'Interactive 3D Diagnostics',
+    desc: 'Your dental health, visualized in high-fidelity 3D. We transform static clinical records into an interactive anatomical model, allowing you to visualize your health from every angle.'
   },
   {
     icon: FileText,
-    title: 'Simple English Explanations',
-    desc: 'No more medical jargon. We translate your dentist’s notes into simple, friendly reports so you know exactly what your next steps are.'
+    title: 'Plain-Language Clinical Insights',
+    desc: 'Bridging the gap between jargon and clarity. Our AI translates complex clinical shorthand into empathetic, easy-to-read reports that help you make informed decisions about your care.'
   },
   {
     icon: Bot,
-    title: 'Your Personal Dental Expert',
-    desc: 'Have a question about a procedure or cost? Ask DentoBot. It’s like having a dental expert in your pocket, available 24/7 to give you honest advice.'
+    title: 'Intelligent Clinical Guidance',
+    desc: 'Interact securely with your health record via AI-driven guidance. Receive immediate context on procedures, cost estimations, and care timelines directly from your own data.'
   },
   {
     icon: Network,
-    title: 'Take Your Records With You',
-    desc: 'Your dental records belong to you, not your clinic. Request your files with one click and take them to any doctor you choose.'
+    title: 'Automated Record Retrieval',
+    desc: 'Reclaim ownership of your clinical history. Leverage federal interoperability standards to instantly retrieve your records from any provider without technical friction.'
   },
   {
     icon: FileCheck,
-    title: 'Share with Your Care Team',
-    desc: 'Easily coordinate your treatment between different doctors. Send a secure, private link of your 3D records to any specialist instantly, ensuring everyone has the clearest view of your health.'
+    title: 'Seamless Collaborative Care',
+    desc: 'Securely coordinate with your entire care team. Share encrypted, read-only links of your 3D records with specialists instantly, ensuring every provider is aligned on your treatment plan.'
   },
   {
     icon: ShieldCheck,
-    title: 'Bank-Level Security',
-    desc: 'We use the same security as banks and hospitals. Your health data is encrypted and completely private—only you decide who sees it.'
+    title: 'Zero-Trust Security Architecture',
+    desc: 'Your privacy is our priority. Built on hospital-grade, HIPAA-compliant infrastructure, your clinical data is protected by end-to-end encryption and strict role-based access.'
   },
 ];

@@ -47,7 +47,7 @@ export default function SourceDocumentsPage() {
 
   if (loading) return (
     <div className={styles.page}>
-      <nav className="navbar"><div className="navbar-logo">🦷 Dento<span>Graph</span></div></nav>
+      <nav className="navbar"><div className="navbar-logo">Dento<span>Graph</span></div></nav>
       <div className="container" style={{ paddingTop: '48px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div className="skeleton" style={{ height: '500px' }} />
       </div>
@@ -63,7 +63,7 @@ export default function SourceDocumentsPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">🦷 Dento<span>Graph</span></div>
+        <div className="navbar-logo">Dento<span>Graph</span></div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button onClick={() => router.push(`/records/${id}`)} className="btn btn-primary btn-sm">
             ← Back to AI Analysis

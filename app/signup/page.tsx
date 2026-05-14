@@ -47,7 +47,7 @@ export default function SignupPage() {
   return (
     <div className={styles.authPage}>
       <div className={styles.authCard}>
-        <div className={styles.authLogo}>🦷 DentoGraph</div>
+        <div className={styles.authLogo}>DentoGraph</div>
         <h1 className={styles.authTitle}>Create your account</h1>
         <p className={styles.authSubtitle}>Own your dental health records forever</p>
 
