@@ -4,4 +4,4 @@ Allow: /favicon.ico
 Allow: /icon.png
 Allow: /apple-icon.png
 
-Sitemap: https://dentograph.us/sitemap.xml
+Sitemap: https://www.dentograph.us/sitemap.xml
