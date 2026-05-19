@@ -7,10 +7,9 @@ import InteractiveJawMap from '@/components/InteractiveJawMap';
 import AskAIChat from '@/components/AskAIChat';
 import ShareButton from '@/components/ShareButton';
 import EHIExportButton from '@/components/EHIExportButton';
-import { usePlan } from '@/hooks/usePlan';
-import type { DentalAnalysis } from '@/lib/schemas';
+import type { CDTCode, DentalAnalysis, Finding } from '@/lib/schemas';
 import styles from './record.module.css';
-import { LogOut } from 'lucide-react';
+import { FileImage, LogOut } from 'lucide-react';
 
 interface DentalRecord {
   id: string;
@@ -33,7 +32,6 @@ export default function RecordPage() {
   const [filter, setFilter] = useState<'all' | 'urgent' | 'monitor' | 'maintenance'>('all');
   const router = useRouter();
   const supabase = createClient();
-  const { plan } = usePlan();
 
   useEffect(() => {
     async function load() {
@@ -80,10 +78,13 @@ export default function RecordPage() {
     <div className={styles.page}>
       {/* 1. MINIMAL HEADER */}
       <div className={styles.metaBar}>
-        <div className="navbar-logo">Dento<span>Graph</span></div>
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '176px', height: 'auto' }} />
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <EHIExportButton findings={findings} recordId={record.id} recordType={record.record_type} />
           <ShareButton recordId={record.id} shareToken={record.share_token || ''} shareEnabled={record.share_enabled || false} />
+          <button onClick={() => router.push(`/records/${id}/source`)} className="btn btn-secondary btn-sm" style={{ border: 'none', background: '#f1f5f9', fontWeight: 700, fontSize: '0.75rem', color: '#0f172a', height: '32px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FileImage size={14} /> Source Files
+          </button>
           <div style={{ width: '1px', height: '24px', background: '#e2e8f0', margin: '0 4px' }} />
           <button onClick={() => router.push('/dashboard')} className="btn btn-secondary btn-sm" style={{ border: 'none', background: '#f1f5f9', fontWeight: 700, fontSize: '0.75rem', color: '#0f172a', height: '32px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <LogOut size={14} /> Close Report
@@ -162,7 +163,6 @@ export default function RecordPage() {
             {(filter === 'all' || filter === 'urgent') && findings.findings.filter(f => (f.severity_score || 0) >= 7).length > 0 && (
               <div style={{ marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: '#ef4444' }}>
-                  <span style={{ fontSize: '1.25rem' }}>⚠️</span>
                   <h3 style={{ fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Urgent Care Needed</h3>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -177,7 +177,6 @@ export default function RecordPage() {
             {(filter === 'all' || filter === 'monitor') && findings.findings.filter(f => (f.severity_score || 0) >= 4 && (f.severity_score || 0) < 7).length > 0 && (
               <div style={{ marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: '#f59e0b' }}>
-                  <span style={{ fontSize: '1.25rem' }}>🔔</span>
                   <h3 style={{ fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Areas to Monitor</h3>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -192,7 +191,6 @@ export default function RecordPage() {
             {(filter === 'all' || filter === 'maintenance') && findings.findings.filter(f => (f.severity_score || 0) < 4).length > 0 && (
               <div style={{ marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: '#3b82f6' }}>
-                  <span style={{ fontSize: '1.25rem' }}>✨</span>
                   <h3 style={{ fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Maintenance & Prevention</h3>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -206,15 +204,7 @@ export default function RecordPage() {
 
           {/* AI Interaction Sidebar */}
           <div className={styles.sidebar}>
-            {!plan.hasAIChat ? (
-              <div className={styles.proGating}>
-                <h4>Ask DentoBot AI</h4>
-                <p>Get instant answers about your results and potential next steps.</p>
-                <button className="btn btn-primary btn-sm" style={{ width: '100%', borderRadius: '12px' }} onClick={() => router.push('/pricing')}>Unlock AI Assistant</button>
-              </div>
-            ) : (
-              <AskAIChat findings={findings} />
-            )}
+            <AskAIChat findings={findings} />
           </div>
 
         </div>
@@ -223,7 +213,7 @@ export default function RecordPage() {
   );
 }
 
-function FindingCard({ finding, color, bg }: { finding: any, color: string, bg: string }) {
+function FindingCard({ finding, color, bg }: { finding: Finding, color: string, bg: string }) {
   return (
     <div className={styles.insightCard} style={{ padding: '24px 32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -238,7 +228,7 @@ function FindingCard({ finding, color, bg }: { finding: any, color: string, bg: 
       <div className={styles.patientNote} style={{ fontSize: '0.85rem', marginTop: '8px' }}>{finding.explanation}</div>
       {finding.cdt_codes?.length > 0 && (
         <div style={{ marginTop: '16px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-          {finding.cdt_codes.map((c: any, j: number) => (
+          {finding.cdt_codes.map((c: CDTCode, j: number) => (
             <span key={j} style={{ padding: '4px 10px', background: '#f8fafc', border: '1px solid #f1f5f9', color: '#64748b', borderRadius: '8px', fontSize: '0.65rem', fontWeight: 600 }}>{c.code}: {c.name}</span>
           ))}
         </div>

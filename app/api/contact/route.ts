@@ -20,13 +20,9 @@ export async function POST(req: Request) {
         created_at: new Date().toISOString(),
       });
 
-    // If table doesn't exist yet, just log it (no hard failure)
     if (error) {
-      console.log('Contact form submission (table may not exist yet):', { name, clinicName, email });
+      return Response.json({ error: 'Submission could not be stored' }, { status: 500 });
     }
-
-    // For now, log to server console as a notification
-    console.log('🔔 NEW DEMO REQUEST:', { name, clinicName, email, timestamp: new Date().toISOString() });
 
     return Response.json({ success: true, message: 'Thank you! We will be in touch shortly.' });
   } catch (err) {

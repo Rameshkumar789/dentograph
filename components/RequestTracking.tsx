@@ -10,8 +10,15 @@ const STATUS_MAP: Record<string, { label: string; color: string; step: number }>
   'denied':     { label: 'Request Denied', color: 'var(--red)', step: 3 },
 };
 
+interface RecordRequest {
+  id: string;
+  status: string;
+  clinic_name: string;
+  created_at: string;
+}
+
 export default function RequestTracking() {
-  const [requests, setRequests] = useState<any[]>([]);
+  const [requests, setRequests] = useState<RecordRequest[]>([]);
   const supabase = createClient();
 
   useEffect(() => {
@@ -20,15 +27,15 @@ export default function RequestTracking() {
       setRequests(data || []);
     }
     fetchRequests();
-  }, []);
+  }, [supabase]);
 
   if (requests.length === 0) return null;
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3>📬 Clinical Interoperability Hub</h3>
-        <span className="badge badge-accent">ONC Cures Act Compliant</span>
+        <h3>Clinical Interoperability Hub</h3>
+        <span className="badge badge-accent">Record request tracking</span>
       </div>
 
       <div className={styles.list}>
@@ -54,7 +61,7 @@ export default function RequestTracking() {
               
               {req.status === 'pending' && (
                 <div className={styles.alert}>
-                  ⚖️ This request is protected by the <strong>Information Blocking Rule</strong>. Clinics have 30 days to comply.
+                  This request is tracked in your DentoGraph account. Response timing may vary by clinic and request type.
                 </div>
               )}
             </div>

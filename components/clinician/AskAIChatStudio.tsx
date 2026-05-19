@@ -29,7 +29,7 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
 
   async function sendMessage(text: string) {
     if (!text.trim() || isLoading) return;
-    
+
     const userMsg: Message = { role: 'user', content: text, id: Date.now().toString() };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
@@ -53,7 +53,7 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
         setIsLoading(false);
         return;
       }
-      
+
       const decoder = new TextDecoder();
       let assistantText = '';
       const assistantId = (Date.now() + 1).toString();
@@ -131,10 +131,10 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
           Query
         </button>
       </form>
-      <ComingSoonModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        featureName="Clinical AI Engine (Enterprise Edition)" 
+      <ComingSoonModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        featureName="Clinical AI Engine (Enterprise Edition)"
       />
     </div>
   );

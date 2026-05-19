@@ -15,9 +15,9 @@ export interface PlanInfo {
 const TIER_CONFIG: Record<PlanTier, PlanInfo> = {
   free: {
     tier: 'free',
-    recordLimit: 1,
-    hasAIChat: false,
-    hasClinicalNarrative: false,
+    recordLimit: Infinity,
+    hasAIChat: true,
+    hasClinicalNarrative: true,
     isComplianceActive: true, // Core value prop is always active
   },
   pro: {

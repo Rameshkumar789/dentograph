@@ -40,38 +40,55 @@ export default function DentistLoginPage() {
   }
 
   return (
-    <div className={styles.authPage} style={{ background: '#f0f4f8' }}>
-      <div className={styles.authCard} style={{ borderTop: '4px solid var(--primary)' }}>
-        <div className={styles.authLogo} style={{ color: 'var(--primary)' }}>DentoGraph <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>For Providers</span></div>
-        <h1 className={styles.authTitle}>Provider Login</h1>
-        <p className={styles.authSubtitle}>Access clinical tools and EHI requests</p>
-
-        {error && <div className={styles.errorBox}>{error}</div>}
-
-        <form onSubmit={handleLogin} className={styles.authForm}>
-          <div className="form-group">
-            <label className="label" htmlFor="email">Clinic Email</label>
-            <input id="email" type="email" className="input" placeholder="dr.patel@citydental.com"
-              value={email} onChange={e => setEmail(e.target.value)} required />
+    <div className={styles.authPage}>
+      <section className={styles.authStory}>
+        <Link href="/providers"><img src="/dentograph-logo.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
+        <div className={styles.authStoryContent}>
+          <h2>Clinical explanation and records workflow for practices.</h2>
+          <p>Access chairside visuals, patient record requests, provider uploads, and audit-aware sharing tools.</p>
+          <div className={styles.authBullets}>
+            <span>Chairside storytelling</span>
+            <span>Record request queue</span>
+            <span>Export and share events</span>
           </div>
-          <div className="form-group">
-            <label className="label" htmlFor="password">Password</label>
-            <input id="password" type="password" className="input" placeholder="••••••••"
-              value={password} onChange={e => setPassword(e.target.value)} required />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px' }} disabled={loading}>
-            {loading ? 'Verifying Credentials...' : 'Sign in to Dashboard →'}
-          </button>
-        </form>
-
-        <div style={{ marginTop: '24px', padding: '12px', background: '#f8fafc', borderRadius: '8px', fontSize: '0.8rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
-          🛡️ HIPAA & Cures Act Compliant Infrastructure
         </div>
+      </section>
 
-        <p className={styles.authSwitch}>
-          New clinic? <Link href="/dentist/signup" style={{ color: 'var(--primary)', fontWeight: 600 }}>Get Provider Access</Link>
-        </p>
-      </div>
+      <section className={styles.authPanel}>
+        <div className={styles.authCard}>
+          <div className={styles.authLogo}><img src="/dentograph-logo.png" alt="DentoGraph" /></div>
+          <p className={styles.authEyebrow}>Provider workspace</p>
+          <h1 className={styles.authTitle}>Provider login</h1>
+          <p className={styles.authSubtitle}>Sign in to your practice dashboard.</p>
+
+          {error && <div className={styles.errorBox}>{error}</div>}
+
+          <form onSubmit={handleLogin} className={styles.authForm}>
+            <div className="form-group">
+              <label className="label" htmlFor="email">Clinic email</label>
+              <input id="email" type="email" className="input" placeholder="doctor@practice.com"
+                value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="label" htmlFor="password">Password</label>
+              <input id="password" type="password" className="input" placeholder="Your password"
+                value={password} onChange={e => setPassword(e.target.value)} required />
+            </div>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px' }} disabled={loading}>
+              {loading ? 'Verifying credentials...' : 'Sign in to dashboard'}
+            </button>
+          </form>
+
+          <div style={{ marginTop: '24px', padding: '12px', background: '#f8fafc', borderRadius: '12px', fontSize: '0.8rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+            Privacy-aware dental record infrastructure
+          </div>
+
+          <p className={styles.authSwitch}>
+            New clinic? <Link href="/dentist/signup">Get provider access</Link>
+          </p>
+          <p className={styles.authNote}><Link href="/login">Patient login</Link></p>
+        </div>
+      </section>
     </div>
   );
 }

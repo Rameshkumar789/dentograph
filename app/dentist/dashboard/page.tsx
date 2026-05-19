@@ -159,10 +159,10 @@ export default function DentistDashboard() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#fff', color: '#0f172a', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <div className="providerWorkspace" style={{ display: 'flex', minHeight: '100vh', background: '#fff', color: '#0f172a', fontFamily: 'Inter, system-ui, sans-serif' }}>
       
       {/* MINIMALIST WORKSPACE SIDEBAR */}
-      <aside style={{ width: '260px', borderRight: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', background: '#fff' }}>
+      <aside className="providerSidebar" style={{ width: '260px', borderRight: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', background: '#fff' }}>
         <div style={{ padding: '24px', fontWeight: 800, fontSize: '1.1rem', letterSpacing: '-0.02em', borderBottom: '1px solid #f8fafc' }}>
           DentoGraph <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>OS</span>
         </div>
@@ -244,9 +244,9 @@ export default function DentistDashboard() {
       </aside>
 
       {/* MAIN CONTENT SPACE */}
-      <main style={{ flex: 1, marginLeft: '260px', padding: '0' }}>
+      <main className="providerMain" style={{ flex: 1, marginLeft: '260px', padding: '0' }}>
         {/* Top Operational Bar */}
-        <div style={{ height: '64px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', position: 'sticky', top: 0, background: '#fff', zIndex: 90 }}>
+        <div className="providerTopbar" style={{ height: '64px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', position: 'sticky', top: 0, background: '#fff', zIndex: 90 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
              <div style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '-0.01em', color: '#0f172a' }}>Operational Vitality</div>
              <div style={{ height: '16px', width: '1px', background: '#e2e8f0' }} />
@@ -258,7 +258,7 @@ export default function DentistDashboard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', fontWeight: 700, color: '#16a34a' }}>
                <div style={{ width: '6px', height: '6px', background: '#16a34a', borderRadius: '50%' }} />
-               Cures Act Compliant
+               Audit logging active
             </div>
             <Bell size={18} color="#94a3b8" />
             <button 
@@ -273,13 +273,13 @@ export default function DentistDashboard() {
         <div style={{ padding: '40px' }}>
 
           {/* Core Analytics Row */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '20px', marginBottom: '48px' }}>
+          <div className="providerStatsGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '20px', marginBottom: '48px' }}>
              {[
                { label: 'Clinical Assets', value: sharedRecords.length, trend: '+12%', color: '#0f172a' },
                { label: 'Patient Queue', value: requests.length, trend: 'Active', color: '#0f172a' },
                { label: 'Security Integrity', value: '99.9%', trend: 'Clinic Vault', color: '#6366f1' },
                { label: 'Interop Fulfilment', value: `${complianceScore}%`, trend: 'Target', color: '#16a34a' },
-               { label: 'HIPAA Ledger', value: 'Active', trend: 'Audit Logged', color: '#16a34a' }
+               { label: 'Audit Ledger', value: 'Active', trend: 'Event Logged', color: '#16a34a' }
              ].map((stat, i) => (
                <div key={i} style={{ padding: '20px', border: '1px solid #f1f5f9', borderRadius: '12px' }}>
                  <div style={{ fontSize: '0.6rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>{stat.label}</div>
@@ -291,7 +291,7 @@ export default function DentistDashboard() {
              ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '48px' }}>
+          <div className="providerContentGrid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '48px' }}>
             {/* PRIMARY: CLINICAL PIPELINE TABLE */}
             <section>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>

@@ -24,33 +24,50 @@ export default function LoginPage() {
 
   return (
     <div className={styles.authPage}>
-      <div className={styles.authCard}>
-        <div className={styles.authLogo}>DentoGraph</div>
-        <h1 className={styles.authTitle}>Welcome back</h1>
-        <p className={styles.authSubtitle}>Sign in to your dental records</p>
-
-        {error && <div className={styles.errorBox}>{error}</div>}
-
-        <form onSubmit={handleLogin} className={styles.authForm}>
-          <div className="form-group">
-            <label className="label" htmlFor="email">Email</label>
-            <input id="email" type="email" className="input" placeholder="you@example.com"
-              value={email} onChange={e => setEmail(e.target.value)} required />
+      <section className={styles.authStory}>
+        <Link href="/"><img src="/dentograph-logo.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
+        <div className={styles.authStoryContent}>
+          <h2>Your dental record, ready when you need it.</h2>
+          <p>Sign in to review your timeline, inspect your 3D tooth map, ask DentoBot, and share records for a second opinion.</p>
+          <div className={styles.authBullets}>
+            <span>Patient-controlled sharing</span>
+            <span>Plain-language findings</span>
+            <span>Founding beta access</span>
           </div>
-          <div className="form-group">
-            <label className="label" htmlFor="password">Password</label>
-            <input id="password" type="password" className="input" placeholder="••••••••"
-              value={password} onChange={e => setPassword(e.target.value)} required />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in →'}
-          </button>
-        </form>
+        </div>
+      </section>
 
-        <p className={styles.authSwitch}>
-          Don&apos;t have an account? <Link href="/signup">Create one free</Link>
-        </p>
-      </div>
+      <section className={styles.authPanel}>
+        <div className={styles.authCard}>
+          <div className={styles.authLogo}><img src="/dentograph-logo.png" alt="DentoGraph" /></div>
+          <p className={styles.authEyebrow}>Patient portal</p>
+          <h1 className={styles.authTitle}>Welcome back</h1>
+          <p className={styles.authSubtitle}>Sign in to your dental record workspace.</p>
+
+          {error && <div className={styles.errorBox}>{error}</div>}
+
+          <form onSubmit={handleLogin} className={styles.authForm}>
+            <div className="form-group">
+              <label className="label" htmlFor="email">Email</label>
+              <input id="email" type="email" className="input" placeholder="you@example.com"
+                value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="label" htmlFor="password">Password</label>
+              <input id="password" type="password" className="input" placeholder="Your password"
+                value={password} onChange={e => setPassword(e.target.value)} required />
+            </div>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </form>
+
+          <p className={styles.authSwitch}>
+            Don&apos;t have an account? <Link href="/signup">Create one free</Link>
+          </p>
+          <p className={styles.authNote}><Link href="/dentist/login">Provider login</Link></p>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,278 +1,187 @@
-'use client';
-import { useState } from 'react';
 import Link from 'next/link';
-import { Box, FileCheck, Bot, Network, FileText, ShieldCheck, XCircle, CheckCircle2 } from 'lucide-react';
-import ContactForm from '@/components/ContactForm';
-import ComingSoonModal from '@/components/ComingSoonModal';
+import Image from 'next/image';
+import {
+  ArrowRight,
+  FileText,
+  LockKeyhole,
+  MessageCircle,
+  Share2,
+  UploadCloud,
+} from 'lucide-react';
 import styles from './page.module.css';
 
-export default function LandingPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const CONTACT_EMAIL = 'support@dentograph.us';
 
+export default function LandingPage() {
   return (
     <main className={styles.main}>
-      {/* Global Beta Banner */}
-      <div style={{ background: 'var(--accent)', color: '#fff', padding: '12px', textAlign: 'center', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.02em' }}>
-        🚀 Founding Patient Program: Join our early access beta for a complimentary Pro upgrade. <Link href="#pricing" style={{ color: '#fff', textDecoration: 'underline' }}>Learn more</Link>
-      </div>
-
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="navbar-logo">
-          Dento<span>Graph</span>
-        </div>
-        <div className="navbar-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          {/* Provider Portal - Subdued but accessible */}
-          <Link
-            href="/providers"
-            style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
-          >
-            For Providers
-          </Link>
-
-          <div style={{ width: '1px', height: '24px', background: 'var(--border)' }} />
-
-          {/* Patient Portal - Primary Focus */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <Link href="/login" className="nav-link">Patient Log In</Link>
-            <Link href="/signup" className="btn btn-primary btn-sm">Get Started</Link>
-          </div>
+      <nav className={styles.nav} aria-label="Main navigation">
+        <Link href="/" className={styles.logoWrap} aria-label="DentoGraph home">
+          <Image src="/dentograph-logo-transparent.png" alt="DentoGraph" width={2508} height={627} className={styles.logo} priority />
+        </Link>
+        <div className={styles.navLinks}>
+          <Link href="/providers">For practices</Link>
+          <a href={`mailto:${CONTACT_EMAIL}`}>Contact us</a>
+          <Link href="/login">Log in</Link>
+          <Link href="/signup" className={styles.navCta}>Try beta</Link>
         </div>
       </nav>
 
-      {/* Hero */}
       <section className={styles.hero}>
-        <div className={styles.heroBadge}>
-          <span className="glow-dot" />
-          <span>Take control of your clinical data</span>
-        </div>
-        <h1>
-          Finally understand<br />
-          <span className="gradient-text">your dentist.</span>
-        </h1>
-        <p className={styles.heroSubtitle}>
-          Stop leaving the dental office feeling confused. DentoGraph turns complex X-rays into an interactive 3D model of your teeth, with simple insights that finally make sense.
-        </p>
-        <div className={styles.heroCta} style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-          <Link href="/signup" className="btn btn-primary btn-lg">See Your 3D Model for Free</Link>
-          <Link href="/request-records" className="btn btn-secondary btn-lg" style={{ background: '#fff', color: '#000' }}>Get Your Records from Your Dentist</Link>
-        </div>
-        <p className={styles.heroNote}>Tired of clinical jargon? <Link href="/signup" style={{ textDecoration: 'underline', color: 'var(--text-secondary)' }}>Join our founding patients</Link></p>
-      </section>
-
-      {/* Feature Cards */}
-      <section className={styles.features}>
-        <div className="container">
-          <div className={styles.featureGrid}>
-            {FEATURES.map((f) => {
-              const Icon = f.icon;
-              return (
-                <div className={`card ${styles.featureCard}`} key={f.title}>
-                  <div className={styles.featureIcon} style={{ background: 'rgba(0, 112, 243, 0.1)', color: 'var(--primary)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                    <Icon size={24} strokeWidth={2} />
-                  </div>
-                  <h3>{f.title}</h3>
-                  <p>{f.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Before vs After */}
-      <section className={styles.beforeAfter}>
-        <div className="container">
-          <h2 style={{ textAlign: 'center', marginBottom: '16px' }}>See the difference</h2>
-          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.7 }}>
-            Legacy dental portals hand you confusing files. DentoGraph transforms them into something you can actually understand.
+        <div className={styles.heroCopy}>
+          <p className={styles.kicker}>Patient-owned dental records</p>
+          <h1>Your dental records, explained clearly.</h1>
+          <p className={styles.lede}>
+            DentoGraph turns X-rays, notes, and treatment plans into a visual record you can understand,
+            keep, and share with a trusted dental professional when you need care, referrals, or a records transfer.
           </p>
-          <div className={styles.compareGrid}>
-            <div className={styles.compareCard}>
-              <div className={styles.compareLabel} style={{ background: 'var(--red-dim)', color: 'var(--red)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <XCircle size={18} /> Before DentoGraph
-              </div>
-              <div className={styles.compareContent}>
-                <div className={styles.compareItem}><XCircle size={16} color="var(--red)" style={{ flexShrink: 0, marginTop: '2px' }} /> Sent home with a blurry 2D JPEG attachment</div>
-                <div className={styles.compareItem}><XCircle size={16} color="var(--red)" style={{ flexShrink: 0, marginTop: '2px' }} /> Confused by clinical shorthand: "MOD Caries D2392"</div>
-                <div className={styles.compareItem}><XCircle size={16} color="var(--red)" style={{ flexShrink: 0, marginTop: '2px' }} /> Anxious about surprise bills and hidden costs</div>
-                <div className={styles.compareItem}><XCircle size={16} color="var(--red)" style={{ flexShrink: 0, marginTop: '2px' }} /> Records locked away on the clinic's server</div>
-              </div>
-            </div>
-            <div className={styles.compareCard} style={{ borderColor: 'var(--accent)', boxShadow: 'var(--accent-glow)' }}>
-              <div className={styles.compareLabel} style={{ background: 'var(--accent-dim)', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <CheckCircle2 size={18} /> After DentoGraph
-              </div>
-              <div className={styles.compareContent}>
-                <div className={styles.compareItem}><CheckCircle2 size={16} color="var(--accent)" style={{ flexShrink: 0, marginTop: '2px' }} /> Take home an interactive 3D digital twin</div>
-                <div className={styles.compareItem}><CheckCircle2 size={16} color="var(--accent)" style={{ flexShrink: 0, marginTop: '2px' }} /> Read clear English: "Tooth-colored filling needed"</div>
-                <div className={styles.compareItem}><CheckCircle2 size={16} color="var(--accent)" style={{ flexShrink: 0, marginTop: '2px' }} /> DentoBot AI securely estimates costs and urgency</div>
-                <div className={styles.compareItem}><CheckCircle2 size={16} color="var(--accent)" style={{ flexShrink: 0, marginTop: '2px' }} /> You own your records, perfectly portable</div>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
 
-      {/* Pricing / Early Access */}
-      <section className={styles.pricing} id="pricing">
-        <div className="container" style={{ maxWidth: '800px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <span className="badge badge-accent" style={{ marginBottom: '16px', display: 'inline-block' }}>DentoGraph Founding Patients</span>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '16px' }}>Own your dental health. For life.</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
-              Join our Founding Patient program to receive complimentary Pro access and generate your interactive 3D dental record today.
-            </p>
-          </div>
+        <div className={styles.productScene} aria-label="DentoGraph patient app preview">
+          <Image
+            src="/dentograph-patient-hero.png"
+            alt="DentoGraph patient app preview"
+            width={1568}
+            height={1003}
+            className={styles.heroImage}
+            priority
+          />
+          <div className={styles.heroImageBadge}>Patient-controlled record</div>
+          <div className={styles.heroImagePill}>Visual timeline</div>
+        </div>
 
-          <div className={`card ${styles.planPro}`} style={{ maxWidth: '400px', margin: '0 auto', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div className={styles.planName} style={{ marginTop: '24px' }}>Founding Patient</div>
-            <div className={styles.planPrice} style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '12px' }}>
-              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1.5rem' }}>$5</span>
-              <span>$0 <span>/early access</span></span>
-            </div>
-
-            <ul className={styles.planFeatures} style={{ textAlign: 'left', margin: '32px auto', maxWidth: '280px', listStyle: 'none', padding: 0 }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Interactive 3D Dental Record</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Plain-Language Clinical Insights</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Intelligent Clinical Guidance</span></li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}><CheckCircle2 size={16} color="var(--primary)" /> <span>Collaborative Care Sharing</span></li>
-            </ul>
-
-            <Link href="/signup" className="btn btn-primary btn-lg" style={{ width: '100%' }}>
-              Create Free Account →
+        <div className={styles.heroActions}>
+          <div className={styles.ctaRow}>
+            <Link href="/signup" className={styles.primaryCta}>
+              Create free beta account <ArrowRight size={18} />
+            </Link>
+            <Link href="/request-records" className={styles.secondaryCta}>
+              Request my records
             </Link>
           </div>
+          <p className={styles.disclaimer}>Educational summaries only. Your dentist makes clinical decisions.</p>
         </div>
       </section>
 
-      <ComingSoonModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        featureName="DentoGraph Pro Plan"
-      />
-
-      {/* Mission / Transparency Section */}
-      <section className={styles.mission} id="mission">
-        <div className="container" style={{ textAlign: 'center', padding: '80px 24px', borderTop: '1px solid var(--border)' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Our Commitment</span>
-            <h2 style={{ fontSize: '2.5rem', marginTop: '16px', marginBottom: '24px' }}>Built for clinical integrity.</h2>
-            <p style={{ fontSize: '1.15rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
-              DentoGraph was founded on a simple principle: <strong>Health data belongs to the patient.</strong>
-              Our mission is to bridge the gap between clinical complexity and human understanding,
-              empowering you to make informed decisions about your care with high-fidelity 3D technology.
-            </p>
-            <div style={{ marginTop: '40px', display: 'flex', gap: '32px', justifyContent: 'center', opacity: 0.7, flexWrap: 'wrap' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>100%</div>
-                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Data Ownership</div>
-              </div>
-              <div style={{ width: '1px', background: 'var(--border)', display: 'none' }} />
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>HIPAA</div>
-                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Compliant</div>
-              </div>
-              <div style={{ width: '1px', background: 'var(--border)', display: 'none' }} />
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>ONC</div>
-                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Cures Act Ready</div>
-              </div>
-            </div>
+      <section className={styles.beforeAfter}>
+        <div>
+          <p className={styles.kicker}>Before</p>
+          <h2>Dental records arrive as files patients cannot use.</h2>
+          <p>PDFs, blurry images, procedure codes, and clinical shorthand create anxiety instead of clarity.</p>
+        </div>
+        <div className={styles.afterCard}>
+          <p className={styles.kicker}>After DentoGraph</p>
+          <h2>A visual story of what changed, why it matters, and what to ask next.</h2>
+          <div className={styles.afterGrid}>
+            <span>3D tooth map</span>
+            <span>Plain-language findings</span>
+            <span>Timeline history</span>
+            <span>Secure share link</span>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className={styles.contact} id="contact">
-        <div className="container">
-          <div className={`card ${styles.contactCard}`}>
-            <div className={styles.contactInfo}>
-              <h2>Transforming the Dental Experience.</h2>
-              <p>Whether you are a patient navigating your clinical data or a provider seeking to modernize your practice, our team is here to support you.</p>
-              <div style={{ marginTop: '24px' }}>
-                <a href="mailto:support@dentograph.us" className="btn btn-primary btn-lg" style={{ background: 'var(--text-primary)', color: '#fff' }}>Contact Our Support Team</a>
-              </div>
-            </div>
-            <div className={styles.contactFormContainer}>
-              <ContactForm />
-            </div>
+      <section className={styles.stepsSection}>
+        <div className={styles.sectionHeader}>
+          <p className={styles.kicker}>Simple workflow</p>
+          <h2>How DentoGraph works for patients</h2>
+          <p>Collect scattered files, understand the record, and share it only when it helps your care.</p>
+        </div>
+        <div className={styles.steps}>
+          {[
+            { icon: UploadCloud, title: 'Collect your records', text: 'Upload files or request them from a previous clinic.' },
+            { icon: MessageCircle, title: 'See what they mean', text: 'View findings on a visual tooth map and ask plain-language questions.' },
+            { icon: Share2, title: 'Share with care', text: 'Send a time-limited read-only record to a specialist, new dentist, or care team.' },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <article key={item.title} className={styles.stepCard}>
+                <Icon size={22} />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.audienceSection}>
+        <div className={styles.sectionHeader}>
+          <p className={styles.kicker}>Shared clarity</p>
+          <h2>Use the same record when care moves.</h2>
+          <p>Bring a clean, understandable record when you visit your dentist, get referred to a specialist, or switch offices.</p>
+        </div>
+        <div className={styles.audience}>
+          <div>
+            <p className={styles.kicker}>For patients</p>
+            <h3>Know what to ask before the appointment.</h3>
+            <ul>
+              <li>Understand why a crown, filling, or implant follow-up was recommended.</li>
+              <li>Keep records from different offices in one timeline.</li>
+              <li>Share a clean record instead of forwarding scattered PDFs.</li>
+            </ul>
+            <Link href="/signup" className={styles.textLink}>Create a patient account <ArrowRight size={16} /></Link>
+          </div>
+          <div>
+            <p className={styles.kicker}>For dental teams</p>
+            <h3>Receive a clearer record when a patient shares it with you.</h3>
+            <ul>
+              <li>Review the files, timeline, and visual summary in one place.</li>
+              <li>Use the patient&apos;s shared record to speed up conversations.</li>
+              <li>See the provider workflow for chairside and documentation tools.</li>
+            </ul>
+            <Link href="/providers" className={styles.textLink}>See provider workflow <ArrowRight size={16} /></Link>
           </div>
         </div>
       </section>
 
-      <footer className={styles.footer} style={{ background: '#f8fafc', padding: '60px 0 40px 0', borderTop: '1px solid var(--border)' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '48px', marginBottom: '64px' }}>
-            <div style={{ flex: '1 1 300px', maxWidth: '350px' }}>
-              <div className="navbar-logo" style={{ marginBottom: '16px', fontSize: '1.25rem', display: 'block', height: 'auto' }}>
-                Dento<span style={{ color: 'var(--primary)' }}>Graph</span>
-              </div>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                The modern platform for interactive 3D dental records and clinical transparency.
-              </p>
-            </div>
-
-            <div style={{ minWidth: '150px' }}>
-              <h4 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-primary)' }}>Platform</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <li><Link href="/signup" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Founding Patient Beta</Link></li>
-                <li><Link href="/dentist/signup" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>For Providers</Link></li>
-                <li><Link href="/pricing" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Pricing Strategy</Link></li>
-              </ul>
-            </div>
-
-            <div style={{ minWidth: '150px' }}>
-              <h4 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-primary)' }}>Support</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <li><Link href="#contact" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Contact Us</Link></li>
-                <li><Link href="/faq" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Help Center</Link></li>
-                <li><Link href="/privacy" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'none' }}>Privacy Policy</Link></li>
-              </ul>
-            </div>
+      <section className={styles.trustSection}>
+        <div className={styles.sectionHeader}>
+          <p className={styles.kicker}>Trust and privacy</p>
+          <h2>Built to help you ask better questions, not replace your dentist.</h2>
+          <p>Dental records are personal. DentoGraph keeps the patient in control and makes the limits of AI clear.</p>
+        </div>
+        <div className={styles.trustBand}>
+          <div>
+            <LockKeyhole size={22} />
+            <h3>You decide who can see your records.</h3>
+            <p>Create a read-only link when a dentist, specialist, or care team needs your files. Sharing is time-limited and can be turned off.</p>
           </div>
+          <div>
+            <FileText size={22} />
+            <h3>AI explains the record in everyday language.</h3>
+            <p>DentoGraph helps translate dental terms so you can prepare for a visit. It does not diagnose, prescribe, or make treatment decisions.</p>
+          </div>
+        </div>
+      </section>
 
-          <div style={{ paddingTop: '32px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>&copy; {new Date().getFullYear()} DentoGraph Systems Inc. All rights reserved.</p>
-            <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
-              100% HIPAA Compliant &nbsp; | &nbsp; Clinical Precision
-            </p>
+      <footer className={styles.footer}>
+        <div className={styles.footerBrand}>
+          <Image src="/dentograph-logo-transparent.png" alt="DentoGraph" width={2508} height={627} />
+          <p>Patient-owned dental records, explained clearly.</p>
+          <span>© 2026 DentoGraph. All rights reserved.</span>
+        </div>
+        <div className={styles.footerGroups}>
+          <div>
+            <h4>Product</h4>
+            <Link href="/signup">Patient beta</Link>
+            <Link href="/providers">Provider workflow</Link>
+            <Link href="/pricing">Pricing</Link>
+          </div>
+          <div>
+            <h4>Trust</h4>
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/security">Security</Link>
+            <Link href="/consent">Consent</Link>
+            <Link href="/ai-disclaimer">AI disclaimer</Link>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <a href={`mailto:${CONTACT_EMAIL}`}>Contact us</a>
+            <Link href="/terms">Terms</Link>
           </div>
         </div>
       </footer>
     </main>
   );
 }
-
-const FEATURES = [
-  {
-    icon: Box,
-    title: 'Interactive 3D Diagnostics',
-    desc: 'Your dental health, visualized in high-fidelity 3D. We transform static clinical records into an interactive anatomical model, allowing you to visualize your health from every angle.'
-  },
-  {
-    icon: FileText,
-    title: 'Plain-Language Clinical Insights',
-    desc: 'Bridging the gap between jargon and clarity. Our AI translates complex clinical shorthand into empathetic, easy-to-read reports that help you make informed decisions about your care.'
-  },
-  {
-    icon: Bot,
-    title: 'Intelligent Clinical Guidance',
-    desc: 'Interact securely with your health record via AI-driven guidance. Receive immediate context on procedures, cost estimations, and care timelines directly from your own data.'
-  },
-  {
-    icon: Network,
-    title: 'Automated Record Retrieval',
-    desc: 'Reclaim ownership of your clinical history. Leverage federal interoperability standards to instantly retrieve your records from any provider without technical friction.'
-  },
-  {
-    icon: FileCheck,
-    title: 'Seamless Collaborative Care',
-    desc: 'Securely coordinate with your entire care team. Share encrypted, read-only links of your 3D records with specialists instantly, ensuring every provider is aligned on your treatment plan.'
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Zero-Trust Security Architecture',
-    desc: 'Your privacy is our priority. Built on hospital-grade, HIPAA-compliant infrastructure, your clinical data is protected by end-to-end encryption and strict role-based access.'
-  },
-];

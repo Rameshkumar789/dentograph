@@ -9,6 +9,8 @@ export default function RequestRecordsPage() {
   const [loading, setLoading] = useState(true); 
   const [step, setStep] = useState<'form' | 'preview' | 'sent'>('form');
   const [saving, setSaving] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
+  const [notice, setNotice] = useState('');
   const [form, setForm] = useState({
     patientName: '',
     dentistName: '',
@@ -49,7 +51,7 @@ export default function RequestRecordsPage() {
     setSaving(true);
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { error } = await supabase
+    const { data: createdRequest, error } = await supabase
       .from('ehi_requests')
       .insert({
         patient_id: user?.id,
@@ -61,12 +63,32 @@ export default function RequestRecordsPage() {
         last_visit_date: form.lastVisitDate || null,
         notes: form.notes,
         status: 'sent'
+      })
+      .select('id')
+      .single();
+
+    if (!error && user?.id) {
+      await supabase.from('patient_authorizations').insert({
+        patient_id: user.id,
+        authorization_type: 'record_request',
+        legal_name: form.patientName,
+        accepted_text: 'I authorize DentoGraph to help generate and track this dental record request.',
+        metadata: { clinic_name: form.clinicName, dentist_name: form.dentistName },
       });
+      await supabase.from('audit_logs').insert({
+        actor_id: user.id,
+        action: 'create_record_request',
+        entity_type: 'ehi_request',
+        entity_id: createdRequest?.id || user.id,
+        metadata: { clinic_name: form.clinicName },
+      });
+    }
 
     if (error) {
       console.error('Error saving request:', error);
-      alert('There was an error saving your request. Please try again.');
+      setNotice('There was an error saving your request. Please try again.');
     } else {
+      setNotice('');
       setStep('sent');
     }
     setSaving(false);
@@ -75,12 +97,12 @@ export default function RequestRecordsPage() {
   function handleCopy() {
     const letterText = generateLetterText();
     navigator.clipboard.writeText(letterText);
-    alert('Letter copied to clipboard!');
+    setNotice('Letter copied to clipboard.');
   }
 
   function generateLetterText() {
     return `FORMAL REQUEST FOR ELECTRONIC HEALTH INFORMATION (EHI)
-Pursuant to the 21st Century Cures Act & 45 CFR Part 171
+Patient Record Access Request
 
 Date: ${todayString}
 
@@ -91,9 +113,9 @@ From: ${form.patientName}
 
 Dear ${form.dentistName},
 
-I am writing to formally request a complete copy of my Electronic Health Information (EHI) as defined under the 21st Century Cures Act (P.L. 114-255) and the ONC's Information Blocking Final Rule (45 CFR Part 171).
+I am writing to request a complete copy of my dental records in an electronic format where available.
 
-Under federal law, I am entitled to receive my health records in an electronic format, without unnecessary delay, and without being charged unreasonable fees for access. The Office of the National Coordinator for Health IT (ONC) has made clear that practices which impede, prevent, or discourage access to EHI may be subject to Information Blocking penalties.
+Under federal law, patients generally have rights to request copies of their health records in an electronic format where available. Please let me know if you need additional information to verify my identity or process this request.
 
 I am requesting the following records:
 • All dental X-rays and radiographic images (in digital format — JPEG, PNG, or DICOM)
@@ -106,7 +128,7 @@ Please upload my records securely through DentoGraph, my patient health platform
 
 [DentoGraph Secure Upload Portal Link]
 
-This request is made in good faith and in accordance with my rights under HIPAA (45 CFR § 164.524) and the 21st Century Cures Act. I expect fulfillment within 15 business days, as required by law.
+This request is made in good faith. Please let me know if you need additional information to verify my identity or fulfill the request.
 
 ${form.notes ? `Additional Notes: ${form.notes}\n\n` : ''}Thank you for your prompt attention to this matter.
 
@@ -133,21 +155,21 @@ Patient-owned dental records platform`;
     return (
       <div className={styles.page}>
         <nav className="navbar">
-          <div className="navbar-logo">Dento<span>Graph</span></div>
+          <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '188px', height: 'auto' }} />
           <button onClick={() => router.push('/dashboard')} className="btn btn-secondary btn-sm">← Dashboard</button>
         </nav>
         <div className="container" style={{ maxWidth: '700px', paddingTop: '48px', textAlign: 'center' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '16px' }}>✅</div>
+          <div style={{ width: '72px', height: '72px', margin: '0 auto 18px', borderRadius: '50%', background: '#dcfce7', color: '#166534', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 900 }}>✓</div>
           <h1>Request Generated Successfully</h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '12px', lineHeight: 1.6 }}>
             Your formal EHI request letter has been generated. You can copy it and send it via email to your dentist, 
-            or print it and bring it to the clinic in person. Your dentist is legally required to respond within 15 business days.
+            or print it and bring it to the clinic in person.
           </p>
           <div className={styles.statusTracker} style={{ marginTop: '40px' }}>
-            <div className={`${styles.statusStep} ${styles.statusStepActive}`}>📝 Request Created</div>
-            <div className={styles.statusStep}>📧 Sent to Dentist</div>
-            <div className={styles.statusStep}>📤 Records Uploaded</div>
-            <div className={styles.statusStep}>🧠 AI Analysis Ready</div>
+            <div className={`${styles.statusStep} ${styles.statusStepActive}`}>Request Created</div>
+            <div className={styles.statusStep}>Sent to Dentist</div>
+            <div className={styles.statusStep}>Records Uploaded</div>
+            <div className={styles.statusStep}>AI Analysis Ready</div>
           </div>
           <div style={{ marginTop: '32px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <button onClick={() => setStep('preview')} className="btn btn-secondary">← View Letter Again</button>
@@ -162,7 +184,7 @@ Patient-owned dental records platform`;
     return (
       <div className={styles.page}>
         <nav className="navbar">
-          <div className="navbar-logo">Dento<span>Graph</span></div>
+          <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '188px', height: 'auto' }} />
           <button onClick={() => router.push('/dashboard')} className="btn btn-secondary btn-sm">← Dashboard</button>
         </nav>
         <div className="container" style={{ maxWidth: '750px', paddingTop: '32px', paddingBottom: '80px' }}>
@@ -174,13 +196,19 @@ Patient-owned dental records platform`;
             <button onClick={() => setStep('form')} className="btn btn-secondary btn-sm">← Edit Details</button>
           </div>
 
+          {notice && (
+            <div style={{ marginBottom: '16px', padding: '12px 14px', borderRadius: '12px', background: '#ecfeff', border: '1px solid #a5f3fc', color: '#155e75', fontWeight: 700 }}>
+              {notice}
+            </div>
+          )}
+
           <div className={styles.previewCard}>
             <div className={styles.letterHead}>
               <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', fontWeight: 700 }}>
                 Formal Request for Electronic Health Information (EHI)
               </div>
               <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 600, marginTop: '4px' }}>
-                Pursuant to the 21st Century Cures Act & 45 CFR Part 171
+                Patient Record Access Request
               </div>
             </div>
 
@@ -192,14 +220,12 @@ Patient-owned dental records platform`;
               <p>Dear {form.dentistName},</p>
 
               <p>
-                I am writing to formally request a complete copy of my Electronic Health Information (EHI) as defined 
-                under the <strong>21st Century Cures Act (P.L. 114-255)</strong> and the ONC&apos;s Information Blocking 
-                Final Rule <strong>(45 CFR Part 171)</strong>.
+                I am writing to request a complete copy of my dental records in an electronic format where available.
               </p>
 
               <div className={styles.letterCitation}>
-                ⚖️ Under federal law, practices which impede, prevent, or discourage access to EHI may be subject 
-                to Information Blocking penalties of up to $1,000,000 per violation.
+                Patients generally have rights to request copies of health records. Response timing and delivery
+                requirements can vary by situation and should be reviewed by the clinic.
               </div>
 
               <p>I am requesting the following records:</p>
@@ -219,8 +245,7 @@ Patient-owned dental records platform`;
               {form.notes && <p><strong>Additional Notes:</strong> {form.notes}</p>}
 
               <p>
-                This request is made in good faith and in accordance with my rights under <strong>HIPAA (45 CFR § 164.524)</strong> and 
-                the <strong>21st Century Cures Act</strong>. I expect fulfillment within 15 business days, as required by law.
+                This request is made in good faith. Please let me know if you need additional information to verify my identity or fulfill the request.
               </p>
 
               <p>Sincerely,<br /><strong>{form.patientName}</strong></p>
@@ -233,13 +258,13 @@ Patient-owned dental records platform`;
 
           <div className={styles.actions}>
             <button onClick={handleCopy} className="btn btn-secondary btn-lg" style={{ flex: 1 }}>
-              📋 Copy Letter Text
+              Copy Letter Text
             </button>
             <button onClick={() => window.print()} className="btn btn-secondary btn-lg" style={{ flex: 1 }}>
-              🖨️ Print Letter
+              Print Letter
             </button>
             <button onClick={handleSend} className="btn btn-primary btn-lg" style={{ flex: 1 }} disabled={saving}>
-              {saving ? 'Processing...' : '✅ Mark as Sent'}
+              {saving ? 'Processing...' : 'Mark as Sent'}
             </button>
           </div>
         </div>
@@ -251,18 +276,18 @@ Patient-owned dental records platform`;
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">Dento<span>Graph</span></div>
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '188px', height: 'auto' }} />
         <button onClick={() => router.push('/dashboard')} className="btn btn-secondary btn-sm">← Dashboard</button>
       </nav>
 
       <div className="container" style={{ maxWidth: '700px', paddingTop: '32px', paddingBottom: '80px' }}>
         <div className={styles.header}>
-          <div style={{ fontSize: '2.5rem' }}>📬</div>
+          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: '#e0f2fe', color: '#0369a1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900 }}>REQ</div>
           <div>
             <span className="badge badge-accent">Step 1 of 2</span>
             <h1>Request Your Records</h1>
             <p style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
-              Generate a formal, legally-backed request to get your dental records from any clinic — for free.
+              Generate a clear request for dental records from a previous clinic.
             </p>
           </div>
         </div>
@@ -291,7 +316,7 @@ Patient-owned dental records platform`;
             
             <div style={{ background: '#f8fafc', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--border)', marginBottom: '24px' }}>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>
-                🔍 Enter your clinic's details. Our system will route this legally binding request via secure channels if they are in our network, or generate a formal letter for you to send directly.
+                Enter your clinic details. DentoGraph will prepare a request you can send or track inside your account.
               </p>
             </div>
 
@@ -320,13 +345,17 @@ Patient-owned dental records platform`;
           </div>
 
           <div className={styles.legalNote}>
-            ⚖️ <strong>Your Rights:</strong> Under the <strong>21st Century Cures Act</strong> and <strong>HIPAA (45 CFR § 164.524)</strong>, 
-            you have a federal right to receive a complete copy of your dental records in electronic format. 
-            Your dental office must respond within 15 business days. Practices that block access may face penalties up to $1,000,000.
+            <strong>Authorization:</strong> DentoGraph prepares a record request based on the information you provide.
+            Final clinic response timing and delivery may vary. This is not legal advice.
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '24px' }}>
-            Generate Legal Request Letter →
+          <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginTop: '18px' }}>
+            <input type="checkbox" checked={authorized} onChange={e => setAuthorized(e.target.checked)} required style={{ marginTop: '3px' }} />
+            <span>I authorize DentoGraph to generate this record request and store a timestamped authorization in my account.</span>
+          </label>
+
+          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '24px' }} disabled={!authorized}>
+            Generate Record Request Letter →
           </button>
         </form>
       </div>

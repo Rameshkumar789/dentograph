@@ -23,8 +23,6 @@ const SCORE_COLORS: Record<string, string> = {
 };
 
 export default function Timeline({ records }: { records: TimelineRecord[] }) {
-  let currentYear = '';
-
   return (
     <div className={styles.timeline}>
       {records.map((record, idx) => {
@@ -39,10 +37,11 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
         const date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         const recordYear = dateObj.getFullYear().toString();
 
-        const isNewYear = recordYear !== currentYear;
-        if (isNewYear) {
-          currentYear = recordYear;
-        }
+        const previousRecord = records[idx - 1];
+        const previousYear = previousRecord
+          ? new Date(previousRecord.visit_date || previousRecord.created_at).getFullYear().toString()
+          : '';
+        const isNewYear = recordYear !== previousYear;
 
         return (
           <div key={record.id}>
@@ -65,7 +64,7 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
                 {record.dentist_name && <div className={styles.doctor}>{record.dentist_name}</div>}
                 {record.clinic_name && <div className={styles.clinic}>{record.clinic_name}</div>}
                 <div className={styles.type}>
-                  {record.record_type === 'comprehensive' ? '🗂️ Comprehensive Record' : record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
+                  {record.record_type === 'comprehensive' ? 'Comprehensive Record' : record.record_type === 'xray' ? 'X-Ray' : 'Prescription'}
                 </div>
               </div>
 
@@ -98,7 +97,7 @@ export default function Timeline({ records }: { records: TimelineRecord[] }) {
                   <div className={styles.tags}>
                     {findingsList.slice(0, 3).map((f, i) => (
                       <span key={i} className={`badge ${f.condition === 'Healthy' ? 'badge-green' : f.severity === 'High' ? 'badge-red' : 'badge-yellow'}`}>
-                        {f.condition === 'Healthy' ? '✅' : '⚠️'} {f.condition as string}
+                        {f.condition as string}
                       </span>
                     ))}
                     {findingsList.length > 3 && (

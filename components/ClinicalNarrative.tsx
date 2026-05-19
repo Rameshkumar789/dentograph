@@ -29,7 +29,7 @@ export default function ClinicalNarrative({ findings, dentistName, clinicName, p
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3>🛡️ Insurance Narrative Generator</h3>
+        <h3>Insurance Narrative Generator</h3>
         <span className="badge badge-accent">Clinical Justification v2.0</span>
       </div>
 

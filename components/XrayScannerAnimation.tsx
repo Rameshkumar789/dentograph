@@ -37,7 +37,7 @@ export default function XrayScannerAnimation({
           {imageUrl ? (
             <img src={imageUrl} alt="Uploaded record" className={styles.xrayImg} />
           ) : (
-            <div className={styles.placeholder}>{recordType === 'xray' ? '🩻' : '📋'}</div>
+            <div className={styles.placeholder}>{recordType === 'xray' ? 'XR' : 'DOC'}</div>
           )}
           <div className={styles.scanLine} />
           <div className={styles.gridOverlay} />
@@ -53,7 +53,7 @@ export default function XrayScannerAnimation({
 
         {/* Status */}
         <div className={styles.status}>
-          <div className={styles.statusIcon}>🔬</div>
+          <div className={styles.statusIcon}>AI</div>
           <h2>AI is analyzing your {recordType === 'xray' ? 'X-ray' : 'prescription'}</h2>
           <p className={styles.stepLabel}>{current.label}</p>
 

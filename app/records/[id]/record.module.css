@@ -215,3 +215,74 @@
   .passportStrip { flex-wrap: wrap; gap: 24px; }
 }
 
+@media (max-width: 760px) {
+  .metaBar {
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .metaBar > div:last-child {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+
+  .metaBar button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .workspace {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .visualLab {
+    min-height: 620px;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .labHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .passportStrip {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .passportStrip > div[style] {
+    display: none;
+  }
+
+  .labContent {
+    min-height: 420px;
+  }
+
+  .lowerDeck {
+    gap: 20px;
+  }
+
+  .insightCard {
+    padding: 20px !important;
+    border-radius: 18px;
+  }
+
+  .clinicalNote {
+    font-size: 1rem !important;
+  }
+
+  .sidebar {
+    position: static;
+  }
+}

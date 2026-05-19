@@ -1,27 +1,113 @@
-.page { min-height: 100vh; }
-.tabs { display: flex; gap: 8px; margin-bottom: 24px; background: var(--bg-card); border-radius: var(--radius-md); padding: 6px; width: fit-content; }
-.tab { padding: 10px 24px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; background: transparent; color: var(--text-secondary); border: none; cursor: pointer; transition: all 0.2s; }
-.tabActive { background: var(--accent); color: #000; }
-.form { display: flex; flex-direction: column; gap: 24px; }
+.page {
+  min-height: 100vh;
+  background: #f7fafb;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #dbe5ea;
+  border-radius: 16px;
+}
+
+.tab {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.tabActive {
+  background: #0f2e56;
+  color: #fff;
+}
+
+.form {
+  display: grid;
+  gap: 24px;
+  padding: clamp(22px, 5vw, 34px);
+  background: #fff;
+  border: 1px solid #dbe5ea;
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(15, 46, 86, 0.08);
+}
+
 .dropZone {
-  border: 2px dashed var(--border);
-  border-radius: var(--radius-lg);
-  padding: 60px 24px;
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed #9fb4c2;
+  border-radius: 22px;
+  padding: 32px 20px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s;
-  background: var(--bg-card);
+  transition: border-color 0.2s, background 0.2s;
+  background: #f8fafc;
 }
-.dropZone:hover, .dropZoneActive {
-  border-color: var(--accent);
-  background: var(--accent-dim);
+
+.dropZone:hover,
+.dropZoneActive {
+  border-color: #0ea5a8;
+  background: #effafa;
 }
-.dropContent { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.dropIcon { font-size: 3rem; }
-.dropTitle { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
-.dropSub { font-size: 0.875rem; color: var(--text-muted); }
-.preview { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.preview img { max-height: 200px; max-width: 100%; border-radius: var(--radius-md); object-fit: contain; filter: invert(0.05); }
-.previewName { font-size: 0.8rem; color: var(--text-muted); }
-.metaGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-@media(max-width:600px) { .metaGrid { grid-template-columns: 1fr; } }
+
+.dropContent {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.dropIcon {
+  font-size: 2.4rem;
+}
+
+.dropTitle {
+  color: #0f172a;
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.dropSub {
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.preview {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview img {
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.previewName {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media(max-width: 760px) {
+  .tabs,
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+}

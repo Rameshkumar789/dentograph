@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
-import styles from './signup.module.css';
+import styles from '../../auth.module.css';
 
 export default function DentistSignup() {
   const [email, setEmail] = useState('');
@@ -12,9 +13,10 @@ export default function DentistSignup() {
   const [licenseNumber, setLicenseNumber] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
   const supabase = createClient();
-  const [isSuccess, setIsSuccess] = useState(false);
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
@@ -29,9 +31,9 @@ export default function DentistSignup() {
           role: 'provider',
           clinic_name: clinicName,
           license_number: licenseNumber,
-          full_name: fullName
-        }
-      }
+          full_name: fullName,
+        },
+      },
     });
 
     if (error) {
@@ -40,131 +42,104 @@ export default function DentistSignup() {
       return;
     }
 
+    if (data.user) {
+      await supabase.from('consents').insert([
+        { user_id: data.user.id, consent_type: 'terms', metadata: { source: 'provider_signup' } },
+        { user_id: data.user.id, consent_type: 'privacy', metadata: { source: 'provider_signup' } },
+      ]);
+    }
+
     setIsSuccess(true);
     setLoading(false);
   }
 
   if (isSuccess) {
     return (
-      <div className={styles.authPage} style={{ background: '#f8fafc' }}>
-        <div className={styles.authCard} style={{ maxWidth: '550px', padding: '60px', textAlign: 'center' }}>
-          <div style={{ marginBottom: '32px' }}>
-             <div className="glow-dot" style={{ width: '120px', height: '120px', background: 'var(--green)', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '10px' }}>
-               <img src="/assets/compliance_shield_icon_1778786188238.png" 
-                    alt="Security Shield" 
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-             </div>
+      <div className={styles.authPage}>
+        <section className={styles.authStory}>
+          <Link href="/providers"><img src="/dentograph-logo.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
+          <div className={styles.authStoryContent}>
+            <h2>Your practice workspace is ready.</h2>
+            <p>DentoGraph will help your team explain findings, package records, and track patient-authorized sharing events.</p>
           </div>
-          <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '12px' }}>Clinic Vault Provisioned</h1>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '40px' }}>Your practice is now shielded by DentoGraph&apos;s Compliance Engine.</p>
-          
-          <div style={{ textAlign: 'left', background: '#f1f5f9', padding: '24px', borderRadius: '16px', marginBottom: '40px' }}>
-            <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center' }}>
-              <span style={{ color: 'var(--green)', fontWeight: 800 }}>✓</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>HIPAA-Compliant Database Isolated</span>
+        </section>
+        <section className={styles.authPanel}>
+          <div className={styles.authCard}>
+            <div className={styles.authLogo}><img src="/dentograph-logo.png" alt="DentoGraph" /></div>
+            <p className={styles.authEyebrow}>Provider beta</p>
+            <h1 className={styles.authTitle}>Workspace created</h1>
+            <p className={styles.authSubtitle}>Provider identity submitted for {fullName}. Continue to the provider login to enter the dashboard.</p>
+            <div style={{ display: 'grid', gap: '12px', marginBottom: '28px' }}>
+              <div style={{ padding: '14px', borderRadius: '12px', background: '#f8fafc', color: '#334155', fontWeight: 700 }}>Practice workspace created</div>
+              <div style={{ padding: '14px', borderRadius: '12px', background: '#f8fafc', color: '#334155', fontWeight: 700 }}>Consent and audit controls enabled</div>
+              <div style={{ padding: '14px', borderRadius: '12px', background: '#f8fafc', color: '#334155', fontWeight: 700 }}>Founding beta access active</div>
             </div>
-            <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center' }}>
-              <span style={{ color: 'var(--green)', fontWeight: 800 }}>✓</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Cures Act Compliance Shield Active</span>
-            </div>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <span style={{ color: 'var(--green)', fontWeight: 800 }}>✓</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Provider Identity Verified: {fullName}</span>
-            </div>
+            <button onClick={() => router.push('/dentist/login')} className="btn btn-primary btn-lg" style={{ width: '100%' }}>
+              Enter provider login
+            </button>
           </div>
-
-          <button onClick={() => router.push('/dentist/login')} className="btn btn-primary btn-lg" style={{ width: '100%' }}>Enter Clinic Vault</button>
-        </div>
+        </section>
       </div>
     );
   }
 
   return (
     <div className={styles.authPage}>
-      <div className={styles.authCard}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '8px', letterSpacing: '-0.03em' }}>Partner with DentoGraph</h1>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '32px' }}>Empower your practice with high-fidelity storytelling.</p>
-        
-        <form onSubmit={handleSignup}>
-          <div style={{ marginBottom: '40px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary)', marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
-              Section 1: Clinical Identity
-            </div>
-            <div className="form-group" style={{ marginBottom: '24px' }}>
-              <label className="label" style={{ marginBottom: '8px', display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>Provider Full Name</label>
-              <input 
-                className="input" 
-                style={{ padding: '16px', borderRadius: '12px' }}
-                placeholder="e.g. Dr. John Doe" 
-                value={fullName} 
-                onChange={e => setFullName(e.target.value)} 
-                required 
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="label" style={{ marginBottom: '8px', display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>Medical License Number</label>
-              <input 
-                className="input" 
-                style={{ padding: '16px', borderRadius: '12px' }}
-                placeholder="e.g. DN123456" 
-                value={licenseNumber} 
-                onChange={e => setLicenseNumber(e.target.value)} 
-                required 
-              />
-            </div>
+      <section className={styles.authStory}>
+        <Link href="/providers"><img src="/dentograph-logo.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
+        <div className={styles.authStoryContent}>
+          <h2>Join the founding practice beta.</h2>
+          <p>Give patients a clearer dental story while your team gets cleaner record requests, narratives, and share activity.</p>
+          <div className={styles.authBullets}>
+            <span>Chairside patient education</span>
+            <span>Insurance narrative drafting</span>
+            <span>Record sharing audit events</span>
           </div>
+        </div>
+      </section>
 
-          <div style={{ marginBottom: '48px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary)', marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
-              Section 2: Practice Foundation
-            </div>
-            <div className="form-group" style={{ marginBottom: '24px' }}>
-              <label className="label" style={{ marginBottom: '8px', display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>Clinic / Practice Name</label>
-              <input 
-                className="input" 
-                style={{ padding: '16px', borderRadius: '12px' }}
-                placeholder="e.g. Modern Dental Group" 
-                value={clinicName} 
-                onChange={e => setClinicName(e.target.value)} 
-                required 
-              />
-            </div>
+      <section className={styles.authPanel}>
+        <div className={styles.authCard}>
+          <div className={styles.authLogo}><img src="/dentograph-logo.png" alt="DentoGraph" /></div>
+          <p className={styles.authEyebrow}>Provider onboarding</p>
+          <h1 className={styles.authTitle}>Create provider access</h1>
+          <p className={styles.authSubtitle}>Set up a founding beta workspace for your practice.</p>
 
-            <div className="form-group" style={{ marginBottom: '24px' }}>
-              <label className="label" style={{ marginBottom: '8px', display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>Professional Email</label>
-              <input 
-                type="email" 
-                className="input" 
-                style={{ padding: '16px', borderRadius: '12px' }}
-                placeholder="doctor@practice.com" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)} 
-                required 
-              />
-            </div>
+          {error && <p className={styles.errorBox}>{error}</p>}
 
+          <form onSubmit={handleSignup} className={styles.authForm}>
             <div className="form-group">
-              <label className="label" style={{ marginBottom: '8px', display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>Security Password</label>
-              <input 
-                type="password" 
-                className="input" 
-                style={{ padding: '16px', borderRadius: '12px' }}
-                placeholder="••••••••" 
-                value={password} 
-                onChange={e => setPassword(e.target.value)} 
-                required 
-              />
+              <label className="label">Provider full name</label>
+              <input className="input" placeholder="Dr. Jane Patel" value={fullName} onChange={e => setFullName(e.target.value)} required />
             </div>
-          </div>
+            <div className="form-group">
+              <label className="label">License number</label>
+              <input className="input" placeholder="State dental license" value={licenseNumber} onChange={e => setLicenseNumber(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="label">Practice name</label>
+              <input className="input" placeholder="Modern Dental Group" value={clinicName} onChange={e => setClinicName(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="label">Professional email</label>
+              <input type="email" className="input" placeholder="doctor@practice.com" value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label className="label">Password</label>
+              <input type="password" className="input" placeholder="Minimum 8 characters" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} />
+            </div>
+            <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} required style={{ marginTop: '3px' }} />
+              <span>I confirm I am authorized to create this provider account and agree to the <Link href="/terms">Terms</Link>, <Link href="/privacy">Privacy Policy</Link>, and provider data responsibilities.</span>
+            </label>
+            <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={loading || !accepted}>
+              {loading ? 'Creating workspace...' : 'Create provider account'}
+            </button>
+          </form>
 
-          {error && <p style={{ color: 'var(--red)', fontSize: '0.85rem', marginBottom: '24px', fontWeight: 600 }}>{error}</p>}
-
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', padding: '20px', borderRadius: '16px', fontSize: '1.1rem', fontWeight: 800, boxShadow: '0 20px 40px rgba(37, 99, 235, 0.2)' }} disabled={loading}>
-            {loading ? 'Provisioning Vault...' : 'Create Provider Account'}
-          </button>
-        </form>
-      </div>
+          <p className={styles.authSwitch}>Already have access? <Link href="/dentist/login">Provider login</Link></p>
+        </div>
+      </section>
     </div>
   );
 }

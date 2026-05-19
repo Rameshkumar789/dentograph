@@ -25,7 +25,7 @@ export default function ContactForm() {
         <p style={{ color: 'var(--text-secondary)', marginTop: '8px', fontSize: '1rem', lineHeight: 1.6 }}>
           {userType === 'provider' 
             ? "Your practice is in our priority queue. A DentoGraph clinical integration specialist will contact you within 4 hours." 
-            : "Your request has been routed to our HIPAA-compliant Patient Success team. We usually respond within 24 hours."}
+            : "Your request has been routed to our patient success team. We usually respond within 24 hours."}
         </p>
         <button onClick={() => { setStatus('idle'); setUserType(null); }} className="btn btn-secondary btn-sm" style={{ marginTop: '24px' }}>
           Return
@@ -135,7 +135,7 @@ export default function ContactForm() {
 
         {/* Industry Standard Compliance / SLA Footer */}
         <div style={{ marginTop: '16px', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.5 }}>
-          🔒 This form is transmitted via HIPAA-compliant 256-bit encryption.<br/>
+          Do not include emergency medical information in this form.<br/>
           {userType === 'provider' ? 'Sales SLA: 4 Hours' : 'Support SLA: 24 Hours'}
         </div>
       </form>

@@ -104,7 +104,7 @@ export default function AuditLedgerPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', fontWeight: 700, color: '#16a34a' }}>
                <div style={{ width: '6px', height: '6px', background: '#16a34a', borderRadius: '50%' }} />
-               Cures Act Compliant
+               Audit logging active
             </div>
             <Bell size={18} color="#94a3b8" />
             <button 
@@ -120,7 +120,7 @@ export default function AuditLedgerPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
             <div>
               <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '4px' }}>Compliance & Audit</h1>
-              <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Immutable HIPAA audit trail of practice-wide clinical data access.</p>
+              <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Reviewable event trail for practice-wide clinical data access.</p>
             </div>
             <div style={{ display: 'flex', gap: '12px' }}>
                <div style={{ padding: '10px 16px', borderRadius: '8px', border: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', cursor: 'pointer' }}>
@@ -139,7 +139,7 @@ export default function AuditLedgerPage() {
             </div>
             <div style={{ padding: '80px', textAlign: 'center' }}>
               <div style={{ fontSize: '2rem', marginBottom: '20px' }}>📜</div>
-              <p style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 600, maxWidth: '400px', margin: '0 auto', lineHeight: 1.5 }}>The practice ledger is currently synchronizing with the USCDI v3 provenance server.</p>
+              <p style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 600, maxWidth: '400px', margin: '0 auto', lineHeight: 1.5 }}>The practice ledger is ready to display record access, export, and sharing events.</p>
             </div>
           </div>
         </div>

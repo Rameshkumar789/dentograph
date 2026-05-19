@@ -13,6 +13,7 @@ export default function DentistUploadPage() {
   const [uploading, setUploading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
+  const [authorized, setAuthorized] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +32,7 @@ export default function DentistUploadPage() {
       formData.append('clinic_name', clinicName);
       formData.append('visit_date', visitDate);
       formData.append('patient_id', uploadToken);
+      formData.append('source', 'clinician');
 
       const res = await fetch('/api/analyze', { method: 'POST', body: formData });
       if (!res.ok) throw new Error('Upload failed');
@@ -46,7 +48,7 @@ export default function DentistUploadPage() {
     return (
       <div className={styles.page}>
         <div className={styles.successCard}>
-          <div style={{ fontSize: '4rem' }}>✅</div>
+          <div style={{ width: '72px', height: '72px', margin: '0 auto 18px', borderRadius: '50%', background: '#dcfce7', color: '#166534', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 900 }}>✓</div>
           <h2>Record uploaded successfully!</h2>
           <p>The patient&apos;s record has been analyzed and added to their DentoGraph account. The AI analysis is complete and they can view it immediately.</p>
           <div className={styles.poweredBy}>Powered by DentoGraph — Patient-owned dental records</div>
@@ -58,10 +60,10 @@ export default function DentistUploadPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar" style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
-        <div className="navbar-logo">Dento<span style={{ fontWeight: 800 }}>Graph</span></div>
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '188px', height: 'auto' }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="glow-dot" style={{ background: 'var(--green)', width: '8px', height: '8px' }} />
-          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>OIG-Compliant Fulfillment Portal</span>
+          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Secure Fulfillment Portal</span>
         </div>
       </nav>
 
@@ -70,11 +72,11 @@ export default function DentistUploadPage() {
         {/* Compliance Header */}
         <div style={{ background: 'rgba(37, 99, 235, 0.05)', border: '1px solid var(--primary)', borderRadius: '16px', padding: '24px', marginBottom: '40px' }}>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-            <div style={{ fontSize: '1.5rem' }}>🛡️</div>
+            <div style={{ fontSize: '1.5rem' }}>DG</div>
             <div>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '4px' }}>Cures Act Compliance Shield</h2>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '4px' }}>Record Fulfillment</h2>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                Use this portal to fulfill a patient&apos;s Electronic Health Information (EHI) request. DentoGraph automatically logs this transaction to protect your clinic from Information Blocking penalties.
+                Use this portal to upload records requested by a patient. DentoGraph stores the upload and creates an audit event for review.
               </p>
             </div>
           </div>
@@ -89,13 +91,13 @@ export default function DentistUploadPage() {
           {/* Type selection */}
           <div className={styles.typeRow} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '24px' }}>
             <button type="button" className={`${styles.typeBtn} ${recordType === 'comprehensive' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('comprehensive')}>
-              🗂️ Comprehensive
+              Comprehensive
             </button>
             <button type="button" className={`${styles.typeBtn} ${recordType === 'xray' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('xray')}>
-              🩻 X-Ray
+              X-Ray
             </button>
             <button type="button" className={`${styles.typeBtn} ${recordType === 'prescription' ? styles.typeBtnActive : ''}`} onClick={() => setRecordType('prescription')}>
-              📋 Prescription
+              Prescription
             </button>
           </div>
 
@@ -109,14 +111,12 @@ export default function DentistUploadPage() {
             {files.length > 0 ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {files.map((f, i) => (
-                  <div key={i}>✅ {f.name}</div>
+                  <div key={i}>Selected: {f.name}</div>
                 ))}
               </div>
             ) : (
               <div className={styles.dropContent}>
-                <div style={{ fontSize: '2rem' }}>
-                  {recordType === 'comprehensive' ? '🗂️' : recordType === 'xray' ? '🩻' : '📋'}
-                </div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 900, letterSpacing: '0.08em', color: 'var(--primary)', textTransform: 'uppercase' }}>Files</div>
                 <div>Click to upload {recordType === 'comprehensive' ? 'multiple files' : recordType === 'xray' ? 'X-ray' : 'prescription'}</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>JPG, PNG, PDF</div>
               </div>
@@ -138,8 +138,13 @@ export default function DentistUploadPage() {
 
           {error && <div style={{ color: 'var(--red)', fontSize: '0.875rem', padding: '12px', background: 'var(--red-dim)', borderRadius: 'var(--radius-md)' }}>{error}</div>}
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0 || uploading}>
-            {uploading ? '🔬 Analyzing & uploading...' : `📤 Upload ${files.length > 1 ? `${files.length} Files` : '& Analyze'}`}
+          <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            <input type="checkbox" checked={authorized} onChange={e => setAuthorized(e.target.checked)} required style={{ marginTop: '3px' }} />
+            <span>I confirm I am authorized to upload these records for the requested patient and clinic workflow.</span>
+          </label>
+
+          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0 || uploading || !authorized}>
+            {uploading ? 'Analyzing and uploading...' : `Upload ${files.length > 1 ? `${files.length} Files` : '& Analyze'}`}
           </button>
 
           <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>

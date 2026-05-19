@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     const providerId = formData.get('provider_id') as string;
     const clinicId = formData.get('clinic_id') as string;
     const source = (formData.get('source') as string) || 'patient';
+    const consentId = formData.get('consent_id') as string;
 
     // For dentist-initiated scans, we use the provider's ID (the doctor) as the 
     // secure 'patient_id' to satisfy RLS policies (auth.uid() = patient_id).
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
 
     const supabase = await createServerSupabaseClient();
     const uploadedPaths: string[] = [];
-    const contentParts: any[] = [];
+    const contentParts: Array<{ type: 'text'; text: string } | { type: 'image'; image: Buffer }> = [];
 
     const baseInstructions = `
 CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
@@ -120,7 +121,7 @@ CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
         file_path: combinedPaths,
         dentist_name: dentistName || null,
         clinic_name: clinicName || null,
-        visit_date: visitDate,
+        visit_date: visitDate || new Date().toISOString().slice(0, 10),
         ai_findings: { ...object, patient_name: patientName },
         provider_id: providerId || null,
         clinic_id: clinicId || null,
@@ -130,6 +131,34 @@ CRITICAL INSTRUCTIONS — You MUST follow ALL of these:
       .single();
 
     if (dbError) throw dbError;
+
+    if (uploadedPaths.length > 0) {
+      await supabase.from('record_files').insert(uploadedPaths.map((path, index) => ({
+        record_id: record.id,
+        patient_id: patientId,
+        storage_path: path,
+        file_name: path.split('/').pop(),
+        mime_type: (formData.get(`file${index}`) as File | null)?.type || null,
+        file_size: (formData.get(`file${index}`) as File | null)?.size || null,
+      })));
+    }
+
+    await supabase.from('ai_processing_logs').insert({
+      user_id: patientId,
+      record_id: record.id,
+      consent_id: consentId || null,
+      purpose: 'record_analysis',
+      model: 'gemini-2.5-flash',
+      metadata: { record_type: recordType, file_count: uploadedPaths.length, source },
+    });
+
+    await supabase.from('audit_logs').insert({
+      actor_id: patientId,
+      action: 'create_record',
+      entity_type: 'record',
+      entity_id: record.id,
+      metadata: { record_type: recordType, file_count: uploadedPaths.length, source },
+    });
 
     return Response.json({ record, findings: object });
   } catch (err) {

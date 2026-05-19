@@ -47,7 +47,9 @@ export default function SourceDocumentsPage() {
 
   if (loading) return (
     <div className={styles.page}>
-      <nav className="navbar"><div className="navbar-logo">Dento<span>Graph</span></div></nav>
+      <nav className="navbar">
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '190px', height: 'auto' }} />
+      </nav>
       <div className="container" style={{ paddingTop: '48px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div className="skeleton" style={{ height: '500px' }} />
       </div>
@@ -63,7 +65,7 @@ export default function SourceDocumentsPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">Dento<span>Graph</span></div>
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '190px', height: 'auto' }} />
         <div style={{ display: 'flex', gap: '12px' }}>
           <button onClick={() => router.push(`/records/${id}`)} className="btn btn-primary btn-sm">
             ← Back to AI Analysis
@@ -75,7 +77,7 @@ export default function SourceDocumentsPage() {
         <div className={styles.recordHeader} style={{ marginBottom: '32px', borderBottom: '1px solid var(--border)', paddingBottom: '24px' }}>
           <div>
             <div className={styles.recordType}>
-              {record.record_type === 'comprehensive' ? '🗂️ Comprehensive Record' : record.record_type === 'xray' ? '🩻 X-Ray' : '📋 Prescription'}
+              {record.record_type === 'comprehensive' ? 'Comprehensive Record' : record.record_type === 'xray' ? 'X-Ray' : 'Prescription'}
               {record.dentist_name && ` · ${record.dentist_name}`}
               {record.clinic_name && ` · ${record.clinic_name}`}
             </div>

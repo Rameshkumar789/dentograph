@@ -104,7 +104,7 @@ export default function ReferralInteropPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', fontWeight: 700, color: '#16a34a' }}>
                <div style={{ width: '6px', height: '6px', background: '#16a34a', borderRadius: '50%' }} />
-               Cures Act Compliant
+               Sharing controls active
             </div>
             <Bell size={18} color="#94a3b8" />
             <button 
@@ -135,7 +135,7 @@ export default function ReferralInteropPage() {
           <div style={{ padding: '80px', textAlign: 'center', background: '#f8fafc', borderRadius: '24px', border: '1px solid #f1f5f9' }}>
             <div style={{ fontSize: '2.5rem', marginBottom: '20px' }}>🌐</div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Interop Network Ready</h3>
-            <p style={{ color: '#64748b', maxWidth: '400px', margin: '0 auto 24px', fontSize: '0.9rem', lineHeight: 1.5 }}>The practice is USCDI v3 compliant. You can securely share clinical stories with any verified specialist.</p>
+            <p style={{ color: '#64748b', maxWidth: '400px', margin: '0 auto 24px', fontSize: '0.9rem', lineHeight: 1.5 }}>Share clinical record summaries with verified specialists using patient-aware controls and audit history.</p>
             <button className="btn btn-primary" style={{ padding: '10px 24px', borderRadius: '8px', fontWeight: 800, fontSize: '0.85rem' }}>Invite Specialist</button>
           </div>
         </div>

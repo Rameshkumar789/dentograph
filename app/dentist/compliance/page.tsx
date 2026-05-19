@@ -103,7 +103,7 @@ export default function ComplianceAuditPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', fontWeight: 700, color: '#16a34a' }}>
                <div style={{ width: '6px', height: '6px', background: '#16a34a', borderRadius: '50%' }} />
-               Cures Act Compliant
+               Audit logging active
             </div>
             <Bell size={18} color="#94a3b8" />
             <button 
@@ -125,8 +125,8 @@ export default function ComplianceAuditPage() {
              <div style={{ padding: '32px', borderRadius: '24px', background: '#0f172a', color: '#fff', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', background: 'rgba(255,255,255,0.03)', borderRadius: '50%' }} />
                 <ShieldCheck size={32} color="#16a34a" style={{ marginBottom: '24px' }} />
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>Cures Act Shield Active</h3>
-                <p style={{ color: '#94a3b8', fontSize: '0.85rem', lineHeight: 1.6, maxWidth: '400px' }}>All clinical assets are USCDI v3 compliant. Automated EHI fulfillment is enabled for verified patient requests.</p>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>Record Exchange Controls Active</h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', lineHeight: 1.6, maxWidth: '400px' }}>Clinical assets can be packaged for patient-authorized record requests with event logging and reviewable export history.</p>
              </div>
              <div style={{ padding: '32px', borderRadius: '24px', border: '1px solid #f1f5f9', background: '#fff' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>

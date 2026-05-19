@@ -8,9 +8,9 @@ const SCORE_COLORS: Record<string, string> = {
   'C+': 'var(--orange)', 'C': 'var(--orange)', 'D': 'var(--red)',
 };
 const CONDITION_ICONS: Record<string, string> = {
-  Healthy: '✅', Cavity: '🦠', 'Bone Loss': '📉',
-  Crown: '👑', Implant: '🔩', Missing: '❌',
-  Fracture: '⚡', 'Recommended Treatment': '💊',
+  Healthy: 'OK', Cavity: 'CAR', 'Bone Loss': 'BONE',
+  Crown: 'CRN', Implant: 'IMP', Missing: 'MISS',
+  Fracture: 'FX', 'Recommended Treatment': 'TX',
 };
 const URGENCY_CONFIG: Record<string, { label: string; badge: string; emoji: string }> = {
   Routine: { label: 'Routine checkup', badge: 'badge-green', emoji: '🟢' },
@@ -82,7 +82,7 @@ export default function ReportCard({ findings, isPublic = false }: { findings: D
           const explanation = (f.clinical_explanation || f.explanation);
           return (
             <div key={i} className={`${styles.findingRow} ${f.severity === 'High' ? styles.findingHigh : f.severity === 'Medium' ? styles.findingMed : ''}`}>
-              <div className={styles.findingIcon}>{CONDITION_ICONS[f.condition] || '🦷'}</div>
+              <div className={styles.findingIcon}>{CONDITION_ICONS[f.condition] || 'DX'}</div>
               <div className={styles.findingBody}>
                 <div className={styles.findingTitle}>
                   {f.tooth_number ? `Tooth #${f.tooth_number}` : 'General'} — {f.condition}
@@ -95,19 +95,19 @@ export default function ReportCard({ findings, isPublic = false }: { findings: D
                 <div className={styles.findingDesc}>{explanation}</div>
                 {f.why_it_matters && (
                   <div style={{ marginTop: '6px', padding: '8px 12px', background: 'var(--accent-dim)', borderRadius: 'var(--radius-sm)', borderLeft: '3px solid var(--accent)', fontSize: '0.8rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                    💡 <strong>Why it matters:</strong> {f.why_it_matters}
+                    <strong>Why it matters:</strong> {f.why_it_matters}
                   </div>
                 )}
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '6px', flexWrap: 'wrap' }}>
                   {f.severity_score && <SeverityMeter score={f.severity_score} />}
                   {f.confidence && (
                     <span style={{ fontSize: '0.7rem', fontWeight: 600, padding: '2px 8px', borderRadius: 'var(--radius-full)', background: f.confidence === 'High' ? 'var(--green-dim, #e8f5e9)' : f.confidence === 'Medium' ? 'var(--yellow-dim, #fff3e0)' : 'var(--red-dim)', color: f.confidence === 'High' ? 'var(--green)' : f.confidence === 'Medium' ? 'var(--yellow, #f59e0b)' : 'var(--red)' }}>
-                      {f.confidence === 'High' ? '🎯' : f.confidence === 'Medium' ? '🔍' : '❓'} {f.confidence} Confidence
+                      {f.confidence} Confidence
                     </span>
                   )}
                 </div>
                 {f.timeframe && (
-                  <div className={styles.timeframe}>⏱ {f.timeframe}</div>
+                  <div className={styles.timeframe}>Timeline: {f.timeframe}</div>
                 )}
                 {/* CDT Codes for this finding */}
                 {f.cdt_codes && f.cdt_codes.length > 0 && (
@@ -127,7 +127,7 @@ export default function ReportCard({ findings, isPublic = false }: { findings: D
                 )}
               </div>
               <div className={styles.findingAction}>
-                {f.action_required ? '⚠️' : '✓'}
+                {f.action_required ? 'Needs care' : 'Stable'}
               </div>
             </div>
           );
@@ -138,7 +138,7 @@ export default function ReportCard({ findings, isPublic = false }: { findings: D
       {allCDTCodes.length > 0 && (
         <div style={{ padding: '20px', borderTop: '1px solid var(--border)' }}>
           <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '16px', fontFamily: 'var(--font-display)' }}>
-            💰 Treatment Cost Breakdown
+            Treatment Cost Breakdown
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {allCDTCodes.map((cdt, i) => (
@@ -176,13 +176,13 @@ export default function ReportCard({ findings, isPublic = false }: { findings: D
 
       {/* Follow-up */}
       <div className={styles.followup}>
-        <strong>💡 Next step:</strong> {followup}
+        <strong>Next step:</strong> {followup}
       </div>
 
       {isPublic && (
         <div className={styles.poweredBy}>
           <span>Powered by</span>
-          <strong> 🦷 DentoGraph</strong>
+          <strong>DentoGraph</strong>
           <span> — Patient-owned dental records</span>
         </div>
       )}

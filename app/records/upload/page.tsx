@@ -16,6 +16,7 @@ export default function UploadPage() {
   const [visitDate, setVisitDate] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
+  const [acceptedConsent, setAcceptedConsent] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const supabase = createClient();
@@ -42,6 +43,11 @@ export default function UploadPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/login'); return; }
+      const { data: consent } = await supabase.from('consents').insert({
+        user_id: user.id,
+        consent_type: 'record_upload',
+        metadata: { record_type: tab, file_count: files.length },
+      }).select('id').single();
 
       // ENTERPRISE ENTITLEMENT ENGINE: Enforce Tier Limits
       const { count } = await supabase
@@ -64,6 +70,7 @@ export default function UploadPage() {
       formData.append('visit_date', visitDate);
       formData.append('patient_id', user.id);
       formData.append('source', 'patient');
+      if (consent?.id) formData.append('consent_id', consent.id);
 
       const res = await fetch('/api/analyze', { method: 'POST', body: formData });
       const data = await res.json();
@@ -83,24 +90,25 @@ export default function UploadPage() {
   return (
     <div className={styles.page}>
       <nav className="navbar">
-        <div className="navbar-logo">Dento<span>Graph</span></div>
+        <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '190px', height: 'auto' }} />
         <button onClick={() => router.back()} className="btn btn-secondary btn-sm">← Back</button>
       </nav>
 
       <div className="container" style={{ maxWidth: '700px', paddingTop: '48px' }}>
-        <h1>Upload a dental record</h1>
-        <p style={{ marginBottom: '32px' }}>Upload an X-ray or prescription. Our AI will analyze it and create an interactive 3D report.</p>
+        <span className="badge badge-accent" style={{ marginBottom: '14px' }}>Patient upload</span>
+        <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 4rem)', lineHeight: 1, marginBottom: '12px' }}>Upload a dental record</h1>
+        <p style={{ marginBottom: '32px' }}>Add X-rays, scans, treatment plans, or PDFs. DentoGraph will organize them into a visual record with educational summaries.</p>
 
         {/* Tabs */}
         <div className={styles.tabs}>
           <button className={`${styles.tab} ${tab === 'comprehensive' ? styles.tabActive : ''}`} onClick={() => setTab('comprehensive')}>
-            🗂️ Comprehensive Record
+            Comprehensive Record
           </button>
           <button className={`${styles.tab} ${tab === 'xray' ? styles.tabActive : ''}`} onClick={() => setTab('xray')}>
-            🩻 X-Ray Only
+            X-Ray Only
           </button>
           <button className={`${styles.tab} ${tab === 'prescription' ? styles.tabActive : ''}`} onClick={() => setTab('prescription')}>
-            📋 Prescription Only
+            Prescription Only
           </button>
         </div>
 
@@ -138,7 +146,7 @@ export default function UploadPage() {
               </div>
             ) : (
               <div className={styles.dropContent}>
-                <div className={styles.dropIcon}>🗂️</div>
+                <div className={styles.dropIcon}>Files</div>
                 <div className={styles.dropTitle}>
                   Drop your X-rays, 3D Scans, and prescriptions here
                 </div>
@@ -165,8 +173,13 @@ export default function UploadPage() {
 
           {error && <div style={{ color: 'var(--red)', fontSize: '0.875rem', padding: '12px', background: 'var(--red-dim)', borderRadius: 'var(--radius-md)' }}>{error}</div>}
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0}>
-            🔬 Analyze {files.length > 0 ? `${files.length} Files` : ''} with AI
+          <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            <input type="checkbox" checked={acceptedConsent} onChange={e => setAcceptedConsent(e.target.checked)} required style={{ marginTop: '3px' }} />
+            <span>I authorize DentoGraph to store these dental records and use AI to create educational summaries. I understand this does not replace a dentist&apos;s diagnosis.</span>
+          </label>
+
+          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={files.length === 0 || !acceptedConsent}>
+            Analyze {files.length > 0 ? `${files.length} Files` : ''} with AI
           </button>
           <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             Analysis takes 5-15 seconds · Your data stays private

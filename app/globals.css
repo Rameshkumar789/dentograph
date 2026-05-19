@@ -289,3 +289,110 @@ a:hover { text-decoration: underline; }
   .container { padding: 0 16px; }
   .card { padding: 16px; }
 }
+
+/* Legal / Trust Pages */
+.legal-shell {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 32px 20px 80px;
+}
+.legal-brand {
+  display: inline-flex;
+  margin: 0 auto 28px;
+  max-width: 900px;
+  width: 100%;
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+.legal-brand span { color: #0ea5a8; }
+.legal-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: clamp(28px, 5vw, 56px);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.06);
+}
+.legal-kicker {
+  color: #0ea5a8;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.legal-card h1 {
+  max-width: 760px;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1;
+  margin-bottom: 24px;
+}
+.legal-card h2 {
+  font-size: 1rem;
+  margin: 28px 0 8px;
+  color: #0f172a;
+}
+.legal-card p {
+  max-width: 760px;
+  color: #475569;
+}
+.legal-note {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+}
+
+/* Provider workspace responsive fallback for legacy inline provider screens */
+@media (max-width: 980px) {
+  .providerWorkspace {
+    display: block !important;
+  }
+
+  .providerSidebar {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .providerSidebar nav {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .providerMain {
+    margin-left: 0 !important;
+  }
+
+  .providerTopbar {
+    height: auto !important;
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 14px;
+    padding: 16px !important;
+  }
+
+  .providerStatsGrid,
+  .providerContentGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .providerSidebar nav {
+    grid-template-columns: 1fr;
+  }
+
+  .providerMain > div:last-child {
+    padding: 18px !important;
+  }
+
+  .providerTopbar > div {
+    flex-wrap: wrap;
+  }
+}

@@ -102,7 +102,7 @@ export default function PatientDirectoryPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', fontWeight: 700, color: '#16a34a' }}>
                <div style={{ width: '6px', height: '6px', background: '#16a34a', borderRadius: '50%' }} />
-               Cures Act Compliant
+               Audit logging active
             </div>
             <Bell size={18} color="#94a3b8" />
             <button 

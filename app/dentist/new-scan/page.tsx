@@ -84,7 +84,10 @@ export default function NewScanPage() {
       )}
 
       <nav className="navbar" style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
-        <div className="navbar-logo">Dento<span>Graph</span> <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '8px' }}>Clinical Intake</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img src="/dentograph-logo.png" alt="DentoGraph" style={{ width: '176px', height: 'auto' }} />
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Clinical Intake</span>
+        </div>
         <button onClick={() => router.back()} className="btn btn-ghost">Cancel</button>
       </nav>
 
@@ -148,7 +151,7 @@ export default function NewScanPage() {
             style={{ width: '100%', padding: '20px', fontSize: '1.25rem', fontWeight: 700 }}
             disabled={uploading}
           >
-            {uploading ? '🔬 Analyzing...' : 'Generate 3D Explainer'}
+            {uploading ? 'Analyzing...' : 'Generate 3D Explainer'}
           </button>
         </form>
       </div>

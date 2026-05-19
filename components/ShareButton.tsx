@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase';
 import styles from './ShareButton.module.css';
 import { Users } from 'lucide-react';
 
@@ -10,22 +9,37 @@ export default function ShareButton({ recordId, shareToken, shareEnabled: initia
   shareEnabled: boolean;
 }) {
   const [enabled, setEnabled] = useState(initialEnabled);
+  const [token, setToken] = useState(shareToken);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+  const [error, setError] = useState('');
 
   const shareUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/share/${shareToken}`
+    ? `${window.location.origin}/share/${token}`
     : '';
 
   async function toggle() {
     setLoading(true);
-    await supabase.from('records').update({ share_enabled: !enabled }).eq('id', recordId);
-    setEnabled(e => !e);
-    setLoading(false);
+    setError('');
+    try {
+      const res = await fetch('/api/shares', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recordId, enabled: !enabled }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Unable to update share link');
+      setEnabled(data.enabled);
+      if (data.token) setToken(data.token);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to update share link');
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function copyLink() {
+    if (!token) return;
     await navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -83,9 +97,14 @@ export default function ShareButton({ recordId, shareToken, shareEnabled: initia
                 Consultation link is private.
               </div>
             )}
+            {error && (
+              <div style={{ marginTop: '12px', color: '#b91c1c', fontSize: '0.72rem', lineHeight: 1.4 }}>
+                {error}
+              </div>
+            )}
             
             <p className={styles.miniNote} style={{ marginTop: '16px', fontSize: '0.7rem', color: '#94a3b8', lineHeight: 1.5 }}>
-              Share this secure link with your care team or a specialist for a collaborative review.
+              Share this read-only link with a specialist or care team. You can revoke it at any time.
             </p>
           </div>
         </>

@@ -12,6 +12,7 @@ export default function InsuranceNarrativeButton({ findings, dentistName, clinic
   const [narrative, setNarrative] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   async function generateNarrative() {
     setLoading(true);
@@ -33,14 +34,14 @@ export default function InsuranceNarrativeButton({ findings, dentistName, clinic
   function handleCopy() {
     if (narrative) {
       navigator.clipboard.writeText(narrative);
-      alert('Narrative copied to clipboard!');
+      setCopied(true);
     }
   }
 
   return (
     <>
       <button onClick={generateNarrative} className="btn btn-secondary btn-sm" style={{ width: '100%', marginTop: '8px' }}>
-        🏥 Generate Insurance Appeal Letter
+        Generate Insurance Appeal Letter
       </button>
 
       {show && (
@@ -50,10 +51,10 @@ export default function InsuranceNarrativeButton({ findings, dentistName, clinic
           boxShadow: 'var(--shadow-card)',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>🏥 Insurance Clinical Narrative</div>
+            <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Insurance Clinical Narrative</div>
             <div style={{ display: 'flex', gap: '8px' }}>
               {narrative && (
-                <button onClick={handleCopy} className="btn btn-secondary btn-sm">📋 Copy</button>
+                <button onClick={handleCopy} className="btn btn-secondary btn-sm">{copied ? 'Copied' : 'Copy'}</button>
               )}
               <button onClick={() => setShow(false)} className="btn btn-secondary btn-sm">✕</button>
             </div>
@@ -65,7 +66,7 @@ export default function InsuranceNarrativeButton({ findings, dentistName, clinic
               <div className="skeleton" style={{ height: '16px', width: '85%' }} />
               <div className="skeleton" style={{ height: '16px', width: '60%' }} />
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                ⏳ AI is generating a professional clinical narrative for your insurance company...
+                AI is generating a professional clinical narrative for your insurance company...
               </p>
             </div>
           ) : (
@@ -78,7 +79,7 @@ export default function InsuranceNarrativeButton({ findings, dentistName, clinic
             </div>
           )}
           <div style={{ marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-            ⚠️ This letter was AI-generated. Have your dentist review and sign it before submitting to insurance.
+            This letter was AI-generated. Have your dentist review and sign it before submitting to insurance.
           </div>
         </div>
       )}

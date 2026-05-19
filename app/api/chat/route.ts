@@ -1,8 +1,27 @@
 import { streamText } from 'ai';
 import { google } from '@ai-sdk/google';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
 
 export async function POST(req: Request) {
   const { messages, findings, patientSummary } = await req.json();
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    await supabase.from('ai_processing_logs').insert({
+      user_id: user.id,
+      purpose: 'dentobot_chat',
+      model: 'gemini-2.5-flash',
+      metadata: { message_count: messages?.length || 0 },
+    });
+    await supabase.from('audit_logs').insert({
+      actor_id: user.id,
+      action: 'use_dentobot',
+      entity_type: 'patient_profile',
+      entity_id: user.id,
+      metadata: { message_count: messages?.length || 0 },
+    });
+  }
 
   const systemPrompt = `You are DentoBot — a friendly, knowledgeable dental health assistant.
 You are helping a patient understand their specific dental record.
