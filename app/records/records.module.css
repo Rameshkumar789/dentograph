@@ -1,0 +1,294 @@
+.page {
+  min-height: 100vh;
+  background: #f7fafb;
+  color: #0f172a;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  border-radius: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.secondary {
+  border: 1px solid #dce9ee;
+  background: #fff;
+  color: #0f2e56;
+}
+
+.main {
+  max-width: 1180px;
+  margin: 0;
+  padding: clamp(18px, 2.8vw, 34px);
+  padding-bottom: 88px;
+}
+
+.hero,
+.addPanel,
+.recordsSection,
+.recordRow,
+.empty {
+  border: 1px solid #dce9ee;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 46, 86, 0.055);
+}
+
+.hero {
+  padding: clamp(20px, 2.5vw, 28px);
+  margin-bottom: 14px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: #0ea5a8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  line-height: 1;
+}
+
+.hero p,
+.addPanel p,
+.recordRow p,
+.empty p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.addPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.addIntro {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.addIcon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  place-items: center;
+  border-radius: 15px;
+  background: #eef7f7;
+  color: #0f2e56;
+}
+
+.addIntro h2,
+.listHeader h2 {
+  margin: 0;
+  color: #0f2e56;
+  letter-spacing: 0;
+}
+
+.addIntro p {
+  margin: 5px 0 0;
+}
+
+.addActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.primary,
+.secondary {
+  padding: 0 15px;
+  white-space: nowrap;
+}
+
+.primary {
+  background: #0f2e56;
+  color: #fff;
+}
+
+.recordsSection {
+  overflow: hidden;
+  padding: 0;
+}
+
+.recordsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf3f5;
+}
+
+.recordsHeader h2 {
+  margin: 0;
+  color: #0f2e56;
+  letter-spacing: 0;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 0 1 480px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #dce9ee;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.searchBox input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  font: inherit;
+  outline: none;
+}
+
+.timeline {
+  display: grid;
+  gap: 0;
+  padding: 8px 18px 18px;
+}
+
+.recordRow {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid #edf3f5;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recordRow:last-child {
+  border-bottom: 0;
+}
+
+.recordRow:hover {
+  background: #fbfefe;
+}
+
+.dateRail {
+  display: inline-flex;
+  align-items: center;
+  min-height: 58px;
+  color: #0f2e56;
+}
+
+.dateRail span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #eef7f7;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.recordBody {
+  display: grid;
+  gap: 10px;
+}
+
+.recordBody h2 {
+  margin: 0 0 6px;
+  color: #0f2e56;
+}
+
+.recordBody p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badges span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #eef7f7;
+  color: #0f2e56;
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: capitalize;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+.skeleton {
+  min-height: 320px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #f1f5f9, #e2e8f0, #f1f5f9);
+}
+
+@media (max-width: 760px) {
+  .hero,
+  .addPanel,
+  .recordsHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .addIntro {
+    align-items: flex-start;
+  }
+
+  .addActions,
+  .primary,
+  .secondary,
+  .searchBox {
+    width: 100%;
+  }
+
+  .recordRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .recordRow > svg {
+    display: none;
+  }
+}

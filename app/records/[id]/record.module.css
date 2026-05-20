@@ -1,288 +1,580 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-.page { 
-  min-height: 100vh; 
-  background: #f8fafc; 
-  font-family: 'Inter', -apple-system, sans-serif;
+.page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #f7fafb;
   color: #0f172a;
 }
 
-/* 1. MINIMAL HEADER */
-.metaBar {
-  background: #fff;
-  height: 64px;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-}
-
-.workspace {
-  display: flex;
-  flex-direction: column;
-  padding: 40px;
-  gap: 32px;
-  max-width: 1600px;
+.main {
+  max-width: 1360px;
   margin: 0 auto;
+  padding: clamp(18px, 3vw, 36px);
+  padding-bottom: 56px;
 }
 
-/* 2. THE CLINICAL GALLERY (HERO VISUAL SUITE) */
-.visualLab {
-  background: #ffffff;
-  border-radius: 32px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03), inset 0 0 0 1px #e2e8f0;
-  height: 540px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.labHeader {
-  padding: 24px 40px;
-  background: #fcfdfe;
+.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f1f5f9;
-  z-index: 10;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-/* Identity Strip in the Header */
-.passportStrip {
+.topActions,
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.actionButtons {
+  display: grid;
+  justify-content: stretch;
+}
+
+.backLink,
+.softButton,
+.primaryButton,
+.actionButtons > :global(button),
+.topActions :global(button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid #dce9ee !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #0f2e56 !important;
+  font: inherit !important;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primaryButton {
+  width: fit-content;
+  border-color: #0f2e56 !important;
+  background: #0f2e56 !important;
+  color: #fff !important;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: #0ea5a8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.visualCard,
+.summaryCard,
+.actionCard,
+.findingsSection,
+.botStrip,
+.miniStat {
+  border: 1px solid #dce9ee;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 46, 86, 0.055);
+}
+
+.summaryCard h1 {
+  max-width: 880px;
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.headerStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.miniStat {
+  display: grid;
+  align-content: center;
+  min-height: 78px;
+  padding: 12px;
+  box-shadow: none;
+}
+
+.miniStat svg {
+  color: #0ea5a8;
+}
+
+.miniStat span {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.miniStat strong {
+  display: block;
+  margin-top: 4px;
+  color: #0f2e56;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.visualFirst {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.visualCard {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cardHeader {
+  padding: 18px 22px;
+  border-bottom: 1px solid #edf3f5;
+}
+
+.cardHeader h2,
+.summaryCard h2,
+.actionCard h2,
+.botStrip h2 {
+  margin: 0;
+  color: #0f2e56;
+  letter-spacing: 0;
+}
+
+.cardHeader p,
+.summaryCard p,
+.actionCard p,
+.botStrip p,
+.groupIntro p,
+.findingCard p,
+.loadingCard p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.cardHeader p {
+  max-width: 660px;
+  margin: 6px 0 0;
+}
+
+.visualFrame {
+  position: relative;
+  display: grid;
+  min-height: 390px;
+  place-items: stretch;
+  background: #fbfefe;
+}
+
+.visualFrame > div {
+  width: 100% !important;
+  min-height: 390px;
+  height: 100% !important;
+  border-radius: 0 !important;
+}
+
+.summaryStack {
+  display: grid;
+  gap: 14px;
+}
+
+.summaryCard,
+.actionCard {
+  padding: 22px;
+}
+
+.cardTitleRow {
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 9px;
+  margin-bottom: 10px;
 }
 
-.patientIdentity {
-  display: flex;
-  flex-direction: column;
+.cardTitleRow svg {
+  color: #0ea5a8;
 }
 
-.patientName {
-  color: #0f172a;
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+.privateStatus,
+.sharedStatus {
+  display: inline-flex;
+  margin: 4px 0 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 900;
 }
 
-.integrityBadge {
-  font-size: 0.6rem;
-  font-weight: 800;
-  color: #10b981;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-top: 4px;
-}
-
-.passportGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.passportLabel {
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  color: #94a3b8;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-
-.passportValue {
-  font-size: 0.8rem;
-  font-weight: 600;
+.privateStatus {
+  background: #f8fafc;
   color: #475569;
 }
 
-.labContent {
-  flex: 1;
-  position: relative;
-  background: #fdfdfd; /* Pure Studio White */
+.sharedStatus {
+  background: #ecfdf5;
+  color: #047857;
 }
 
-.consultationOverlay {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
-  width: 320px;
-  z-index: 20;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 24px;
-  padding: 4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+.auditNote,
+.why {
+  padding: 12px;
+  border-radius: 14px;
+  background: #f8fafc;
 }
 
-/* 3. LOWER DECK (TWO-COLUMN FOCUS) */
-.lowerDeck {
+.questionList {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 40px;
-  align-items: start;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-/* Diagnostic Feed */
-.findingsColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.findingsTitle {
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 8px;
-}
-
-.insightCard {
-  background: #fff;
-  padding: 32px 40px;
-  border-radius: 24px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.insightCard:hover {
-  border-color: #cbd5e1;
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-}
-
-.severityTag {
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.clinicalNote {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin-top: 16px;
+.questionList li {
+  position: relative;
+  padding-left: 22px;
   color: #0f172a;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  line-height: 1.45;
 }
 
-.patientNote {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #475569;
+.questionList li::before {
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #0ea5a8;
+  content: "";
+}
+
+.followupNote {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid #dce9ee;
+  border-radius: 14px;
+  background: #fbfefe;
+}
+
+.followupNote strong {
+  color: #0f2e56;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.followupNote p {
+  margin: 6px 0 0;
+}
+
+.auditNote {
+  margin-top: 12px;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.findingsSection {
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.findingsSection .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.filters {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #dce9ee;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.selected {
+  background: #fff !important;
+  color: #0f2e56 !important;
+  box-shadow: 0 8px 18px rgba(15, 46, 86, 0.08);
+}
+
+.findingGroups {
+  display: grid;
+  gap: 20px;
+  padding: 22px;
+}
+
+.findingGroup {
+  display: grid;
+  gap: 14px;
+}
+
+.groupIntro {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.groupIntro h3 {
+  margin: 0 0 3px;
+  color: #0f172a;
+}
+
+.groupIntro p {
+  margin: 0;
+}
+
+.soon,
+.monitor,
+.routine {
+  width: 12px;
+  min-width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  border-radius: 999px;
+}
+
+.soon {
+  background: #ef4444;
+}
+
+.monitor {
+  background: #f59e0b;
+}
+
+.routine {
+  background: #0ea5a8;
+}
+
+.findingList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.findingCard,
+.emptyGroup {
+  border: 1px solid #e2eef2;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.findingCard {
+  padding: 18px;
+}
+
+.findingTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.findingTop span,
+.findingTop strong {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.findingCard h4 {
+  margin: 0 0 8px;
+  color: #0f2e56;
+  font-size: 1.15rem;
+}
+
+.findingCard p {
+  margin: 0 0 10px;
+}
+
+.why {
   margin-top: 12px;
 }
 
-/* Sidebar Interaction */
-.sidebar {
-  position: sticky;
-  top: 40px;
+.why summary {
+  color: #0f2e56;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.why p {
+  margin: 9px 0 0;
+}
+
+.codes {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
 }
 
-.proGating {
+.codes span {
+  padding: 6px 9px;
+  border: 1px solid #dce9ee;
+  border-radius: 999px;
   background: #fff;
-  border: 1px solid #e2e8f0;
-  padding: 40px;
-  border-radius: 32px;
-  text-align: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-}
-
-.proGating h4 {
+  color: #475569;
+  font-size: 0.72rem;
   font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 12px;
 }
 
-.proGating p {
-  font-size: 0.85rem;
+.emptyGroup {
+  padding: 18px;
   color: #64748b;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  font-weight: 800;
 }
 
-@media (max-width: 1024px) {
-  .lowerDeck { grid-template-columns: 1fr; }
-  .passportStrip { flex-wrap: wrap; gap: 24px; }
+.botStrip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 22px;
 }
 
-@media (max-width: 760px) {
-  .metaBar {
-    height: auto;
+.botFrame {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.loadingShell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.loadingCard {
+  max-width: 520px;
+  padding: 28px;
+  border: 1px solid #dce9ee;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(15, 46, 86, 0.06);
+  text-align: center;
+}
+
+.loadingCard a {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #0f2e56;
+  font-weight: 900;
+}
+
+@media (max-width: 1080px) {
+  .visualFirst,
+  .botStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .findingList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 14px;
+    padding-bottom: 36px;
+  }
+
+  .topbar {
     align-items: flex-start;
     flex-direction: column;
-    gap: 14px;
-    padding: 16px;
   }
 
-  .metaBar > div:last-child {
+  .topActions,
+  .topActions > *,
+  .topActions :global(button),
+  .actionButtons,
+  .actionButtons > *,
+  .actionButtons > :global(button),
+  .backLink,
+  .softButton,
+  .primaryButton {
     width: 100%;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px !important;
   }
 
-  .metaBar button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .workspace {
-    padding: 16px;
-    gap: 20px;
-  }
-
-  .visualLab {
-    min-height: 620px;
-    height: auto;
-    border-radius: 20px;
-  }
-
-  .labHeader {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 18px;
-    gap: 16px;
-  }
-
-  .passportStrip {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .passportStrip > div[style] {
-    display: none;
-  }
-
-  .labContent {
-    min-height: 420px;
-  }
-
-  .lowerDeck {
-    gap: 20px;
-  }
-
-  .insightCard {
-    padding: 20px !important;
+  .visualCard,
+  .summaryCard,
+  .actionCard,
+  .findingsSection,
+  .botStrip {
     border-radius: 18px;
   }
 
-  .clinicalNote {
-    font-size: 1rem !important;
+  .summaryCard h1 {
+    font-size: 2.1rem;
   }
 
-  .sidebar {
-    position: static;
+  .headerStats {
+    grid-template-columns: 1fr;
+  }
+
+  .findingsSection .cardHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .filters {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .filters button {
+    flex: 1 0 auto;
+  }
+
+  .visualFrame,
+  .visualFrame > div {
+    min-height: 340px;
+  }
+
+  .findingGroups {
+    padding: 16px;
+  }
+
+  .findingTop {
+    flex-direction: column;
+  }
+
+  .summaryCard,
+  .actionCard,
+  .botStrip {
+    padding: 18px;
   }
 }

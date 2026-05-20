@@ -280,7 +280,7 @@
 
 .steps {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
 
@@ -433,7 +433,10 @@
     justify-self: center;
   }
 
-  .steps,
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .footerGroups {
     grid-template-columns: 1fr;
   }
@@ -478,6 +481,10 @@
   }
 
   .afterGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
     grid-template-columns: 1fr;
   }
 

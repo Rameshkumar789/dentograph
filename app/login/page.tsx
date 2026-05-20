@@ -25,10 +25,10 @@ export default function LoginPage() {
   return (
     <div className={styles.authPage}>
       <section className={styles.authStory}>
-        <Link href="/"><img src="/dentograph-logo.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
+        <Link href="/"><img src="/dentograph-logo-transparent.png" alt="DentoGraph" className={styles.authStoryLogo} /></Link>
         <div className={styles.authStoryContent}>
           <h2>Your dental record, ready when you need it.</h2>
-          <p>Sign in to review your timeline, inspect your 3D tooth map, ask DentoBot, and share records for a second opinion.</p>
+          <p>Sign in to review your timeline, inspect your 3D tooth map, ask DentoBot, and share records with a trusted dental professional.</p>
           <div className={styles.authBullets}>
             <span>Patient-controlled sharing</span>
             <span>Plain-language findings</span>
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
       <section className={styles.authPanel}>
         <div className={styles.authCard}>
-          <div className={styles.authLogo}><img src="/dentograph-logo.png" alt="DentoGraph" /></div>
+          <div className={styles.authLogo}><img src="/dentograph-logo-transparent.png" alt="DentoGraph" /></div>
           <p className={styles.authEyebrow}>Patient portal</p>
           <h1 className={styles.authTitle}>Welcome back</h1>
           <p className={styles.authSubtitle}>Sign in to your dental record workspace.</p>

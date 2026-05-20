@@ -13,6 +13,14 @@ const COLOR_MAP = {
   Treated: '#2a9d8f'
 };
 
+type DentalFinding = {
+  tooth_number?: number | null;
+  condition?: string;
+  severity?: 'Low' | 'Medium' | 'High' | null;
+  severity_score?: number | null;
+  explanation?: string;
+};
+
 function Tooth({ 
   position, 
   toothNumber, 
@@ -68,10 +76,10 @@ function Tooth({
   );
 }
 
-export default function DentalModel3D({ 
-  findings, 
-}: { 
-  findings: any[], 
+export default function DentalModel3D({
+  findings,
+}: {
+  findings: DentalFinding[],
 }) {
   const [hoveredTooth, setHoveredTooth] = useState<number | null>(null);
 
@@ -117,7 +125,7 @@ export default function DentalModel3D({
 
   // Map findings to a dictionary for quick lookup
   const findingsMap = useMemo(() => {
-    const map: Record<number, any> = {};
+    const map: Record<number, DentalFinding> = {};
     findings.forEach(f => {
       if (f.tooth_number) map[f.tooth_number] = f;
     });
@@ -125,31 +133,31 @@ export default function DentalModel3D({
   }, [findings]);
 
   return (
-    <div style={{ width: '100%', height: '400px', position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--bg-surface)' }}>
+    <div style={{ width: '100%', height: '100%', minHeight: '390px', position: 'relative', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: '#fbfefe' }}>
       
       {/* Overlay UI for hovered tooth details */}
-      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, background: 'rgba(255,255,255,0.8)', padding: '12px', borderRadius: 'var(--radius-md)', backdropFilter: 'blur(8px)', border: '1px solid var(--border)', minWidth: '200px' }}>
-        <h3 style={{ fontSize: '0.9rem', marginBottom: '4px', fontFamily: 'var(--font-display)' }}>3D Jaw Explorer</h3>
+      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, background: 'rgba(255,255,255,0.86)', padding: '12px', borderRadius: '14px', backdropFilter: 'blur(8px)', border: '1px solid #dce9ee', minWidth: '200px', maxWidth: '280px' }}>
+        <h3 style={{ fontSize: '0.9rem', margin: 0, marginBottom: '4px', color: '#0f2e56' }}>3D dental preview</h3>
         {hoveredTooth ? (
           <div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>Tooth #{hoveredTooth}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a' }}>Tooth #{hoveredTooth}</div>
             {findingsMap[hoveredTooth] ? (
               <>
                 <div style={{ color: findingsMap[hoveredTooth].severity === 'High' ? COLOR_MAP.High : findingsMap[hoveredTooth].severity === 'Medium' ? COLOR_MAP.Medium : COLOR_MAP.Low, fontSize: '0.85rem', fontWeight: 600, marginTop: '4px' }}>
                   {findingsMap[hoveredTooth].condition}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>{findingsMap[hoveredTooth].explanation}</div>
+                <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>See the findings below for details and next questions.</div>
               </>
             ) : (
               <div style={{ color: COLOR_MAP.Healthy, fontSize: '0.85rem', marginTop: '4px' }}>Healthy</div>
             )}
           </div>
         ) : (
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>Hover over a tooth to inspect AI findings.</div>
+          <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '8px' }}>Highlighted teeth have notes in this record.</div>
         )}
       </div>
 
-      <Canvas camera={{ position: [0, 2, -5], fov: 45 }}>
+      <Canvas camera={{ position: [0, 1.35, -4.35], fov: 38 }}>
         <color attach="background" args={['#FDFDFD']} />
         <ambientLight intensity={0.7} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
@@ -157,7 +165,7 @@ export default function DentalModel3D({
         <directionalLight position={[0, 5, -10]} intensity={0.5} color="#ffffff" />
 
         <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
-          <group rotation={[0, Math.PI, 0]}>
+          <group rotation={[0, Math.PI, 0]} position={[0, -0.18, 0]} scale={1.14}>
             {teethData.map(tooth => {
               const f = findingsMap[tooth.id];
               let color = COLOR_MAP.Healthy;
@@ -182,7 +190,7 @@ export default function DentalModel3D({
           </group>
         </Float>
 
-        <ContactShadows position={[0, -1.5, 0]} opacity={0.4} scale={10} blur={2} far={4} />
+        <ContactShadows position={[0, -1.25, 0]} opacity={0.35} scale={8} blur={2} far={3} />
         <OrbitControls enablePan={false} minDistance={2} maxDistance={8} autoRotate={!hoveredTooth} autoRotateSpeed={0.5} />
       </Canvas>
     </div>

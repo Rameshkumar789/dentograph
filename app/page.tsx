@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowRight,
-  FileText,
+  Bot,
   LockKeyhole,
   MessageCircle,
   Share2,
@@ -76,6 +76,7 @@ export default function LandingPage() {
             <span>3D tooth map</span>
             <span>Plain-language findings</span>
             <span>Timeline history</span>
+            <span>DentoBot explanations</span>
             <span>Secure share link</span>
           </div>
         </div>
@@ -85,12 +86,13 @@ export default function LandingPage() {
         <div className={styles.sectionHeader}>
           <p className={styles.kicker}>Simple workflow</p>
           <h2>How DentoGraph works for patients</h2>
-          <p>Collect scattered files, understand the record, and share it only when it helps your care.</p>
+          <p>Collect scattered files, understand the record, ask DentoBot, and share only when it helps your care.</p>
         </div>
         <div className={styles.steps}>
           {[
             { icon: UploadCloud, title: 'Collect your records', text: 'Upload files or request them from a previous clinic.' },
             { icon: MessageCircle, title: 'See what they mean', text: 'View findings on a visual tooth map and ask plain-language questions.' },
+            { icon: Bot, title: 'Ask DentoBot', text: 'Translate dental terms, summarize visits, and prepare questions for your dentist.' },
             { icon: Share2, title: 'Share with care', text: 'Send a time-limited read-only record to a specialist, new dentist, or care team.' },
           ].map((item) => {
             const Icon = item.icon;
@@ -148,9 +150,9 @@ export default function LandingPage() {
             <p>Create a read-only link when a dentist, specialist, or care team needs your files. Sharing is time-limited and can be turned off.</p>
           </div>
           <div>
-            <FileText size={22} />
-            <h3>AI explains the record in everyday language.</h3>
-            <p>DentoGraph helps translate dental terms so you can prepare for a visit. It does not diagnose, prescribe, or make treatment decisions.</p>
+            <Bot size={22} />
+            <h3>DentoBot explains the record in everyday language.</h3>
+            <p>DentoBot helps translate dental terms so you can prepare for a visit. It does not diagnose, prescribe, or make treatment decisions.</p>
           </div>
         </div>
       </section>

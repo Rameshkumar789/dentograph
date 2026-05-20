@@ -10,7 +10,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
   const { token } = await params;
   const supabase = await createServerSupabaseClient();
 
-  const { data: share } = await supabase
+  const { data: share, error: shareError } = await supabase
     .from('record_shares')
     .select('*')
     .eq('token', token)
@@ -18,11 +18,20 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
     .gt('expires_at', new Date().toISOString())
     .maybeSingle();
 
-  const { data: record } = await supabase
-    .from('records')
-    .select('*')
-    .eq('id', share?.record_id || '00000000-0000-0000-0000-000000000000')
-    .maybeSingle();
+  const recordQuery = isMissingTable(shareError)
+    ? supabase
+        .from('records')
+        .select('*')
+        .eq('share_token', token)
+        .eq('share_enabled', true)
+        .maybeSingle()
+    : supabase
+        .from('records')
+        .select('*')
+        .eq('id', share?.record_id || '00000000-0000-0000-0000-000000000000')
+        .maybeSingle();
+
+  const { data: record } = await recordQuery;
 
   if (share?.id && record?.id) {
     const h = await headers();
@@ -76,7 +85,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
       <div className="container" style={{ maxWidth: '800px', paddingTop: '40px', paddingBottom: '80px' }}>
         {/* Header */}
         <div className={styles.shareHeader}>
-          <span className="badge badge-accent">Second opinion view - read only</span>
+        <span className="badge badge-accent">Read-only dental record</span>
           <h1 style={{ marginTop: '16px' }}>Dental Record — {date}</h1>
           <p>
             {record.record_type === 'comprehensive' ? 'Comprehensive Record' : record.record_type === 'xray' ? 'X-Ray' : 'Prescription'}
@@ -119,5 +128,14 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
         </div>
       </div>
     </div>
+  );
+}
+
+function isMissingTable(error: unknown) {
+  return Boolean(
+    error &&
+    typeof error === 'object' &&
+    'code' in error &&
+    (error as { code?: string }).code === 'PGRST205'
   );
 }

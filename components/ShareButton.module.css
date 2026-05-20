@@ -1,88 +1,149 @@
-.minimalContainer {
-  background: #f1f5f9;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
+.sharePanel {
+  display: grid;
   gap: 12px;
+  width: 100%;
 }
 
-.flexHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.statusRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
 }
 
-.shareLabel {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.statusRow strong {
+  display: block;
+  color: #0f2e56;
+  font-size: 0.98rem;
 }
 
-.miniToggle {
-  width: 36px;
-  height: 20px;
-  background: #cbd5e1;
-  border-radius: 20px;
-  border: none;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.toggleOn {
-  background: #3b82f6;
-}
-
-.miniThumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.2s;
-}
-
-.toggleOn .miniThumb {
-  transform: translateX(16px);
-}
-
-.linkStrip {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  display: flex;
-  overflow: hidden;
-}
-
-.urlText {
-  flex: 1;
-  padding: 8px 12px;
-  font-size: 0.75rem;
+.statusRow p {
+  margin: 4px 0 0;
   color: #64748b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: monospace;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
-.copyBtn {
-  padding: 8px 12px;
-  background: #0f172a;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border: none;
+.privateIcon,
+.sharedIcon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 13px;
+}
+
+.privateIcon {
+  background: #f8fafc;
+  color: #475569;
+}
+
+.sharedIcon {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.linkBox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #dce9ee;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.linkBox span {
+  overflow: hidden;
+  color: #475569;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.linkBox button,
+.enableButton,
+.disableButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
   cursor: pointer;
 }
 
-.miniNote {
-  font-size: 0.7rem;
-  color: #94a3b8;
-  line-height: 1.4;
-  margin: 0;
+.linkBox button {
+  padding: 0 12px;
+  background: #fff;
+  color: #0f2e56;
+  border: 1px solid #dce9ee;
+}
+
+.privateBox {
+  padding: 12px;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.enableButton,
+.disableButton {
+  padding: 0 14px;
+}
+
+.enableButton {
+  background: #0f2e56;
+  color: #fff;
+}
+
+.disableButton {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.enableButton:disabled,
+.disableButton:disabled,
+.linkBox button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.error {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .linkBox {
+    grid-template-columns: 1fr;
+  }
+
+  .linkBox button,
+  .enableButton,
+  .disableButton {
+    width: 100%;
+  }
+
+  .buttonRow {
+    justify-content: stretch;
+  }
 }

@@ -1,0 +1,289 @@
+.page {
+  min-height: 100vh;
+  background: #f7fafb;
+  color: #0f172a;
+}
+
+.loading {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.main {
+  max-width: 1120px;
+  padding: clamp(18px, 2.8vw, 34px);
+  padding-bottom: 120px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: #0ea5a8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  line-height: 1;
+}
+
+.header p,
+.profileHero p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.profileHero,
+.card {
+  border: 1px solid #dce9ee;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(15, 46, 86, 0.06);
+}
+
+.profileHero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(240px, 0.5fr);
+  gap: 18px;
+  align-items: center;
+  padding: 20px;
+}
+
+.avatar {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border-radius: 22px;
+  background: #eef7f7;
+  color: #0f2e56;
+}
+
+.profileHero h2 {
+  margin: 0 0 6px;
+  font-size: 1.8rem;
+}
+
+.completionCard {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.completionCard > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.completionCard span {
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.completionCard strong {
+  color: #0f2e56;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.progressTrack {
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.progressTrack span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #0ea5a8;
+}
+
+.card {
+  padding: 22px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #0f2e56;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.cardHeader p {
+  margin: 4px 0 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.field input {
+  min-height: 46px;
+  width: 100%;
+  border: 1px solid #dce9ee;
+  border-radius: 13px;
+  padding: 0 13px;
+  background: #f8fafc;
+  color: #0f172a;
+  font: inherit;
+}
+
+.field input:focus {
+  border-color: #0ea5a8;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(14, 165, 168, 0.12);
+}
+
+.field small {
+  color: #64748b;
+}
+
+.saveBar {
+  position: sticky;
+  bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #dce9ee;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 45px rgba(15, 46, 86, 0.1);
+  backdrop-filter: blur(18px);
+}
+
+.saveBar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 15px;
+  background: #0f2e56;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.saveBar button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.saveStatus {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.error,
+.saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 13px;
+  font-weight: 800;
+}
+
+.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.saved {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding: 18px;
+    padding-bottom: 96px;
+  }
+
+  .header,
+  .profileHero {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .saveBar,
+  .saveBar button {
+    width: 100%;
+  }
+
+  .saveBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

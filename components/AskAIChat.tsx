@@ -8,11 +8,11 @@ import styles from './AskAIChat.module.css';
 interface Message { role: 'user' | 'assistant'; content: string; id: string; }
 
 const SUGGESTED = [
-  'Is this serious?',
-  'How much does treatment usually cost?',
-  'Do I really need this treatment now?',
-  'What happens if I wait?',
-  'Can I prevent this from getting worse?',
+  'Explain this visit in simple words.',
+  'What questions should I ask my dentist?',
+  'What does this dental code mean?',
+  'Which findings should I discuss first?',
+  'What should I watch until my next visit?',
 ];
 
 export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
@@ -21,10 +21,13 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const messageIdRef = useRef(0);
   const { plan } = usePlan();
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }, [messages]);
 
   async function sendMessage(text: string) {
@@ -36,7 +39,8 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
       return;
     }
     
-    const userMsg: Message = { role: 'user', content: text, id: Date.now().toString() };
+    messageIdRef.current += 1;
+    const userMsg: Message = { role: 'user', content: text, id: `message-${messageIdRef.current}` };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
     setInput('');
@@ -60,21 +64,21 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
       }
       
       const decoder = new TextDecoder();
-      let assistantText = '';
-      const assistantId = (Date.now() + 1).toString();
+      messageIdRef.current += 1;
+      const assistantId = `message-${messageIdRef.current}`;
 
       setMessages(prev => [...prev, { role: 'assistant', content: '', id: assistantId }]);
 
       while (true) {
-        // @ts-ignore - reader is verified above
         const { done, value } = await reader.read();
         if (done) break;
-        assistantText += decoder.decode(value, { stream: true });
-        setMessages(prev => prev.map(m => m.id === assistantId ? { ...m, content: assistantText } : m));
+        const chunk = decoder.decode(value, { stream: true });
+        setMessages(prev => prev.map(m => m.id === assistantId ? { ...m, content: `${m.content}${chunk}` } : m));
       }
     } catch (err) {
       console.error('Chat error:', err);
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I had trouble responding. Please try again.', id: Date.now().toString() }]);
+      messageIdRef.current += 1;
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I had trouble responding. Please try again.', id: `message-${messageIdRef.current}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +95,7 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
         <span>💬</span>
         <div>
           <div className={styles.chatTitle}>Ask DentoBot</div>
-          <div className={styles.chatSub}>Ask anything about your record</div>
+          <div className={styles.chatSub}>Record explanations, not diagnosis</div>
         </div>
         <div className="glow-dot" />
       </div>
@@ -99,7 +103,7 @@ export default function AskAIChat({ findings }: { findings: DentalAnalysis }) {
       <div className={styles.messages}>
         {messages.length === 0 && (
           <div className={styles.welcome}>
-            <p>Hi! I&apos;m DentoBot. I&apos;ve read your dental record and I&apos;m here to help you understand it. What would you like to know?</p>
+            <p>Hi, I&apos;m DentoBot. I can explain this record in plain language and help you prepare questions for your dentist.</p>
             <div className={styles.suggestions}>
               {SUGGESTED.map(s => (
                 <button key={s} className={styles.suggestion} onClick={() => sendMessage(s)}>{s}</button>

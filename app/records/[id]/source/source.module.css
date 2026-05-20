@@ -1,0 +1,147 @@
+.page {
+  min-height: 100vh;
+  background: #f7fafb;
+  color: #0f172a;
+}
+
+.loading {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  color: #64748b;
+  font-weight: 900;
+}
+
+.topbar {
+  padding: 18px clamp(16px, 4vw, 40px);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #dce9ee;
+  border-radius: 13px;
+  background: #fff;
+  color: #0f2e56;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 40px) 56px;
+}
+
+.hero,
+.empty,
+.fileCard {
+  border: 1px solid #dce9ee;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 46, 86, 0.055);
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  padding: clamp(22px, 4vw, 32px);
+  margin-bottom: 16px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: #0ea5a8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.hero p,
+.empty p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.meta {
+  display: grid;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.meta span {
+  padding: 9px 11px;
+  border-radius: 999px;
+  background: #eef7f7;
+  color: #0f2e56;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.files {
+  display: grid;
+  gap: 16px;
+}
+
+.fileCard {
+  overflow: hidden;
+}
+
+.fileCard header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #edf3f5;
+}
+
+.fileCard span {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.preview {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: #f8fafc;
+}
+
+.preview img {
+  width: 100%;
+  max-height: 820px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  padding: 56px 20px;
+  text-align: center;
+}
+
+.empty svg {
+  color: #0ea5a8;
+}
+
+@media (max-width: 720px) {
+  .hero,
+  .fileCard header {
+    flex-direction: column;
+  }
+}

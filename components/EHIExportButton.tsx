@@ -34,7 +34,7 @@ export default function EHIExportButton({ findings, recordId, recordType, dentis
       ? new Date(visitDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-    const findingsHTML = findings.findings.map((f, i) => `
+    const findingsHTML = findings.findings.map((f) => `
       <tr>
         <td style="padding:8px;border:1px solid #ddd;">${escapeHtml(f.tooth_number || 'General')}</td>
         <td style="padding:8px;border:1px solid #ddd;">${escapeHtml(f.condition)}</td>
@@ -69,7 +69,7 @@ export default function EHIExportButton({ findings, recordId, recordType, dentis
 </head>
 <body>
   <div class="header">
-    <h1>DentoGraph — Clinical Health Report</h1>
+    <h1>DentoGraph — Dental Record Summary</h1>
     <p>Patient-controlled dental record summary</p>
   </div>
 
@@ -81,6 +81,14 @@ export default function EHIExportButton({ findings, recordId, recordType, dentis
     <div class="meta-item">
       <div class="label">Dentist Office</div>
       <div class="value">${escapeHtml(clinicName || 'Verified Record')}</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Record Type</div>
+      <div class="value">${escapeHtml(recordType)}</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Dentist</div>
+      <div class="value">${escapeHtml(dentistName || '-')}</div>
     </div>
   </div>
 
@@ -126,7 +134,7 @@ export default function EHIExportButton({ findings, recordId, recordType, dentis
         className="btn btn-secondary btn-sm" 
         style={{ border: 'none', background: '#f1f5f9', fontWeight: 700, fontSize: '0.75rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', height: '32px' }}
       >
-        <FileDown size={14} /> Export PDF
+        <FileDown size={14} /> Download PDF
       </button>
     </>
   );

@@ -42,7 +42,7 @@ export default function PricingPage() {
               <li>Unlimited record storage</li>
               <li>3D dental record views</li>
               <li>Unlimited DentoBot chat</li>
-              <li>Shareable second-opinion links</li>
+              <li>Shareable links for trusted dental professionals</li>
               <li>Multi-file contextualization</li>
             </ul>
             

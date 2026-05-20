@@ -1,5 +1,6 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const { data: record, error: recordError } = await supabase
       .from('records')
-      .select('id, patient_id')
+      .select('id, patient_id, share_token')
       .eq('id', recordId)
       .single();
 
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!enabled) {
-      await supabase
+      const { error: revokeError } = await supabase
         .from('record_shares')
         .update({ revoked_at: new Date().toISOString(), revoked_by: user.id })
         .eq('record_id', recordId)
@@ -37,10 +38,10 @@ export async function POST(req: NextRequest) {
         metadata: { reason: 'patient_disabled_share' },
       });
 
-      return NextResponse.json({ enabled: false });
+      return NextResponse.json({ enabled: false, fallback: isMissingTable(revokeError) });
     }
 
-    const { data: existing } = await supabase
+    const { data: existing, error: existingError } = await supabase
       .from('record_shares')
       .select('*')
       .eq('record_id', recordId)
@@ -50,6 +51,28 @@ export async function POST(req: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
+
+    if (isMissingTable(existingError)) {
+      const token = record.share_token || randomUUID();
+      await supabase
+        .from('records')
+        .update({ share_enabled: true, share_token: token })
+        .eq('id', recordId);
+
+      await supabase.from('audit_logs').insert({
+        actor_id: user.id,
+        action: 'create_share',
+        entity_type: 'record',
+        entity_id: recordId,
+        metadata: { fallback: 'records_share_token' },
+      });
+
+      return NextResponse.json({
+        enabled: true,
+        token,
+        fallback: true,
+      });
+    }
 
     let share = existing;
     if (!share) {
@@ -84,6 +107,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       enabled: true,
+      shareId: share.id,
       token: share.token,
       expiresAt: share.expires_at,
     });
@@ -91,4 +115,13 @@ export async function POST(req: NextRequest) {
     console.error('Share API error:', error);
     return NextResponse.json({ error: 'Unable to update share link' }, { status: 500 });
   }
+}
+
+function isMissingTable(error: unknown) {
+  return Boolean(
+    error &&
+    typeof error === 'object' &&
+    'code' in error &&
+    (error as { code?: string }).code === 'PGRST205'
+  );
 }
